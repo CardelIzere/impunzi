@@ -105,39 +105,39 @@ public class MouvementStockServiceImpl implements MouvementStockService {
 	
 	//Pour le camp
 
-	@Override
-	public List<MouvementStockDto> entreeArticleCamp(Long idProduit, Long idCamp) {
-		
-		return mouvementStockRepository.findEntreeByIdProduitIdCamp(idProduit, idCamp).stream()
-				.map(MouvementStockDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<MouvementStockDto> sortieArticleCamp(Long idProduit, Long idCamp) {
-		
-		return mouvementStockRepository.findSortieByIdProduitIdCamp(idProduit, idCamp).stream()
-				.map(MouvementStockDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<MouvementStockDto> entreeArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
-			Date endDate) {
-		
-		return mouvementStockRepository.findEntreeByIdProduitIdCampPeriode(idProduit, idCamp, startDate, endDate).stream()
-				.map(MouvementStockDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<MouvementStockDto> sortieArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
-			Date endDate) {
-		
-		return mouvementStockRepository.findSortieByIdProduitIdCampPeriode(idProduit, idCamp, startDate, endDate).stream()
-				.map(MouvementStockDto::fromEntity)
-				.collect(Collectors.toList());
-	}
+//	@Override
+//	public List<MouvementStockDto> entreeArticleCamp(Long idProduit, Long idCamp) {
+//		
+//		return mouvementStockRepository.findEntreeByIdProduitIdCamp(idProduit, idCamp).stream()
+//				.map(MouvementStockDto::fromEntity)
+//				.collect(Collectors.toList());
+//	}
+//
+//	@Override
+//	public List<MouvementStockDto> sortieArticleCamp(Long idProduit, Long idCamp) {
+//		
+//		return mouvementStockRepository.findSortieByIdProduitIdCamp(idProduit, idCamp).stream()
+//				.map(MouvementStockDto::fromEntity)
+//				.collect(Collectors.toList());
+//	}
+//
+//	@Override
+//	public List<MouvementStockDto> entreeArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
+//			Date endDate) {
+//		
+//		return mouvementStockRepository.findEntreeByIdProduitIdCampPeriode(idProduit, idCamp, startDate, endDate).stream()
+//				.map(MouvementStockDto::fromEntity)
+//				.collect(Collectors.toList());
+//	}
+//
+//	@Override
+//	public List<MouvementStockDto> sortieArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
+//			Date endDate) {
+//		
+//		return mouvementStockRepository.findSortieByIdProduitIdCampPeriode(idProduit, idCamp, startDate, endDate).stream()
+//				.map(MouvementStockDto::fromEntity)
+//				.collect(Collectors.toList());
+//	}
 	
 	//Pour le menage
 

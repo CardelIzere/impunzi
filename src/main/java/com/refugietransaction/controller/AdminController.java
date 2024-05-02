@@ -48,10 +48,10 @@ public class AdminController implements AdminApi {
 	}
 
 	@Override
-	public Page<AdminDto> findCompanyAdmins(Long idCompany, String search, int page, int size) {
+	public Page<AdminDto> findSupplierAdmins(Long idSupplier, String search, int page, int size) {
 
 		Pageable pageable = PageRequest.of(page, size);
-		return adminService.findCompanyAdmins(idCompany,search,pageable);
+		return adminService.findSupplierAdmins(idSupplier,search,pageable);
 	}
 
 	@Override

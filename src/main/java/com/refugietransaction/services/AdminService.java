@@ -17,7 +17,7 @@ public interface AdminService {
 
 	Page<AdminDto> findAllMainAdmins(String search, Pageable pageable);
 
-	Page<AdminDto> findCompanyAdmins(Long idCompany,String search, Pageable pageable);
+	Page<AdminDto> findSupplierAdmins(Long idSupplier,String search, Pageable pageable);
 
 	
 	void delete(Long id);

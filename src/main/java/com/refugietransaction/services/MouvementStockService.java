@@ -20,13 +20,13 @@ public interface MouvementStockService {
 	
 	//Pour le camp
 	
-	List<MouvementStockDto> entreeArticleCamp(Long idProduit, Long idCamp);
-	
-	List<MouvementStockDto> sortieArticleCamp(Long idProduit, Long idCamp);
-	
-	List<MouvementStockDto> entreeArticleCampPeriode(Long idProduit, Long idCamp, Date startDate, Date endDate);
-	
-	List<MouvementStockDto> sortieArticleCampPeriode(Long idProduit, Long idCamp, Date startDate, Date endDate);
+//	List<MouvementStockDto> entreeArticleCamp(Long idProduit, Long idCamp);
+//	
+//	List<MouvementStockDto> sortieArticleCamp(Long idProduit, Long idCamp);
+//	
+//	List<MouvementStockDto> entreeArticleCampPeriode(Long idProduit, Long idCamp, Date startDate, Date endDate);
+//	
+//	List<MouvementStockDto> sortieArticleCampPeriode(Long idProduit, Long idCamp, Date startDate, Date endDate);
 	
 	//Pour le menage
 	

@@ -38,17 +38,17 @@ public interface MouvementStockApi {
     
     //Pour le camp
     
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/camp/{idProduit}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> entreeArticleCamp(@PathVariable("idProduit") Long idProduit, @PathVariable("idCamp") Long idCamp);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/camp/{idProduit}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> sortieArticleCamp(@PathVariable("idProduit") Long idProduit, @PathVariable("idCamp") Long idCamp);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/camp/periode/{idProduit}/{idCamp}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> entreeArticleCampPeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idCamp") Long idCamp, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/camp/periode/{idProduit}/{idCamp}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> sortieArticleCampPeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idCamp") Long idCamp, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/camp/{idProduit}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MouvementStockDto> entreeArticleCamp(@PathVariable("idProduit") Long idProduit, @PathVariable("idCamp") Long idCamp);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/camp/{idProduit}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MouvementStockDto> sortieArticleCamp(@PathVariable("idProduit") Long idProduit, @PathVariable("idCamp") Long idCamp);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/camp/periode/{idProduit}/{idCamp}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MouvementStockDto> entreeArticleCampPeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idCamp") Long idCamp, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/camp/periode/{idProduit}/{idCamp}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MouvementStockDto> sortieArticleCampPeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idCamp") Long idCamp, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
     
     //Pour le menage
     

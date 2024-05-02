@@ -246,13 +246,13 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public Page<AdminDto> findCompanyAdmins(Long idCompany, String search, Pageable pageable) {
+	public Page<AdminDto> findSupplierAdmins(Long idSupplier, String search, Pageable pageable) {
 
 		Page<Admin> admins;
 		if (search != null) {
-			admins = adminRepository.findCompanyAdminsByNameEmailPhoneLike(idCompany,search, pageable);
+			admins = adminRepository.findSupplierAdminsByNameEmailPhoneLike(idSupplier,search, pageable);
 		} else {
-			admins = adminRepository.findCompanyAdmins(idCompany,pageable);
+			admins = adminRepository.findSupplierAdmins(idSupplier,pageable);
 		}
 
 		return admins.map(AdminDto::fromEntity);

@@ -46,29 +46,29 @@ public class MouvementStockController implements MouvementStockApi {
 	
 	//Pour le camp
 	
-	@Override
-	public List<MouvementStockDto> entreeArticleCamp(Long idProduit, Long idCamp) {
-		return mouvementStockService.entreeArticleCamp(idProduit, idCamp);
-	}
-
-	@Override
-	public List<MouvementStockDto> sortieArticleCamp(Long idProduit, Long idCamp) {
-		return mouvementStockService.sortieArticleCamp(idProduit, idCamp);
-	}
-
-	@Override
-	public List<MouvementStockDto> entreeArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
-			Date endDate) {
-		
-		return mouvementStockService.entreeArticleCampPeriode(idProduit, idCamp, startDate, endDate);
-	}
-
-	@Override
-	public List<MouvementStockDto> sortieArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
-			Date endDate) {
-		
-		return mouvementStockService.sortieArticleCampPeriode(idProduit, idCamp, startDate, endDate);
-	}
+//	@Override
+//	public List<MouvementStockDto> entreeArticleCamp(Long idProduit, Long idCamp) {
+//		return mouvementStockService.entreeArticleCamp(idProduit, idCamp);
+//	}
+//
+//	@Override
+//	public List<MouvementStockDto> sortieArticleCamp(Long idProduit, Long idCamp) {
+//		return mouvementStockService.sortieArticleCamp(idProduit, idCamp);
+//	}
+//
+//	@Override
+//	public List<MouvementStockDto> entreeArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
+//			Date endDate) {
+//		
+//		return mouvementStockService.entreeArticleCampPeriode(idProduit, idCamp, startDate, endDate);
+//	}
+//
+//	@Override
+//	public List<MouvementStockDto> sortieArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
+//			Date endDate) {
+//		
+//		return mouvementStockService.sortieArticleCampPeriode(idProduit, idCamp, startDate, endDate);
+//	}
 	
 	
 	//Pour le menage

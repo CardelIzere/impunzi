@@ -60,9 +60,9 @@ public interface AdminApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des admins principaux / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/admins/company/{idCompany}", produces = MediaType.APPLICATION_JSON_VALUE)
-    Page<AdminDto> findCompanyAdmins(
-            @PathVariable("idCompany") Long idCompany,
+    @GetMapping(value = Constants.APP_ROOT + "/admins/supplier/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<AdminDto> findSupplierAdmins(
+            @PathVariable("idSupplier") Long idSupplier,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size

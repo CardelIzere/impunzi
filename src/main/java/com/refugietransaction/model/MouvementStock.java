@@ -47,7 +47,7 @@ public class MouvementStock extends AbstractEntity {
 	@JoinColumn(name = "id_article")
 	private Produit produit;
 	
-//	@ManyToOne 
-//	@JoinColumn(name = "user_id")
-//	private Utilisateur utilisateur;
+	@ManyToOne 
+	@JoinColumn(name = "user_id")
+	private User user;
 }

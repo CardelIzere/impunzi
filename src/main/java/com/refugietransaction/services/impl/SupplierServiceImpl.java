@@ -12,7 +12,10 @@ import com.refugietransaction.dto.SupplierDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
+import com.refugietransaction.model.Admin;
 import com.refugietransaction.model.Supplier;
+import com.refugietransaction.repository.AdminRepository;
+import com.refugietransaction.repository.MagasinierRepository;
 import com.refugietransaction.repository.SupplierRepository;
 import com.refugietransaction.services.SupplierService;
 import com.refugietransaction.validator.SupplierValidator;
@@ -24,10 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 public class SupplierServiceImpl implements SupplierService {
 	
 	private SupplierRepository supplierRepository;
+	private AdminRepository adminRepository;
+	private MagasinierRepository magasinierRepository;
 	
 	@Autowired
-	public SupplierServiceImpl(SupplierRepository supplierRepository) {
+	public SupplierServiceImpl(SupplierRepository supplierRepository, AdminRepository adminRepository, MagasinierRepository magasinierRepository) {
 		this.supplierRepository = supplierRepository;
+		this.adminRepository = adminRepository;
+		this.magasinierRepository = magasinierRepository;
 	}
 	
 	@Override
@@ -89,6 +96,12 @@ public class SupplierServiceImpl implements SupplierService {
 		
 		if(id == null) {
 			log.error("Supplier ID is null");
+		}
+		
+		List<Admin> admin = adminRepository.findAllBySupplierId(id);
+		if(!admin.isEmpty()) {
+			throw new InvalidEntityException("Impossible de supprimer ce fournisseur qui est deja utilisé", 
+					ErrorCodes.SUPPLIER_ALREADY_IN_USE);
 		}
 		
 		supplierRepository.deleteById(id);

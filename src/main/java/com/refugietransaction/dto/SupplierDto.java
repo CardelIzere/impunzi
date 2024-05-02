@@ -1,5 +1,10 @@
 package com.refugietransaction.dto;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.refugietransaction.model.Admin;
+import com.refugietransaction.model.Magasinier;
 import com.refugietransaction.model.Supplier;
 
 import lombok.Builder;
@@ -13,6 +18,11 @@ public class SupplierDto {
 	private String name;
 	private String phoneNumber;
 	private String address;
+	
+	@JsonIgnore
+	private List<Admin> admins;
+	@JsonIgnore
+	private List<Magasinier> magasiniers;
 	
 	public static SupplierDto fromEntity(Supplier supplier) {
 		if(supplier == null) {

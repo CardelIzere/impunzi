@@ -1,7 +1,10 @@
 package com.refugietransaction.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +25,10 @@ public class Supplier extends AbstractEntity {
 	
 	@Column(name = "address")
 	private String address;
+	
+	@OneToMany(mappedBy = "supplier")
+	private List<Admin> admins;
+	
+	@OneToMany(mappedBy = "supplier")
+	private List<Magasinier> magasiniers;
 }

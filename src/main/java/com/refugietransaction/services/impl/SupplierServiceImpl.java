@@ -49,18 +49,43 @@ public class SupplierServiceImpl implements SupplierService {
 			throw new InvalidEntityException("Le fournisseur n'est pas valide", ErrorCodes.SUPPLIER_NOT_VALID, errors);
 		}
 		
-		if(supplierAlreadyExists(dto.getName())) {
+		if((dto.getId() == null || dto.getId().compareTo(0L) == 0)) {
+			
+			if(supplierAlreadyExists(dto.getName())) {
 			throw new InvalidEntityException("Un autre fournisseur avec le meme nom existe deja", ErrorCodes.SUPPLIER_ALREADY_EXISTS,
 					Collections.singletonList("Un autre fournisseur avec le meme nom existe deja dans la BDD"));
+			}
+			
+			if(phoneNumberAlreadyExists(dto.getPhoneNumber())) {
+				throw new InvalidEntityException("Un autre fournisseur avec le meme numero de telephone existe deja", ErrorCodes.SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS,
+						Collections.singletonList("Un autre fournisseur avec le meme numero de telephone existe deja dans la BDD"));
+			}
+			
+			return SupplierDto.fromEntity(
+					supplierRepository.save(SupplierDto.toEntity(dto)));
 		}
 		
-		if(phoneNumberAlreadyExists(dto.getPhoneNumber())) {
-			throw new InvalidEntityException("Un autre fournisseur avec le meme numero de telephone existe deja", ErrorCodes.SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS,
-					Collections.singletonList("Un autre fournisseur avec le meme numero de telephone existe deja dans la BDD"));
+		Supplier existingSupplier = supplierRepository.findSupplierById(dto.getId());
+		if(existingSupplier != null && !existingSupplier.getName().equals(dto.getName())) {
+			
+			if(supplierAlreadyExists(dto.getName())) {
+				throw new InvalidEntityException("Un autre fournisseur avec le meme nom existe deja", ErrorCodes.SUPPLIER_ALREADY_EXISTS, 
+						Collections.singletonList("Un autre fournisseur avec le meme nom existe deja dans la BDD"));
+			}
+		}
+		
+		if(existingSupplier != null && !existingSupplier.getPhoneNumber().equals(dto.getPhoneNumber())) {
+			
+			if(phoneNumberAlreadyExists(dto.getPhoneNumber())) {
+				throw new InvalidEntityException("Un autre fournisseur avec le meme numero de telephone existe deja", ErrorCodes.SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS,
+						Collections.singletonList("Un autre fournisseur avec le meme numero de telephone existe deja dans la BDD"));
+			}
 		}
 		
 		return SupplierDto.fromEntity(
-				supplierRepository.save(SupplierDto.toEntity(dto)));
+				supplierRepository.save(SupplierDto.toEntity(dto))
+		);
+		
 	}
 
 	private boolean phoneNumberAlreadyExists(String phoneNumber) {

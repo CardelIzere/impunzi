@@ -46,14 +46,29 @@ public class CampServiceImpl implements CampService {
 			throw new InvalidEntityException("Le camp n'est pas valide", ErrorCodes.CAMP_NOT_VALID, errors);
 		}
 		
-		if(campAlreadyExists(dto.getNomCamp())) {
+		if((dto.getId() == null || dto.getId().compareTo(0L) == 0)) {
+			
+			if(campAlreadyExists(dto.getNomCamp())) {
 		      throw new InvalidEntityException("Un autre camp avec le meme nom existe deja", ErrorCodes.CAMP_ALREADY_EXISTS,
 		          Collections.singletonList("Un autre camp avec le meme nom existe deja dans la BDD"));
 		    }
 		
+			return CampDto.fromEntity(
+					campRepository.save(CampDto.toEntity(dto))
+			);
+		}
+		
+		Camp existingCamp = campRepository.findCampById(dto.getId());
+		if(existingCamp != null && !existingCamp.getNomCamp().equals(dto.getNomCamp())) {
+			throw new InvalidEntityException("Un autre camp avec le meme nom existe deja", ErrorCodes.CAMP_ALREADY_EXISTS,
+					Collections.singletonList("Un autre camp avec le meme nom existe deja dans la BDD"));
+		}
+		
 		return CampDto.fromEntity(
 				campRepository.save(CampDto.toEntity(dto))
 		);
+		
+		
 	}
 	
 	private boolean campAlreadyExists(String nom_camp) {

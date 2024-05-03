@@ -31,8 +31,12 @@ public class MenageValidator {
 			errors.add("Veuillez renseigner la langue parlee");
 		}
 		
-		if(menageDto.getNombrePersonnes() == null || menageDto.getNombrePersonnes().compareTo(0) == 0) {
+		if(menageDto.getNombrePersonnes() == null) {
 			errors.add("Veuillez renseigner le nombre de personnes dans le menage");
+		}
+		
+		if(menageDto.getNombrePersonnes() == null || menageDto.getNombrePersonnes().compareTo(Integer.valueOf(0)) == 0) {
+			errors.add("Le prix doit etre superieur a zero");
 		}
 		
 		return errors;

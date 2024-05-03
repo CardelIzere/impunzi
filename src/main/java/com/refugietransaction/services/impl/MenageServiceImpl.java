@@ -50,14 +50,45 @@ public class MenageServiceImpl implements MenageService {
 	      throw new InvalidEntityException("La menage n'est pas valide", ErrorCodes.MENAGE_NOT_VALID, errors);
 	    }
 	    
-	    if(menageAlreadyExists(dto.getIdNumber())) {
+	    if((dto.getId() == null || dto.getId().compareTo(0L) == 0)) {
+	    	if(menageAlreadyExists(dto.getIdNumber())) {
 	    	throw new InvalidEntityException("Un autre menage avec le meme numero existe deja", ErrorCodes.MENAGE_ALREADY_EXISTS,
 	    			Collections.singletonList("Un autre menage avec le meme numero existe deja dans la BDD"));
+		    }
+		    
+		    if(phoneNumberAlreadyExists(dto.getNumTelephone())) {
+		    	throw new InvalidEntityException("Une autre personne de contact avec le meme numero de telephone existe deja", ErrorCodes.MENAGE_PHONE_NUMBER_ALREADY_EXISTS,
+		    			Collections.singletonList("Une autre personne de contact avec le meme numero de telephone existe deja dans la BDD"));
+		    }
+		    
+		    if(dto.getId()==null) {
+		    	dto.setIdNumber(randomNumber());
+		    }
+		    else {
+		    	Long m=menageRepository.findMenageById(dto.getId()).getIdNumber();
+		    	dto.setIdNumber(m);
+		    }
+		    
+			return MenageDto.fromEntity(
+					menageRepository.save(MenageDto.toEntity(dto))
+			);
 	    }
 	    
-	    if(phoneNumberAlreadyExists(dto.getNumTelephone())) {
-	    	throw new InvalidEntityException("Une autre personne de contact avec le meme numero de telephone existe deja", ErrorCodes.MENAGE_PHONE_NUMBER_ALREADY_EXISTS,
-	    			Collections.singletonList("Une autre personne de contact avec le meme numero de telephone existe dans la BDD"));
+	    Menage existingMenage = menageRepository.findMenageById(dto.getId());
+	    if(existingMenage != null && !existingMenage.getIdNumber().equals(dto.getIdNumber())) {
+	    	
+	    	if(menageAlreadyExists(dto.getIdNumber())) {
+	    		throw new InvalidEntityException("Une autre menage avec le meme numero existe deja", ErrorCodes.MENAGE_ALREADY_EXISTS, 
+	    				Collections.singletonList("Une autre menage avec le meme numero existe deja dans la BDD"));
+	    	}
+	    }
+	    
+	    if(existingMenage != null && !existingMenage.getNumTelephone().equals(dto.getNumTelephone())) {
+	    	
+	    	if(phoneNumberAlreadyExists(dto.getNumTelephone())) {
+	    		throw new InvalidEntityException("Une autre personne de contact avec le meme numero de telephone existe deja", ErrorCodes.MENAGE_PHONE_NUMBER_ALREADY_EXISTS, 
+	    				Collections.singletonList("Une autre personne de contact avec le meme numero de telephone existe deja dans la BDD"));
+	    	}
 	    }
 	    
 	    if(dto.getId()==null) {
@@ -71,6 +102,8 @@ public class MenageServiceImpl implements MenageService {
 		return MenageDto.fromEntity(
 				menageRepository.save(MenageDto.toEntity(dto))
 		);
+	    
+	    
 	}
 	
 	private boolean menageAlreadyExists(Long id_number) {

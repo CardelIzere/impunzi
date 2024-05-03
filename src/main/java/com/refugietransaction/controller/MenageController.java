@@ -1,13 +1,13 @@
 package com.refugietransaction.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.MenageApi;
 import com.refugietransaction.dto.MenageDto;
-import com.refugietransaction.dto.MouvementStockDto;
 import com.refugietransaction.services.MenageService;
 
 @RestController
@@ -32,14 +32,15 @@ public class MenageController implements MenageApi {
 	}
 
 	@Override
-	public List<MenageDto> findAll() {
-		return menageService.findAll();
-	}
-
-	@Override
 	public void delete(Long id) {
 		menageService.delete(id);
 		
+	}
+
+	@Override
+	public Page<MenageDto> findAllMenages(String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return menageService.findByPersonneContactNumTeleLike(search, pageable);
 	}
 
 }

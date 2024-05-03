@@ -7,6 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.refugietransaction.dto.CampDto;
@@ -105,14 +107,6 @@ public class MenageServiceImpl implements MenageService {
 						);
 	}
 
-	@Override
-	public List<MenageDto> findAll() {
-		
-		return menageRepository.findAll().stream()
-				.map(MenageDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
 
 	@Override
 	public void delete(Long id) {
@@ -127,6 +121,19 @@ public class MenageServiceImpl implements MenageService {
 		}
 		menageRepository.deleteById(id);
 		
+	}
+
+
+	@Override
+	public Page<MenageDto> findByPersonneContactNumTeleLike(String search, Pageable pageable) {
+		Page<Menage> menages;
+		if(search != null) {
+			menages = menageRepository.findByPersonneContactNumTeleLike(search, pageable);
+		} else {
+			menages = menageRepository.findAllMenages(pageable);
+		}
+		
+		return menages.map(MenageDto::fromEntity);
 	}
 	
 }

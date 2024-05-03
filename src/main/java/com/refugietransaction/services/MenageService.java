@@ -1,10 +1,10 @@
 package com.refugietransaction.services;
 
-import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.refugietransaction.dto.MenageDto;
-import com.refugietransaction.dto.MouvementStockDto;
-import com.refugietransaction.model.MouvementStock;
 
 public interface MenageService {
 	
@@ -12,7 +12,7 @@ public interface MenageService {
 	
 	MenageDto findById(Long id);
 	
-	List<MenageDto> findAll();
+	Page<MenageDto> findByPersonneContactNumTeleLike(String search, Pageable pageable);
 
 	void delete(Long id);
 }

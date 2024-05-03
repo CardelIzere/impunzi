@@ -16,6 +16,9 @@ public class CampValidator {
 		if(campDto == null || !StringUtils.hasLength(campDto.getNomCamp())){
 			errors.add("Veuillez renseigner le nom du camp");
 		}
+		if(campDto == null || !StringUtils.hasLength(campDto.getAddressCamp())) {
+			errors.add("Veuillez renseigner l'addresse du camp");
+		}
 		return errors;
 	}
 }

@@ -3,6 +3,9 @@ package com.refugietransaction.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.CampApi;
@@ -31,14 +34,15 @@ public class CampController implements CampApi {
 	}
 
 	@Override
-	public List<CampDto> findAll() {
-		return campService.findAll();
-	}
-
-	@Override
 	public void delete(Long id) {
 		campService.delete(id);
 		
+	}
+
+	@Override
+	public Page<CampDto> findAllCamps(String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return campService.findByNameCampAddressLike(search, pageable);
 	}
 
 }

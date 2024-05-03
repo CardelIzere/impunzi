@@ -15,6 +15,7 @@ public class CampDto {
 	
 	private Long id;
 	private String nomCamp;
+	private String addressCamp;
 	
 	@JsonIgnore
 	private List<MenageDto> menages;
@@ -28,6 +29,7 @@ public class CampDto {
 		return CampDto.builder()
 				.id(camp.getId())
 				.nomCamp(camp.getNomCamp())
+				.addressCamp(camp.getAddressCamp())
 				.build();
 	}
 	
@@ -40,6 +42,7 @@ public class CampDto {
 		Camp camp = new Camp();
 		camp.setId(campDto.getId());
 		camp.setNomCamp(campDto.getNomCamp());
+		camp.setAddressCamp(campDto.getAddressCamp());
 		
 		return camp;
 	}

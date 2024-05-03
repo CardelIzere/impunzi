@@ -2,6 +2,7 @@ package com.refugietransaction.controller.api;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +34,16 @@ public interface CampApi {
     CampDto findById(@PathVariable("idCamp") Long idCamp);
 
     @ApiOperation(value = "Récupérer la liste de tous les camps", notes = "Cette methode permet de chercher et renvoyer la liste des camps qui existent" + "dans la BDD",
-    		responseContainer = "List<CampDto>")
+    		responseContainer = "Page<CampDto>")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des article / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/camps/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<CampDto> findAll();
+    Page<CampDto> findAllCamps(
+    		@RequestParam(value = "search", required = false) String search,
+    		@RequestParam(value = "page", defaultValue = "0") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size
+    );
 
     @ApiOperation(value = "Supprimer un camp par son ID", notes = "Cette methode permet de supprimer un camp par ID")
     @ApiResponses(value = {

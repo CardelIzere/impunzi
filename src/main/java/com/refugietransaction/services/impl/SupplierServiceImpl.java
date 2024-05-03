@@ -6,9 +6,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.refugietransaction.dto.SupplierDto;
+import com.refugietransaction.dto.SupplierListDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
@@ -84,14 +88,6 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public List<SupplierDto> findAll() {
-		
-		return supplierRepository.findAll().stream()
-				.map(SupplierDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
-	@Override
 	public void delete(Long id) {
 		
 		if(id == null) {
@@ -105,6 +101,50 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		
 		supplierRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public Page<SupplierListDto> findByNamePhoneAddressLike(String search, Pageable pageable) {
+		Page<Supplier> suppliers;
+		if(search != null) {
+			suppliers = supplierRepository.findByNamePhoneAddressLike(search, pageable);
+		} else {
+			suppliers = supplierRepository.findAllSuppliers(pageable);
+		}
+		
+		return suppliers.map(SupplierListDto::fromEntity);
+	}
+
+	@Override
+	@Transactional
+	public void enableSupplier(Long supplierId) {
+		
+		Optional<Supplier> optionalSupplier = supplierRepository.findById(supplierId);
+		if(optionalSupplier.isPresent()) {
+			Supplier supplier = optionalSupplier.get();
+			supplier.setIsSupplierActive(true);
+			supplierRepository.save(supplier);
+		} else {
+			throw new EntityNotFoundException("Aucun fournisseur avec l'ID = " +supplierId+ "n'a ete trouve dans la BDD", 
+					ErrorCodes.SUPPLIER_NOT_FOUND);
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void desableSupplier(Long supplierId) {
+		
+		Optional<Supplier> optionalSupplier = supplierRepository.findById(supplierId);
+		if(optionalSupplier.isPresent()) {
+			Supplier supplier = optionalSupplier.get();
+			supplier.setIsSupplierActive(false);
+			supplierRepository.save(supplier);
+		} else {
+			throw new EntityNotFoundException("Aucun fournisseur avec l'ID = " +supplierId+ "n'a ete trouve dans la BDD", 
+					ErrorCodes.SUPPLIER_NOT_FOUND);
+		}
 		
 	}
 

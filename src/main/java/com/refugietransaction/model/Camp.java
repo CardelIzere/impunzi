@@ -21,6 +21,9 @@ public class Camp extends AbstractEntity {
 	@Column(name = "nom_camp")
 	private String nomCamp;
 	
+	@Column(name = "addresscamp")
+	private String addressCamp;
+	
 	@OneToMany(mappedBy = "camp")
 	private List<Menage> menages;
 	

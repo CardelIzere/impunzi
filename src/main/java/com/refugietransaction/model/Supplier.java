@@ -26,9 +26,15 @@ public class Supplier extends AbstractEntity {
 	@Column(name = "address")
 	private String address;
 	
+	@Column(name = "issupplieractive")
+	private Boolean isSupplierActive;
+	
 	@OneToMany(mappedBy = "supplier")
 	private List<Admin> admins;
 	
 	@OneToMany(mappedBy = "supplier")
 	private List<Magasinier> magasiniers;
+	
+	@OneToMany(mappedBy = "supplier")
+	private List<Product> products;
 }

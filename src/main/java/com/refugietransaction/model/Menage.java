@@ -41,7 +41,6 @@ public class Menage extends AbstractEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "camp_id")
-	@JsonIgnore
 	private Camp camp;
 	
 	@OneToMany(mappedBy = "menage")

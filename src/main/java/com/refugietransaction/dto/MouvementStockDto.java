@@ -18,7 +18,7 @@ public class MouvementStockDto {
 	private BigDecimal quantite;
 	private TypeMouvementStock typeMouvement;
 	private MenageDto menage;
-	private ProduitDto produit;
+	private ProductDto produit;
 	
 	public static MouvementStockDto fromEntity(MouvementStock mouvementStock) {
 		if(mouvementStock == null) {
@@ -32,7 +32,7 @@ public class MouvementStockDto {
 				.quantite(mouvementStock.getQuantite())
 				.typeMouvement(mouvementStock.getTypeMouvement())
 				.menage(MenageDto.fromEntity(mouvementStock.getMenage()))
-				.produit(ProduitDto.fromEntity(mouvementStock.getProduit()))
+				.produit(ProductDto.fromEntity(mouvementStock.getProduit()))
 				.build();
 	}
 	
@@ -48,7 +48,7 @@ public class MouvementStockDto {
 		mouvementStock.setQuantite(mouvementStockDto.getQuantite());
 		mouvementStock.setTypeMouvement(mouvementStockDto.getTypeMouvement());
 		mouvementStock.setMenage(MenageDto.toEntity(mouvementStockDto.getMenage()));
-		mouvementStock.setProduit(ProduitDto.toEntity(mouvementStockDto.getProduit()));
+		mouvementStock.setProduit(ProductDto.toEntity(mouvementStockDto.getProduit()));
 		
 		return mouvementStock;
 	}

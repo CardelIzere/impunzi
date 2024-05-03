@@ -10,16 +10,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "producttype")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "produit")
-public class Produit extends AbstractEntity {
+public class ProductType extends AbstractEntity {
 	
-	@Column(name = "nom_produit")
-	private String nomProduit;
+	@Column(name = "nameproducttype")
+	private String nameProductTpe;
 	
-	@OneToMany(mappedBy = "produit")
-	private List<MouvementStock> mouvementStocks;
+	@OneToMany(mappedBy = "productType")
+	private List<Product> products;
 }

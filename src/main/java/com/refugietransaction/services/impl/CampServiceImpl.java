@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.refugietransaction.dto.CampDto;
@@ -75,14 +77,6 @@ public class CampServiceImpl implements CampService {
 	}
 
 	@Override
-	public List<CampDto> findAll() {
-		
-		return campRepository.findAll().stream()
-		        .map(CampDto::fromEntity)
-		        .collect(Collectors.toList());
-	}
-
-	@Override
 	public void delete(Long id) {
 		
 		if(id == null) {
@@ -96,6 +90,17 @@ public class CampServiceImpl implements CampService {
 		
 		campRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public Page<CampDto> findByNameCampAddressLike(String search, Pageable pageable) {
+		Page<Camp> camps;
+		if(search != null) {
+			camps = campRepository.findByNameCampAddressLike(search, pageable);
+		} else {
+			camps = campRepository.findAllCamps(pageable);
+		}
+		return camps.map(CampDto::fromEntity);
 	}
 	
 	

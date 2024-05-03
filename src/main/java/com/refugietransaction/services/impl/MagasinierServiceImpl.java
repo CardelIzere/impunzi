@@ -212,14 +212,6 @@ public class MagasinierServiceImpl implements MagasinierService {
 	}
 
 	@Override
-	public List<MagasinierDto> findAll() {
-		
-		return magasinierRepository.findAll().stream()
-				.map(MagasinierDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
-	@Override
 	public Page<MagasinierDto> findSupplierMagasiniers(Long idSupplier, String search, Pageable pageable) {
 
 		Page<Magasinier> magasiniers;
@@ -241,5 +233,13 @@ public class MagasinierServiceImpl implements MagasinierService {
 
 		magasinierRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public Page<MagasinierDto> findAllMagasiniers(Pageable pageable) {
+		Page<Magasinier> magasiniers;
+		magasiniers = magasinierRepository.findAllMagasiniers(pageable);
+		
+		return magasiniers.map(MagasinierDto::fromEntity);
 	}
 }

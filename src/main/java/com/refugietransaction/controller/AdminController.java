@@ -35,12 +35,6 @@ public class AdminController implements AdminApi {
 	}
 
 	@Override
-	public List<AdminDto> findAll() {
-		
-		return adminService.findAll();
-	}
-
-	@Override
 	public Page<AdminDto> findMainAdmins(String search, int page, int size) {
 
 		Pageable pageable = PageRequest.of(page, size);
@@ -58,5 +52,11 @@ public class AdminController implements AdminApi {
 	public void delete(Long id) {
 		adminService.delete(id);
 		
+	}
+
+	@Override
+	public Page<AdminDto> findAllAdmins(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return adminService.findAllAdmins(pageable);
 	}
 }

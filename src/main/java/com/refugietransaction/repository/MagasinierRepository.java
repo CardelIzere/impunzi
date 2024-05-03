@@ -25,4 +25,7 @@ public interface MagasinierRepository extends JpaRepository<Magasinier, Long> {
 	Page<Magasinier> findByNameEmailPhoneLike(Long idSupplier,String search, Pageable pageable);
 
 	List<Magasinier> findAllByCampId(Long camp_id);
+	
+	@Query(value = "select m from Magasinier m order by m.id desc")
+	Page<Magasinier> findAllMagasiniers(Pageable pageable);
 }

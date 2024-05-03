@@ -13,7 +13,7 @@ public interface AdminService {
 	
 	AdminDto findById(Long id);
 
-	List<AdminDto> findAll();
+	Page<AdminDto> findAllAdmins(Pageable pageable);
 
 	Page<AdminDto> findAllMainAdmins(String search, Pageable pageable);
 

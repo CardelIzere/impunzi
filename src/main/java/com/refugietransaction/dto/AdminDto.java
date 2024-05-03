@@ -24,6 +24,7 @@ public class AdminDto {
 				.id(admin.getId())
 				.user(UserDto.fromEntity(admin.getUser()))
 				.adminTypeEnum(admin.getAdminTypeEnum())
+				.supplier(SupplierDto.fromEntity(admin.getSupplier()))
 				.build();
 	}
 	
@@ -36,6 +37,7 @@ public class AdminDto {
 		admin.setId(adminDto.getId());
 		admin.setUser(UserDto.toEntity(adminDto.getUser()));
 		admin.setAdminTypeEnum(adminDto.getAdminTypeEnum());
+		admin.setSupplier(SupplierDto.toEntity(adminDto.getSupplier()));
 		
 		return admin;
 	}

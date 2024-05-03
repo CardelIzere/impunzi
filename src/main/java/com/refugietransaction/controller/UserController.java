@@ -1,8 +1,9 @@
 package com.refugietransaction.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.UserApi;
@@ -26,12 +27,6 @@ public class UserController implements UserApi {
 	}
 
 	@Override
-	public List<UserDto> findAll() {
-		
-		return userService.findAll();
-	}
-
-	@Override
 	public void enableUser(Long id) {
 		userService.enableUser(id);
 	}
@@ -40,5 +35,13 @@ public class UserController implements UserApi {
 	public void desableUser(Long id) {
 
 		userService.desableUser(id);
+	}
+
+	@Override
+	public Page<UserDto> findAllUsers(String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		
+		return userService.findByUserFullNameLike(search, pageable);
 	}
 }

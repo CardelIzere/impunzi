@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,14 +46,6 @@ private final UserRepository userRepository;
 	}
 
 	@Override
-	public List<UserDto> findAll() {
-		
-		return userRepository.findAll().stream()
-				.map(UserDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
-	@Override
 	@Transactional
 	public void enableUser(Long userId) {
 
@@ -79,6 +73,18 @@ private final UserRepository userRepository;
 			throw new EntityNotFoundException("Aucune utilisateur avec l'ID = " +userId+ " n' a ete trouve dans la BDD",ErrorCodes.USER_NOT_FOUND);
 		}
 
+	}
+
+	@Override
+	public Page<UserDto> findByUserFullNameLike(String search, Pageable pageable) {
+		Page<User> users;
+		if(search != null) {
+			users = userRepository.findByUserFullNameLike(search, pageable);
+		} else {
+			users = userRepository.findAllUsers(pageable);
+		}
+		
+		return users.map(UserDto::fromEntity);
 	}
 
 }

@@ -225,14 +225,6 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<AdminDto> findAll() {
-		
-		return adminRepository.findAll().stream()
-				.map(AdminDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
-	@Override
 	public Page<AdminDto> findAllMainAdmins(String search, Pageable pageable) {
 
 		Page<Admin> admins;
@@ -266,5 +258,12 @@ public class AdminServiceImpl implements AdminService {
 		
 		adminRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public Page<AdminDto> findAllAdmins(Pageable pageable) {
+		Page<Admin> admins;
+		admins = adminRepository.findAllAdmins(pageable);
+		return admins.map(AdminDto::fromEntity);
 	}
 }

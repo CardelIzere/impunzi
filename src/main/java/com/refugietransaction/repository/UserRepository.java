@@ -3,6 +3,8 @@ package com.refugietransaction.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +30,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	@Query(value = "select u from User u where u.userPhoneNumber = :phoneNumber")
 	Optional<User> findUserByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+	
+	@Query(value = "select u from User u order by u.id desc")
+	Page<User> findAllUsers(Pageable pageable);
+	
+	@Query(value = "select u from User u where UPPER(u.userFullName) like CONCAT('%',UPPER(?1),'%') order by u.id desc")
+	Page<User> findByUserFullNameLike(String search, Pageable pageable);
 
 
 	@Transactional

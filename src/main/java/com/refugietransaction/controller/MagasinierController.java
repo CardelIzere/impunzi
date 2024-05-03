@@ -35,12 +35,6 @@ public class MagasinierController implements MagasinierApi {
 	}
 
 	@Override
-	public List<MagasinierDto> findAll() {
-
-		return magasinierService.findAll();
-	}
-
-	@Override
 	public Page<MagasinierDto> findSupplierCamps(Long idSupplier, String search, int page, int size) {
 
 		Pageable pageable = PageRequest.of(page, size);
@@ -51,5 +45,12 @@ public class MagasinierController implements MagasinierApi {
 	public void delete(Long id) {
 		magasinierService.delete(id);
 
+	}
+
+	@Override
+	public Page<MagasinierDto> findAllMagasiniers(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		
+		return magasinierService.findAllMagasiniers(pageable);
 	}
 }

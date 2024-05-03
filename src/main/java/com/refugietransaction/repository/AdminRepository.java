@@ -35,4 +35,7 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 	Page<Admin> findSupplierAdminsByNameEmailPhoneLike(Long idSupplier,String search, Pageable pageable);
 
 	List<Admin> findAllBySupplierId(Long supplier_id);
+	
+	@Query(value = "select a from Admin a order by a.id desc")
+	Page<Admin> findAllAdmins(Pageable pageable);
 }

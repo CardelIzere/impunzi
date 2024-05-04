@@ -59,4 +59,16 @@ public class SupplierController implements SupplierApi {
 		
 	}
 
+	@Override
+	public List<SupplierDto> findSuppliersWithNoMainAdmin() {
+		
+		return supplierService.findSuppliersWithNoMainAdmin();
+	}
+
+	@Override
+	public List<SupplierDto> findAll() {
+		
+		return supplierService.findAll();
+	}
+
 }

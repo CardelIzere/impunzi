@@ -33,7 +33,8 @@ public class Menage extends AbstractEntity {
 	private String numTelephone;
 	
 	@Column(name = "langue_parlee")
-	private String langueParlee;
+	@Enumerated(EnumType.STRING)
+	private LangueTypeEnum langueParlee;
 	
 	@Column(name = "nombre_personne")
 	private Integer nombrePersonnes;

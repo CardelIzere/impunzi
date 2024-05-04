@@ -1,5 +1,7 @@
 package com.refugietransaction.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,6 +12,8 @@ public interface ProductService {
 	ProductDto save(ProductDto dto);
 	
 	ProductDto findById(Long id);
+	
+	List<ProductDto> findAll();
 	
 	Page<ProductDto> findByNameProduitLike(String search, Pageable pageable);
 	

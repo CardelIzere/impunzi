@@ -16,33 +16,39 @@ import com.refugietransaction.services.ProductService;
 
 public class ProductController implements ProductApi {
 	
-	private ProductService produitService;
+	private ProductService productService;
 	
 	@Autowired
-	public ProductController(ProductService produitService) {
-		this.produitService = produitService;
+	public ProductController(ProductService productService) {
+		this.productService = productService;
 	}
 
 	@Override
 	public ProductDto save(ProductDto dto) {
-		return produitService.save(dto);
+		return productService.save(dto);
 	}
 
 	@Override
 	public ProductDto findById(Long idProduit) {
-		return produitService.findById(idProduit);
+		return productService.findById(idProduit);
 	}
 
 	@Override
 	public void delete(Long id) {
-		produitService.delete(id);
+		productService.delete(id);
 		
 	}
 
 	@Override
 	public Page<ProductDto> findAllProduits(String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return produitService.findByNameProduitLike(search, pageable);
+		return productService.findByNameProduitLike(search, pageable);
+	}
+
+	@Override
+	public List<ProductDto> findAll() {
+		
+		return productService.findAll();
 	}
 
 }

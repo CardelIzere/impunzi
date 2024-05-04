@@ -39,13 +39,21 @@ public interface SupplierApi  {
     })
     @GetMapping(value = Constants.APP_ROOT + "/suppliers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     SupplierDto findById(@PathVariable("id") Long id);
-
+    
     @ApiOperation(value = "Récupérer la liste de tous les fournisseurs", notes = "Cette methode permet de chercher et renvoyer la liste des fournisseurs qui existent" + "dans la BDD",
     		responseContainer = "List<SupplierDto>")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des fournisseurs / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/suppliers/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<SupplierDto> findAll();
+
+    @ApiOperation(value = "Récupérer la liste de tous les fournisseurs avec pagination", notes = "Cette methode permet de chercher et renvoyer la liste des fournisseurs qui existent" + "dans la BDD",
+    		responseContainer = "List<SupplierListDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des fournisseurs / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/suppliers/paginate-search-all", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<SupplierListDto> findAllSuppliers(
     		@RequestParam(value = "search", required = false) String search,
     		@RequestParam(value = "page", defaultValue = "0") int page,
@@ -58,6 +66,14 @@ public interface SupplierApi  {
     })
     @DeleteMapping(value = Constants.APP_ROOT+ "/suppliers/delete/{id}")
     void delete(@PathVariable("id") Long id);
+    
+    @ApiOperation(value = "Récupérer la liste de tous les fournisseurs n'ayant pas d'admins", notes = "Cette methode permet de chercher et renvoyer la liste des fournisseurs qui existent" + "dans la BDD",
+    		responseContainer = "List<SupplierDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des fournisseurs / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/suppliers/suppliers-with-no-main-admin", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<SupplierDto> findSuppliersWithNoMainAdmin();
     
     @ApiOperation(value = "Activer un fournisseur par son ID", notes = "Cette methode permet d'activer un fournisseur par ID")
     @ApiResponses(value = {

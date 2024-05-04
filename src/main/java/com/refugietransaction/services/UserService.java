@@ -11,7 +11,7 @@ public interface UserService {
 	
 	UserDto findById(Long id);
 	
-	Page<UserDto> findByUserFullNameLike(String search, Pageable pageable);
+	List<UserDto> findAll();
 
 	void enableUser(Long userId);
 

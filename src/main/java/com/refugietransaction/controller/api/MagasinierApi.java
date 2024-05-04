@@ -43,10 +43,7 @@ public interface MagasinierApi {
             @ApiResponse(code = 200, message = "La liste des magasiniers / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/magasiniers/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    Page<MagasinierDto> findAllMagasiniers(
-    		@RequestParam(value = "page", defaultValue = "0") int page,
-    		@RequestParam(value = "size", defaultValue = "10") int size
-    );
+    List<MagasinierDto> findAll();
 
     @ApiOperation(value = "Récupérer la liste des camps d'un fournisseur", notes = "Cette methode permet de chercher et renvoyer la liste des camps qui existent" + "dans la BDD")
     @ApiResponses(value = {

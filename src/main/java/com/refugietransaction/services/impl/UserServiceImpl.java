@@ -76,15 +76,11 @@ private final UserRepository userRepository;
 	}
 
 	@Override
-	public Page<UserDto> findByUserFullNameLike(String search, Pageable pageable) {
-		Page<User> users;
-		if(search != null) {
-			users = userRepository.findByUserFullNameLike(search, pageable);
-		} else {
-			users = userRepository.findAllUsers(pageable);
-		}
+	public List<UserDto> findAll() {
 		
-		return users.map(UserDto::fromEntity);
+		return userRepository.findAll().stream()
+				.map(UserDto::fromEntity)
+				.collect(Collectors.toList());
 	}
 
 }

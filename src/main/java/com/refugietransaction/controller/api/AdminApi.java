@@ -43,10 +43,7 @@ public interface AdminApi {
             @ApiResponse(code = 200, message = "La liste des admins / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/admins/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    Page<AdminDto> findAllAdmins(
-    		@RequestParam(value = "page", defaultValue = "0") int page,
-    		@RequestParam(value = "size", defaultValue = "10") int size
-    );
+    List<AdminDto> findAll();
 
     @ApiOperation(value = "Récupérer la liste de tous les admins principaux", notes = "Cette methode permet de chercher et renvoyer la liste des admins qui existent" + "dans la BDD")
     @ApiResponses(value = {

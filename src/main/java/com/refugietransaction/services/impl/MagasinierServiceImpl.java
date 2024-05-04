@@ -236,10 +236,10 @@ public class MagasinierServiceImpl implements MagasinierService {
 	}
 
 	@Override
-	public Page<MagasinierDto> findAllMagasiniers(Pageable pageable) {
-		Page<Magasinier> magasiniers;
-		magasiniers = magasinierRepository.findAllMagasiniers(pageable);
+	public List<MagasinierDto> findAll() {
 		
-		return magasiniers.map(MagasinierDto::fromEntity);
+		return magasinierRepository.findAll().stream()
+				.map(MagasinierDto::fromEntity)
+				.collect(Collectors.toList());
 	}
 }

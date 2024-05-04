@@ -173,4 +173,20 @@ public class SupplierServiceImpl implements SupplierService {
 		
 	}
 
+	@Override
+	public List<SupplierDto> findSuppliersWithNoMainAdmin() {
+		
+		return supplierRepository.findSuppliersWithNoMainAdmin().stream()
+				.map(SupplierDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<SupplierDto> findAll() {
+		
+		return supplierRepository.findAll().stream()
+				.map(SupplierDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
 }

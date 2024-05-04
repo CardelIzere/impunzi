@@ -29,4 +29,11 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long> {
 	
 	@Query(value = "select s from Supplier s where UPPER(s.name) like CONCAT('%',UPPER(?1),'%') OR UPPER(s.phoneNumber) like CONCAT('%',UPPER(?1),'%') OR UPPER(s.address) like CONCAT('%',UPPER(?1),'%') order by s.id desc ")
 	Page<Supplier> findByNamePhoneAddressLike(String search, Pageable pageable);
+	
+	@Query(" SELECT s FROM Supplier s " +
+			" WHERE s.id NOT IN (" +
+			" SELECT adm.supplier.id FROM Admin adm " +
+			" WHERE adm.adminTypeEnum = 'MAIN_ADMIN' " +
+			")")
+	List<Supplier> findSuppliersWithNoMainAdmin();
 }

@@ -13,6 +13,8 @@ public interface CampService {
 	
 	CampDto findById(Long id);
 	
+	List<CampDto> findAll();
+	
 	Page<CampDto> findByNameCampAddressLike(String search, Pageable pageable);
 	
 	void delete(Long id);

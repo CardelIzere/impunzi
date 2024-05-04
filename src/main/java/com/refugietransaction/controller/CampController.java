@@ -45,4 +45,10 @@ public class CampController implements CampApi {
 		return campService.findByNameCampAddressLike(search, pageable);
 	}
 
+	@Override
+	public List<CampDto> findAll() {
+		
+		return campService.findAll();
+	}
+
 }

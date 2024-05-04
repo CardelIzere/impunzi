@@ -1,5 +1,7 @@
 package com.refugietransaction.controller.api;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +33,7 @@ public interface UserApi {
             @ApiResponse(code = 200, message = "La liste des utilisateurs / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/users/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    Page<UserDto> findAllUsers(
-    		@RequestParam(value = "search", required = false) String search,
-    		@RequestParam(value = "page", defaultValue = "0") int page,
-    		@RequestParam(value = "size", defaultValue = "10") int size
-    );
+    List<UserDto> findAll();
 
     @ApiOperation(value = "Activer un utilisateur par son ID", notes = "Cette methode permet d'activer un utilisateur par ID")
     @ApiResponses(value = {

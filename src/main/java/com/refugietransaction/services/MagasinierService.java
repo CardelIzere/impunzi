@@ -13,7 +13,7 @@ public interface MagasinierService {
 	
 	MagasinierDto findById(Long id);
 	
-	Page<MagasinierDto> findAllMagasiniers(Pageable pageable);
+	List<MagasinierDto> findAll();
 
 	Page<MagasinierDto> findSupplierMagasiniers(Long idSupplier, String search, Pageable pageable);
 	

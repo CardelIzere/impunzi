@@ -48,9 +48,8 @@ public class MagasinierController implements MagasinierApi {
 	}
 
 	@Override
-	public Page<MagasinierDto> findAllMagasiniers(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
+	public List<MagasinierDto> findAll() {
 		
-		return magasinierService.findAllMagasiniers(pageable);
+		return magasinierService.findAll();
 	}
 }

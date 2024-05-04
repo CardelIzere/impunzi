@@ -32,13 +32,21 @@ public interface CampApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/camps/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
     CampDto findById(@PathVariable("idCamp") Long idCamp);
-
+    
     @ApiOperation(value = "Récupérer la liste de tous les camps", notes = "Cette methode permet de chercher et renvoyer la liste des camps qui existent" + "dans la BDD",
     		responseContainer = "Page<CampDto>")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des article / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/camps/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<CampDto> findAll();
+
+    @ApiOperation(value = "Récupérer la liste de tous les camps avec pagination", notes = "Cette methode permet de chercher et renvoyer la liste des camps qui existent" + "dans la BDD",
+    		responseContainer = "Page<CampDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des article / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/camps/paginate-search-all", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<CampDto> findAllCamps(
     		@RequestParam(value = "search", required = false) String search,
     		@RequestParam(value = "page", defaultValue = "0") int page,

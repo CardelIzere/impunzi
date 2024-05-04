@@ -55,8 +55,8 @@ public class AdminController implements AdminApi {
 	}
 
 	@Override
-	public Page<AdminDto> findAllAdmins(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return adminService.findAllAdmins(pageable);
+	public List<AdminDto> findAll() {
+		
+		return adminService.findAll();
 	}
 }

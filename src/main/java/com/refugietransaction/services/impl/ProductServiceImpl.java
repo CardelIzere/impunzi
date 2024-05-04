@@ -34,12 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProductServiceImpl implements ProductService {
 	
-	private ProductRepository produitRepository;
+	private ProductRepository productRepository;
 	private MouvementStockRepository mouvementStockRepository;
 	
 	@Autowired
-	public ProductServiceImpl(ProductRepository produitRepository, MouvementStockRepository mouvementStockRepository) {
-		this.produitRepository = produitRepository;
+	public ProductServiceImpl(ProductRepository productRepository, MouvementStockRepository mouvementStockRepository) {
+		this.productRepository = productRepository;
 		this.mouvementStockRepository = mouvementStockRepository;
 	}
 	
@@ -58,12 +58,12 @@ public class ProductServiceImpl implements ProductService {
 	    }
 	    
 		return ProductDto.fromEntity(
-				produitRepository.save(ProductDto.toEntity(dto))
+				productRepository.save(ProductDto.toEntity(dto))
 		);
 	}
 	
 	private boolean produitAlreadyExists(String nom_produit) {
-		Optional<Product> produit = produitRepository.findProduitByNom(nom_produit);
+		Optional<Product> produit = productRepository.findProduitByNom(nom_produit);
 		return produit.isPresent();
 	}
 
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 		      log.error("Produit ID is null");
 		      return null;
 		    }
-		return produitRepository.findById(id)
+		return productRepository.findById(id)
 				.map(ProductDto::fromEntity)
 				.orElseThrow(()->new EntityNotFoundException(
 						"Aucun produit avec l'ID = " +id+ " n' a ete trouve dans la BDD",
@@ -93,19 +93,27 @@ public class ProductServiceImpl implements ProductService {
 			throw new InvalidOperationException("Impossible de supprimer ce produit qui est deja utilisé",
 					ErrorCodes.PRODUCT_ALREADY_IN_USE);
 		}
-		produitRepository.deleteById(id);
+		productRepository.deleteById(id);
 	}
 
 	@Override
 	public Page<ProductDto> findByNameProduitLike(String search, Pageable pageable) {
 		Page<Product> produits;
 		if(search != null) {
-			produits = produitRepository.findByNameProduitLike(search, pageable);
+			produits = productRepository.findByNameProduitLike(search, pageable);
 		} else {
-			produits = produitRepository.findAllProduits(pageable);
+			produits = productRepository.findAllProduits(pageable);
 		}
 		
 		return produits.map(ProductDto::fromEntity);
+	}
+
+	@Override
+	public List<ProductDto> findAll() {
+		
+		return productRepository.findAll().stream()
+				.map(ProductDto::fromEntity)
+				.collect(Collectors.toList());
 	}
 
 }

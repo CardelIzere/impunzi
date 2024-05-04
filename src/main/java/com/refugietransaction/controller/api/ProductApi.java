@@ -38,13 +38,21 @@ public interface ProductApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/products/{idProduit}", produces = MediaType.APPLICATION_JSON_VALUE)
     ProductDto findById(@PathVariable("idProduit") Long idProduit);
-
+    
     @ApiOperation(value = "Récupérer la liste de tous les produits", notes = "Cette methode permet de chercher et renvoyer la liste des produits qui existent" + "dans la BDD",
     		responseContainer = "List<ProduitDto>")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des article / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/products/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<ProductDto> findAll();
+
+    @ApiOperation(value = "Récupérer la liste de tous les produits avec pagination", notes = "Cette methode permet de chercher et renvoyer la liste des produits qui existent" + "dans la BDD",
+    		responseContainer = "List<ProduitDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des article / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/products/paginate-search-all", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<ProductDto> findAllProduits(
     		@RequestParam(value = "search", required = false) String search,
     		@RequestParam(value = "page", defaultValue = "0") int page,

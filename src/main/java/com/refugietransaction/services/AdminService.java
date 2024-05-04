@@ -13,12 +13,11 @@ public interface AdminService {
 	
 	AdminDto findById(Long id);
 
-	Page<AdminDto> findAllAdmins(Pageable pageable);
+	List<AdminDto> findAll();
 
 	Page<AdminDto> findAllMainAdmins(String search, Pageable pageable);
 
 	Page<AdminDto> findSupplierAdmins(Long idSupplier,String search, Pageable pageable);
 
-	
 	void delete(Long id);
 }

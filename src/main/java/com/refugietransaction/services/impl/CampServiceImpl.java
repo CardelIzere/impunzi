@@ -42,7 +42,7 @@ public class CampServiceImpl implements CampService {
 		// TODO Auto-generated method stub
 		List<String> errors = CampValidator.validate(dto);
 		if(!errors.isEmpty()) {
-			log.error("Menage is not valid {}", dto);
+			log.error("Camp is not valid {}", dto);
 			throw new InvalidEntityException("Le camp n'est pas valide", ErrorCodes.CAMP_NOT_VALID, errors);
 		}
 		
@@ -60,8 +60,12 @@ public class CampServiceImpl implements CampService {
 		
 		Camp existingCamp = campRepository.findCampById(dto.getId());
 		if(existingCamp != null && !existingCamp.getNomCamp().equals(dto.getNomCamp())) {
-			throw new InvalidEntityException("Un autre camp avec le meme nom existe deja", ErrorCodes.CAMP_ALREADY_EXISTS,
+			
+			if(campAlreadyExists(dto.getNomCamp())) {
+				throw new InvalidEntityException("Un autre camp avec le meme nom existe deja", ErrorCodes.CAMP_ALREADY_EXISTS,
 					Collections.singletonList("Un autre camp avec le meme nom existe deja dans la BDD"));
+			}
+			
 		}
 		
 		return CampDto.fromEntity(
@@ -116,6 +120,14 @@ public class CampServiceImpl implements CampService {
 			camps = campRepository.findAllCamps(pageable);
 		}
 		return camps.map(CampDto::fromEntity);
+	}
+
+	@Override
+	public List<CampDto> findAll() {
+		
+		return campRepository.findAll().stream()
+				.map(CampDto::fromEntity)
+				.collect(Collectors.toList());
 	}
 	
 	

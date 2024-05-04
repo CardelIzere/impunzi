@@ -261,9 +261,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public Page<AdminDto> findAllAdmins(Pageable pageable) {
-		Page<Admin> admins;
-		admins = adminRepository.findAllAdmins(pageable);
-		return admins.map(AdminDto::fromEntity);
+	public List<AdminDto> findAll() {
+		
+		return adminRepository.findAll().stream()
+				.map(AdminDto::fromEntity)
+				.collect(Collectors.toList());
 	}
 }

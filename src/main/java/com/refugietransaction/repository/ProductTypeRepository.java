@@ -27,4 +27,6 @@ public interface ProductTypeRepository extends JpaRepository<ProductType, Long> 
 	  
 	  @Query(value = "select p from ProductType p where UPPER(p.name) like CONCAT('%', UPPER(?1), '%') order by p.id desc ")
 	  Page<ProductType> findByNameLike(String search, Pageable pageable);
+	  
+	  List<ProductType> findAllBySalesUnitId(Long salesunit_id);
 }

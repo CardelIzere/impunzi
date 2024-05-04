@@ -16,6 +16,7 @@ public class MenageValidator {
 		    errors.add("Veuillez renseigner un numero de telephone");
 		    errors.add("Veuillez renseigner une langue parlee");
 		    errors.add("Veuillez renseigner le nombre de personnes dans le menage");
+		    errors.add("Veuillez selectionner le camp");
 		    return errors;
 		}
 		
@@ -37,6 +38,10 @@ public class MenageValidator {
 		
 		if(menageDto.getNombrePersonnes() == null || menageDto.getNombrePersonnes().compareTo(Integer.valueOf(0)) == 0) {
 			errors.add("Le prix doit etre superieur a zero");
+		}
+		
+		if(menageDto.getCamp() == null || menageDto.getCamp().getId() == null || menageDto.getCamp().getId().compareTo(0L) == 0) {
+			errors.add("Veuillez selectionner le camp");
 		}
 		
 		return errors;

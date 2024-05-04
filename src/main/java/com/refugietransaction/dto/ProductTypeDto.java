@@ -14,6 +14,7 @@ public class ProductTypeDto {
 	
 	private Long id;
 	private String name;
+	private SalesUnitDto salesUnit;
 	
 	@JsonIgnore
 	private List<ProductDto> products;
@@ -26,6 +27,7 @@ public class ProductTypeDto {
 		return ProductTypeDto.builder()
 				.id(productType.getId())
 				.name(productType.getName())
+				.salesUnit(SalesUnitDto.fromEntity(productType.getSalesUnit()))
 				.build();
 	}
 	
@@ -37,6 +39,7 @@ public class ProductTypeDto {
 		ProductType productType = new ProductType();
 		productType.setId(productTypeDto.getId());
 		productType.setName(productTypeDto.getName());
+		productType.setSalesUnit(SalesUnitDto.toEntity(productTypeDto.getSalesUnit()));
 		
 		return productType;
 	}

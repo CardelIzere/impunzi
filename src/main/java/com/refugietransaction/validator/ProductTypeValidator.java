@@ -16,6 +16,10 @@ public class ProductTypeValidator {
 			errors.add("Veuillez renseigner le nom du type de produit");
 		}
 		
+		if(productTypeDto.getSalesUnit() == null || productTypeDto.getSalesUnit().getId() == null || productTypeDto.getSalesUnit().getId().compareTo(0L) == 0) {
+			errors.add("Veuillez selectionner une unité de vente");
+		}
+		
 		return errors;
 	}
 }

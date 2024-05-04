@@ -4,5 +4,6 @@ public enum LangueTypeEnum {
 	
 	KISWAHILI,
 	FRANCAIS,
-	ANGLAIS
+	ANGLAIS,
+	KIRUNDI
 }

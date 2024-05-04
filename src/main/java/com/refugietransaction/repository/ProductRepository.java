@@ -1,5 +1,6 @@
 package com.refugietransaction.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -21,4 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	  
 	  @Query(value = "select p from Product p where UPPER(p.nomProduit) like CONCAT('%',UPPER(?1),'%') order by p.id desc ")
 	  Page<Product> findByNameProduitLike(String search, Pageable pageable);
+	  
+	  List<Product> findAllByProductTypeId(Long product_type_id);
 }

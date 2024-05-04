@@ -18,7 +18,6 @@ public class ProductDto {
 	private String nomProduit;
 	private BigDecimal price;
 	private String poids;
-	@JsonIgnore
 	private ProductTypeDto productType;
 	
 	private SupplierDto supplier;

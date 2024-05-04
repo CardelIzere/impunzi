@@ -46,7 +46,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		
 		if((dto.getId() == null || dto.getId().compareTo(0L) == 0)) {
 			
-			if(productTypeAlreadyExists(dto.getNameProductType())) {
+			if(productTypeAlreadyExists(dto.getName())) {
 				throw new InvalidEntityException("Un autre type de produit avec le meme nom existe deja", ErrorCodes.PRODUCTTYPE_ALREADY_EXISTS, 
 						Collections.singletonList("Un autre type de produit avec le meme nom existe deja dans la BDD"));
 			}
@@ -57,9 +57,9 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		}
 		
 		ProductType existingProductType = productTypeRepository.findProductTypeById(dto.getId());
-		if(existingProductType != null && !existingProductType.getNameProductTpe().equals(dto.getNameProductType())) {
+		if(existingProductType != null && !existingProductType.getName().equals(dto.getName())) {
 			
-			if(productTypeAlreadyExists(dto.getNameProductType())) {
+			if(productTypeAlreadyExists(dto.getName())) {
 				throw new InvalidEntityException("Un autre type de produit avec le meme nom existe deja", ErrorCodes.PRODUCTTYPE_ALREADY_EXISTS, 
 						Collections.singletonList("Un autre type de produit avec le meme nom existe deja dans la BDD"));
 			}
@@ -70,8 +70,8 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		);
 	}
 
-	private boolean productTypeAlreadyExists(String nameProductType) {
-		Optional<ProductType> productType = productTypeRepository.findProductTypeByName(nameProductType);
+	private boolean productTypeAlreadyExists(String name) {
+		Optional<ProductType> productType = productTypeRepository.findProductTypeByName(name);
 		return productType.isPresent();
 	}
 
@@ -98,11 +98,11 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 	}
 
 	@Override
-	public Page<ProductTypeDto> findByNameProductTypeLike(String search, Pageable pageable) {
+	public Page<ProductTypeDto> findByNameLike(String search, Pageable pageable) {
 		
 		Page<ProductType> productTypes;
 		if(search != null) {
-			productTypes = productTypeRepository.findByNameProductTypeLike(search, pageable);
+			productTypes = productTypeRepository.findByNameLike(search, pageable);
 		} else {
 			productTypes = productTypeRepository.findAllProductTypes(pageable);
 		}

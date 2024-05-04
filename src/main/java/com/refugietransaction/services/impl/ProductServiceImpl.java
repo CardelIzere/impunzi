@@ -52,14 +52,32 @@ public class ProductServiceImpl implements ProductService {
 	      throw new InvalidEntityException("Le produit n'est pas valide", ErrorCodes.PRODUCT_NOT_VALID, errors);
 	    }
 	    
-	    if(produitAlreadyExists(dto.getNomProduit())) {
-	    	throw new InvalidEntityException("Un autre produit avec le meme nom existe deja", ErrorCodes.PRODUCT_ALREADY_EXISTS,
-	    			Collections.singletonList("Un autre produit avec le meme nom existe deja dans la BDD"));
+	    if((dto.getId() == null || dto.getId().compareTo(0L) == 0)) {
+	    	
+	    	if(produitAlreadyExists(dto.getNomProduit())) {
+		    	throw new InvalidEntityException("Un autre produit avec le meme nom existe deja", ErrorCodes.PRODUCT_ALREADY_EXISTS,
+		    			Collections.singletonList("Un autre produit avec le meme nom existe deja dans la BDD"));
+		    }
+		    
+			return ProductDto.fromEntity(
+					productRepository.save(ProductDto.toEntity(dto))
+			);
 	    }
 	    
-		return ProductDto.fromEntity(
-				productRepository.save(ProductDto.toEntity(dto))
-		);
+	    Product existingProduct = productRepository.findProductById(dto.getId());
+	    if(existingProduct != null && !existingProduct.getNomProduit().equals(dto.getNomProduit())) {
+	    	
+	    	if(produitAlreadyExists(dto.getNomProduit())) {
+	    		throw new InvalidEntityException("Un autre produit avec le meme nom existe deja", ErrorCodes.PRODUCT_ALREADY_EXISTS, 
+	    				Collections.singletonList("Un autre produit avec le meme nom existe deja dans la BDD"));
+	    	}
+	    }
+	    
+	    return ProductDto.fromEntity(
+	    		productRepository.save(ProductDto.toEntity(dto))
+	    );
+	    
+	    
 	}
 	
 	private boolean produitAlreadyExists(String nom_produit) {

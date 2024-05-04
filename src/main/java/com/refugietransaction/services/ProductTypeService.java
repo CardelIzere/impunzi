@@ -15,7 +15,7 @@ public interface ProductTypeService {
 	
 	List<ProductTypeDto> findAll();
 	
-	Page<ProductTypeDto> findByNameProductTypeLike(String search, Pageable pageable);
+	Page<ProductTypeDto> findByNameLike(String search, Pageable pageable);
 	
 	void delete(Long id);
 }

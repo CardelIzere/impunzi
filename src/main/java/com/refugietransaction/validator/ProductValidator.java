@@ -16,6 +16,7 @@ public class ProductValidator {
 			errors.add("Veuillez renseigner le nom du produit");
 			errors.add("Veuillez renseigner le prix");
 			errors.add("Veuillez renseigner le poids");
+			errors.add("Veuillez selectionner le type de produit");
 		}
 		if(!StringUtils.hasLength(productDto.getNomProduit())) {
 			errors.add("Veuillez renseigner le nom du produit");
@@ -31,6 +32,10 @@ public class ProductValidator {
 		
 		if(!StringUtils.hasLength(productDto.getPoids())) {
 			errors.add("Veuillez renseigner le poids");
+		}
+		
+		if(productDto.getProductType() == null || productDto.getProductType().getId() == null) {
+			errors.add("Veuillez selectionner le type de produit");
 		}
 		
 		

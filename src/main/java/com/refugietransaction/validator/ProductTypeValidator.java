@@ -12,7 +12,7 @@ public class ProductTypeValidator {
 	public static List<String> validate(ProductTypeDto productTypeDto){
 		List<String> errors = new ArrayList<>();
 		
-		if(productTypeDto == null || !StringUtils.hasLength(productTypeDto.getNameProductType())) {
+		if(productTypeDto == null || !StringUtils.hasLength(productTypeDto.getName())) {
 			errors.add("Veuillez renseigner le nom du type de produit");
 		}
 		

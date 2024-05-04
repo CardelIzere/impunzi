@@ -19,12 +19,12 @@ public interface ProductTypeRepository extends JpaRepository<ProductType, Long> 
 	  @Query(value = "select p from ProductType p where p.id = :id")
 	  ProductType findProductTypeById(@Param("id") Long id);
 	  
-	  @Query(value = "select p from ProductType p where p.nameProductType = :nameProductType")
-	  Optional<ProductType> findProductTypeByName(@Param("nameProductType") String nameProductType);
+	  @Query(value = "select p from ProductType p where p.name = :name")
+	  Optional<ProductType> findProductTypeByName(@Param("name") String name);
 	  
 	  @Query(value = "select p from ProductType p order by p.id desc")
 	  Page<ProductType> findAllProductTypes(Pageable pageable);
 	  
-	  @Query(value = "select p from ProductType p where UPPER(p.nameProductType) like CONCAT('%', UPPER(?1), '%') order by p.id desc ")
-	  Page<ProductType> findByNameProductTypeLike(String search, Pageable pageable);
+	  @Query(value = "select p from ProductType p where UPPER(p.name) like CONCAT('%', UPPER(?1), '%') order by p.id desc ")
+	  Page<ProductType> findByNameLike(String search, Pageable pageable);
 }

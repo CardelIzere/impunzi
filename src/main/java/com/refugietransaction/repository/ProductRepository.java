@@ -13,9 +13,11 @@ import com.refugietransaction.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 	
-	// JPQL query
 	  @Query(value = "select p from Product p where p.nomProduit = :nomProduit")
 	  Optional<Product> findProduitByNom(@Param("nomProduit") String nomProduit);
+	  
+	  @Query(value = "select p from Product p where p.id = :id")
+	  Product findProductById(@Param("id") Long id);
 	  
 	  @Query(value = "select p from Product p order by p.id desc")
 	  Page<Product> findAllProduits(Pageable pageable);

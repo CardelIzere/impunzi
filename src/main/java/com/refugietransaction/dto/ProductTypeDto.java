@@ -13,7 +13,7 @@ import lombok.Data;
 public class ProductTypeDto {
 	
 	private Long id;
-	private String nameProductType;
+	private String name;
 	
 	@JsonIgnore
 	private List<ProductDto> products;
@@ -25,7 +25,7 @@ public class ProductTypeDto {
 		
 		return ProductTypeDto.builder()
 				.id(productType.getId())
-				.nameProductType(productType.getNameProductTpe())
+				.name(productType.getName())
 				.build();
 	}
 	
@@ -36,7 +36,7 @@ public class ProductTypeDto {
 		
 		ProductType productType = new ProductType();
 		productType.setId(productTypeDto.getId());
-		productType.setNameProductTpe(productTypeDto.getNameProductType());
+		productType.setName(productTypeDto.getName());
 		
 		return productType;
 	}

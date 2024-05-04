@@ -43,7 +43,7 @@ public class ProductTypeController implements ProductTypeApi {
 	@Override
 	public Page<ProductTypeDto> findAllProductTypes(String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return productTypeService.findByNameProductTypeLike(search, pageable);
+		return productTypeService.findByNameLike(search, pageable);
 	}
 
 	@Override

@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductType extends AbstractEntity {
 	
-	@Column(name = "nameproducttype")
-	private String nameProductTpe;
+	@Column(name = "name")
+	private String name;
 	
 	@OneToMany(mappedBy = "productType")
 	private List<Product> products;

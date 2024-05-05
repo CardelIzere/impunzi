@@ -26,9 +26,6 @@ public class Product extends AbstractEntity {
 	@Column(name = "price")
 	private BigDecimal price;
 	
-	@Column(name = "poids")
-	private String poids;
-	
 	@OneToMany(mappedBy = "produit")
 	private List<MouvementStock> mouvementStocks;
 	

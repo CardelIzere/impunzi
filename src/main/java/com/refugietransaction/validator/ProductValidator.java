@@ -15,7 +15,6 @@ public class ProductValidator {
 		if(productDto == null) {
 			errors.add("Veuillez renseigner le nom du produit");
 			errors.add("Veuillez renseigner le prix");
-			errors.add("Veuillez renseigner le poids");
 			errors.add("Veuillez selectionner le type de produit");
 		}
 		if(!StringUtils.hasLength(productDto.getNomProduit())) {
@@ -28,10 +27,6 @@ public class ProductValidator {
 		
 		if(productDto.getPrice() == null || productDto.getPrice().compareTo(BigDecimal.valueOf(0)) == 0) {
 			errors.add("Le prix doit etre superieur à zero");
-		}
-		
-		if(!StringUtils.hasLength(productDto.getPoids())) {
-			errors.add("Veuillez renseigner le poids");
 		}
 		
 		if(productDto.getProductType() == null || productDto.getProductType().getId() == null) {

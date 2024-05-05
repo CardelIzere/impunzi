@@ -51,4 +51,12 @@ public class ProductController implements ProductApi {
 		return productService.findAll();
 	}
 
+	@Override
+	public Page<ProductDto> findSupplierProducts(Long idSupplier, String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		
+		return productService.findSupplierProducts(idSupplier, search, pageable);
+	}
+
 }

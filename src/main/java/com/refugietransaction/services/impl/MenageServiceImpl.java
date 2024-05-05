@@ -86,7 +86,7 @@ public class MenageServiceImpl implements MenageService {
 	    	}
 	    }
 	    
-	    dto.setIdNumber(randomNumber());
+	    dto.getIdNumber();
 	    
 		return MenageDto.fromEntity(
 				menageRepository.save(MenageDto.toEntity(dto))

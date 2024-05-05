@@ -17,5 +17,7 @@ public interface ProductService {
 	
 	Page<ProductDto> findByNameProduitLike(String search, Pageable pageable);
 	
+	Page<ProductDto> findSupplierProducts(Long idSupplier, String search, Pageable pageable);
+	
 	void delete(Long id);
 }

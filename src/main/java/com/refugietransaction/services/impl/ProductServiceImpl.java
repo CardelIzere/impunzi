@@ -134,4 +134,17 @@ public class ProductServiceImpl implements ProductService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public Page<ProductDto> findSupplierProducts(Long idSupplier, String search, Pageable pageable) {
+		
+		Page<Product> products;
+		if(search != null) {
+			products = productRepository.findSupplierProductsByNomProduitLike(idSupplier, search, pageable);
+		} else {
+			products = productRepository.findSupplierProducts(idSupplier, pageable);
+		}
+		
+		return products.map(ProductDto::fromEntity);
+	}
+
 }

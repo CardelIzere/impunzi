@@ -47,10 +47,11 @@ public class MenageServiceImpl implements MenageService {
 		List<String> errors = MenageValidator.validate(dto);
 	    if (!errors.isEmpty()) {
 	      log.error("Mouvement Stock is not valid {}", dto);
-	      throw new InvalidEntityException("La menage n'est pas valide", ErrorCodes.MENAGE_NOT_VALID, errors);
+	      throw new InvalidEntityException("Le menage n'est pas valide", ErrorCodes.MENAGE_NOT_VALID, errors);
 	    }
 	    
 	    if((dto.getId() == null || dto.getId().compareTo(0L) == 0)) {
+	    	
 	    	if(menageAlreadyExists(dto.getIdNumber())) {
 	    	throw new InvalidEntityException("Un autre menage avec le meme numero existe deja", ErrorCodes.MENAGE_ALREADY_EXISTS,
 	    			Collections.singletonList("Un autre menage avec le meme numero existe deja dans la BDD"));
@@ -61,13 +62,7 @@ public class MenageServiceImpl implements MenageService {
 		    			Collections.singletonList("Une autre personne de contact avec le meme numero de telephone existe deja dans la BDD"));
 		    }
 		    
-		    if(dto.getId()==null) {
-		    	dto.setIdNumber(randomNumber());
-		    }
-		    else {
-		    	Long m=menageRepository.findMenageById(dto.getId()).getIdNumber();
-		    	dto.setIdNumber(m);
-		    }
+		    dto.setIdNumber(randomNumber());
 		    
 			return MenageDto.fromEntity(
 					menageRepository.save(MenageDto.toEntity(dto))
@@ -91,13 +86,7 @@ public class MenageServiceImpl implements MenageService {
 	    	}
 	    }
 	    
-	    if(dto.getId()==null) {
-	    	dto.setIdNumber(randomNumber());
-	    }
-	    else {
-	    	Long m=menageRepository.findMenageById(dto.getId()).getIdNumber();
-	    	dto.setIdNumber(m);
-	    }
+	    dto.setIdNumber(randomNumber());
 	    
 		return MenageDto.fromEntity(
 				menageRepository.save(MenageDto.toEntity(dto))

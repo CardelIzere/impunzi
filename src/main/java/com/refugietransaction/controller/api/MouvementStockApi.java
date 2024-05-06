@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import com.refugietransaction.dto.MouvementStockDto;
+import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.model.TypeMouvementStock;
 import com.refugietransaction.utils.Constants;
 
@@ -28,13 +28,13 @@ public interface MouvementStockApi {
     BigDecimal stockReelMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
     
     @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/filter/produit/menage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> mvtStkArticleMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
+    List<MvtStkSupplierDto> mvtStkArticleMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
     
     @PostMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree", produces = MediaType.APPLICATION_JSON_VALUE)
-    MouvementStockDto entreeStock(@RequestBody MouvementStockDto dto);
+    MvtStkSupplierDto entreeStock(@RequestBody MvtStkSupplierDto dto);
     
     @PostMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie", produces = MediaType.APPLICATION_JSON_VALUE)
-    MouvementStockDto sortieStock(@RequestBody MouvementStockDto dto);
+    MvtStkSupplierDto sortieStock(@RequestBody MvtStkSupplierDto dto);
     
     //Pour le camp
     
@@ -52,33 +52,33 @@ public interface MouvementStockApi {
     
     //Pour le menage
     
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/menage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> entreeArticleMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/menage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> sortieArticleMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/menage/periode/{idProduit}/{idMenage}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> entreeArticleMenagePeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/menage/periode/{idProduit}/{idMenage}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> sortieArticleMenagePeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
-    
-    //Pour l'utilisateur
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/user/{idProduit}/{idUser}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> entreeArticleUser(@PathVariable("idProduit") Long idProduit, @PathVariable("idUser") Long idUser);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/user/{idProduit}/{idUser}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> sortieArticleUser(@PathVariable("idProduit") Long idProduit, @PathVariable("idUser") Long idUser);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/user/periode/{idProduit}/{idUser}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> entreeArticleUserPeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idUser") Long idUser, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/user/periode/{idProduit}/{idUser}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MouvementStockDto> sortieArticleUserPeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idUser") Long idUser, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
-    
-    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/menage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> entreeArticleMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/menage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> sortieArticleMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/menage/periode/{idProduit}/{idMenage}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> entreeArticleMenagePeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/menage/periode/{idProduit}/{idMenage}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> sortieArticleMenagePeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
+//    
+//    //Pour l'utilisateur
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/user/{idProduit}/{idUser}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> entreeArticleUser(@PathVariable("idProduit") Long idProduit, @PathVariable("idUser") Long idUser);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/user/{idProduit}/{idUser}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> sortieArticleUser(@PathVariable("idProduit") Long idProduit, @PathVariable("idUser") Long idUser);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree/produit/user/periode/{idProduit}/{idUser}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> entreeArticleUserPeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idUser") Long idUser, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie/produit/user/periode/{idProduit}/{idUser}/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> sortieArticleUserPeriode(@PathVariable("idProduit") Long idProduit, @PathVariable("idUser") Long idUser, @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date startDate, @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS") Date endDate);
+//    
+//    
     
     
 }

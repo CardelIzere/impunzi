@@ -21,7 +21,8 @@ public class ProductDto {
 	
 	private SupplierDto supplier;
 	
-	@JsonIgnore List<MouvementStockDto> mouvementStocks;
+	@JsonIgnore 
+	List<MvtStkSupplierDto> mouvementStockSuppliers;
 	
 	public static ProductDto fromEntity(Product product) {
 		if(product == null) {

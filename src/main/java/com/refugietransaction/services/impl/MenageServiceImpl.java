@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.refugietransaction.dto.CampDto;
 import com.refugietransaction.dto.MenageDto;
-import com.refugietransaction.dto.MouvementStockDto;
+import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.Menage;
-import com.refugietransaction.model.MouvementStock;
+import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.repository.MenageRepository;
-import com.refugietransaction.repository.MouvementStockRepository;
+import com.refugietransaction.repository.MvtStkSupplierRepository;
 import com.refugietransaction.services.MenageService;
 import com.refugietransaction.validator.CampValidator;
 import com.refugietransaction.validator.MenageValidator;
@@ -32,10 +32,10 @@ import lombok.extern.slf4j.Slf4j;
 public class MenageServiceImpl implements MenageService {
 	
 	private MenageRepository menageRepository;
-	private MouvementStockRepository mouvementStockRepository;
+	private MvtStkSupplierRepository mouvementStockRepository;
 	
 	@Autowired
-	public MenageServiceImpl(MenageRepository menageRepository, MouvementStockRepository mouvementStockRepository) {
+	public MenageServiceImpl(MenageRepository menageRepository, MvtStkSupplierRepository mouvementStockRepository) {
 		this.menageRepository = menageRepository;
 		this.mouvementStockRepository = mouvementStockRepository;
 	}
@@ -136,7 +136,7 @@ public class MenageServiceImpl implements MenageService {
 		if(id == null) {
 			log.error("Menage ID is null");
 		}
-		List<MouvementStock> mouvementStocks = mouvementStockRepository.findAllById(id);
+		List<MvtStkSupplier> mouvementStocks = mouvementStockRepository.findAllById(id);
 		if(!mouvementStocks.isEmpty()) {
 			throw new InvalidEntityException("Impossible de supprimer un menage ayant au moins un mouvement stock",
 					ErrorCodes.MENAGE_ALREADY_IN_USE);

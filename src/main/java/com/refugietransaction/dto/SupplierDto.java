@@ -24,6 +24,8 @@ public class SupplierDto {
 	private List<Admin> admins;
 	@JsonIgnore
 	private List<Magasinier> magasiniers;
+	@JsonIgnore
+	private List<MvtStkSupplierDto> mouvementStockSuppliers;
 	
 	public static SupplierDto fromEntity(Supplier supplier) {
 		if(supplier == null) {

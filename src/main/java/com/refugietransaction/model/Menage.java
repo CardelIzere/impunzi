@@ -44,7 +44,5 @@ public class Menage extends AbstractEntity {
 	@JoinColumn(name = "camp_id")
 	private Camp camp;
 	
-	@OneToMany(mappedBy = "menage")
-	@JsonIgnore
-	private List<MouvementStock> mouvementStocks;
+	
 }

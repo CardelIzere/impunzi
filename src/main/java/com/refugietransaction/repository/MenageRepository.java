@@ -29,5 +29,7 @@ public interface MenageRepository extends JpaRepository<Menage, Long> {
 	
 	@Query(value = "select m from Menage m where UPPER(m.personneContact) like CONCAT('%',UPPER(?1),'%') OR UPPER(m.numTelephone) like CONCAT('%',UPPER(?1),'%') order by m.id desc ")
 	Page<Menage> findByPersonneContactNumTeleLike(String search, Pageable pageable);
+	
+	List<Menage> findAllByCamp_Id(Long camp_id);
 
 }

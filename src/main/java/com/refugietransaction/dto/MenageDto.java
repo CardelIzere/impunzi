@@ -24,9 +24,6 @@ public class MenageDto {
 	
 	private CampDto camp;
 	
-	@JsonIgnore
-	private List<MouvementStockDto> mouvementStocks;
-	
 	public static MenageDto fromEntity(Menage menage) {
 		if(menage == null) {
 			return null;

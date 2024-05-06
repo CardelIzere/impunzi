@@ -27,7 +27,7 @@ public class Product extends AbstractEntity {
 	private BigDecimal price;
 	
 	@OneToMany(mappedBy = "produit")
-	private List<MouvementStock> mouvementStocks;
+	private List<MvtStkSupplier> mouvementStockSupplier;
 	
 	@ManyToOne
 	@JoinColumn(name = "product_type_id")

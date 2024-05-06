@@ -23,9 +23,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "mouvement_stock")
+@Table(name = "mvtstksupplier")
 
-public class MouvementStock extends AbstractEntity {
+public class MvtStkSupplier extends AbstractEntity {
 	
 	@Column(name = "date_mouvement")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -39,9 +39,9 @@ public class MouvementStock extends AbstractEntity {
 	private TypeMouvementStock typeMouvement;
 	
 	@ManyToOne
-	@JoinColumn(name = "menage_id")
+	@JoinColumn(name = "supplier_id")
 	@JsonIgnore
-	private Menage menage;
+	private Supplier supplier;
 	
 	@ManyToOne 
 	@JoinColumn(name = "id_article")

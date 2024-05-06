@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.refugietransaction.dto.MenageDto;
-import com.refugietransaction.dto.MouvementStockDto;
+import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.utils.Constants;
 
 import io.swagger.annotations.Api;

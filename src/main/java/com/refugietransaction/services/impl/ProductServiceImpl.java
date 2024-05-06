@@ -12,20 +12,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.refugietransaction.dto.MenageDto;
-import com.refugietransaction.dto.MouvementStockDto;
+import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.exceptions.InvalidOperationException;
 import com.refugietransaction.model.Menage;
-import com.refugietransaction.model.MouvementStock;
+import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.model.Product;
-import com.refugietransaction.repository.MouvementStockRepository;
+import com.refugietransaction.repository.MvtStkSupplierRepository;
 import com.refugietransaction.repository.ProductRepository;
 import com.refugietransaction.services.ProductService;
 import com.refugietransaction.validator.MenageValidator;
-import com.refugietransaction.validator.MouvementStockValidator;
+import com.refugietransaction.validator.MvtStkSupplierValidator;
 import com.refugietransaction.validator.ProductValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +35,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductServiceImpl implements ProductService {
 	
 	private ProductRepository productRepository;
-	private MouvementStockRepository mouvementStockRepository;
+	private MvtStkSupplierRepository mouvementStockRepository;
 	
 	@Autowired
-	public ProductServiceImpl(ProductRepository productRepository, MouvementStockRepository mouvementStockRepository) {
+	public ProductServiceImpl(ProductRepository productRepository, MvtStkSupplierRepository mouvementStockRepository) {
 		this.productRepository = productRepository;
 		this.mouvementStockRepository = mouvementStockRepository;
 	}
@@ -106,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
 		if(id == null) {
 			log.error("Produit ID is null");
 		}
-		List<MouvementStock> mouvementStocks = mouvementStockRepository.findAllById(id);
+		List<MvtStkSupplier> mouvementStocks = mouvementStockRepository.findAllById(id);
 		if(!mouvementStocks.isEmpty()) {
 			throw new InvalidOperationException("Impossible de supprimer ce produit qui est deja utilisé",
 					ErrorCodes.PRODUCT_ALREADY_IN_USE);

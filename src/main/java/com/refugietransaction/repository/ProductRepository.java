@@ -32,4 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	  
 	  @Query(value = "select p from Product p where p.supplier.id=?1 AND UPPER(p.nomProduit) like CONCAT('%',UPPER(?2),'%') order by p.id desc")
 	  Page<Product> findSupplierProductsByNomProduitLike(Long idSupplier, String search, Pageable pageable);
+	  
+	  @Query("select p from Product p where p.supplier.id = :idSupplier")
+	  List<Product> findAllSupplierProducts(Long idSupplier);
 }

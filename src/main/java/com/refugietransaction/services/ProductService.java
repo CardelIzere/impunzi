@@ -19,5 +19,7 @@ public interface ProductService {
 	
 	Page<ProductDto> findSupplierProducts(Long idSupplier, String search, Pageable pageable);
 	
+	List<ProductDto> findAllSupplierProducts(Long idSupplier);
+	
 	void delete(Long id);
 }

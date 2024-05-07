@@ -147,4 +147,12 @@ public class ProductServiceImpl implements ProductService {
 		return products.map(ProductDto::fromEntity);
 	}
 
+	@Override
+	public List<ProductDto> findAllSupplierProducts(Long idSupplier) {
+		
+		return productRepository.findAllSupplierProducts(idSupplier).stream()
+				.map(ProductDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
 }

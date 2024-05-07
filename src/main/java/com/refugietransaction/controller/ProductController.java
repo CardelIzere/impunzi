@@ -59,4 +59,10 @@ public class ProductController implements ProductApi {
 		return productService.findSupplierProducts(idSupplier, search, pageable);
 	}
 
+	@Override
+	public List<ProductDto> findAllSupplierProducts(Long idSupplier) {
+		
+		return productService.findAllSupplierProducts(idSupplier);
+	}
+
 }

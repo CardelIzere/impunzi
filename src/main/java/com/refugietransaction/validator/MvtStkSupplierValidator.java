@@ -19,6 +19,7 @@ public class MvtStkSupplierValidator {
 			errors.add("Veillez selectionner le type mouvement");
 			errors.add("Veillez selectionner un produit");
 			errors.add("Veillez selectionner un fournisseur");
+			errors.add("Veuillez selectionner un camp");
 
 		}
 		
@@ -36,6 +37,9 @@ public class MvtStkSupplierValidator {
 		}
 		if(mouvementStockSupplierDto.getSupplier() == null || mouvementStockSupplierDto.getSupplier().getId() == null) {
 			errors.add("Veillez selectionner un fournisseur");
+		}
+		if(mouvementStockSupplierDto.getCamp() == null || mouvementStockSupplierDto.getCamp().getId() == null) {
+			errors.add("Veuillez selectionner un camp");
 		}
 		return errors;
 	}

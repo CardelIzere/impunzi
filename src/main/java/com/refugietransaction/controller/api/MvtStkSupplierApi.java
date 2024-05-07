@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -12,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.refugietransaction.dto.MvtStkSupplierDto;
-import com.refugietransaction.model.TypeMouvementStock;
+import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.utils.Constants;
 
 import io.swagger.annotations.Api;
@@ -20,21 +21,42 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api("mouvementStocks")
+@Api("mvtstksuppliers")
 
-public interface MouvementStockApi {
+public interface MvtStkSupplierApi {
+	
+	
+	@ApiOperation(value = "Créer les entrées", notes = "Cette methode permet d'enregistrer ou modifier un entrée", response = MvtStkSupplierDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "L'objet entree cree / modifie"),
+            @ApiResponse(code = 400, message = "L'objet entree n'est pas valide")
+    })
+    @PostMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    MvtStkSupplierDto save(@RequestBody MvtStkSupplierDto dto);
+	
+	@ApiOperation(value = "Récupérer la liste des entrées", notes = "Cette methode permet de chercher et renvoyer la liste des entrées qui existent" + "dans la BDD",
+    		responseContainer = "Page<MvtStkSuppliersDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des entrées / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findAllEntries(
+    		@RequestParam(value = "search", required = false) String search,
+    		@RequestParam(value = "page", defaultValue = "0") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size
+    );
 
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/stockReelMenage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
-    BigDecimal stockReelMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
-    
-    @GetMapping(value = Constants.APP_ROOT + "/mouvementStocks/filter/produit/menage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MvtStkSupplierDto> mvtStkArticleMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
-    
-    @PostMapping(value = Constants.APP_ROOT + "/mouvementStocks/entree", produces = MediaType.APPLICATION_JSON_VALUE)
-    MvtStkSupplierDto entreeStock(@RequestBody MvtStkSupplierDto dto);
-    
-    @PostMapping(value = Constants.APP_ROOT + "/mouvementStocks/sortie", produces = MediaType.APPLICATION_JSON_VALUE)
-    MvtStkSupplierDto sortieStock(@RequestBody MvtStkSupplierDto dto);
+//    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/stockReelMenage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    BigDecimal stockReelMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
+//    
+//    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/filter/produit/menage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    List<MvtStkSupplierDto> mvtStkArticleMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);
+//    
+//    @PostMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entree", produces = MediaType.APPLICATION_JSON_VALUE)
+//    MvtStkSupplierDto entreeStock(@RequestBody MvtStkSupplierDto dto);
+//    
+//    @PostMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sortie", produces = MediaType.APPLICATION_JSON_VALUE)
+//    MvtStkSupplierDto sortieStock(@RequestBody MvtStkSupplierDto dto);
     
     //Pour le camp
     

@@ -27,6 +27,9 @@ public class Camp extends AbstractEntity {
 	@OneToMany(mappedBy = "camp")
 	private List<Menage> menages;
 	
+	@OneToMany(mappedBy = "camp")
+	private List<MvtStkSupplier> mvtStkSuppliers;
+	
 	
 
 

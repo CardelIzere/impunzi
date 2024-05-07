@@ -1,6 +1,6 @@
 package com.refugietransaction.model;
 
-public enum TypeMouvementStock {
+public enum TypeMvtStkSupplier {
 	ENTREE,
 	SORTIE;
 }

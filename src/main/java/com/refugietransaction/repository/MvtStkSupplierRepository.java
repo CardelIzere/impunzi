@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +14,12 @@ import org.springframework.data.repository.query.Param;
 import com.refugietransaction.model.MvtStkSupplier;
 
 public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, Long> {
+	
+	@Query("select m from MvtStkSupplier m where m.typeMouvement = 'ENTREE' order by m.id desc ")
+	Page<MvtStkSupplier> findAllEntries(Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.typeMouvement = 'ENTREE' And UPPER(p.nomProduit) like CONCAT('%',UPPER(?1),'%') OR UPPER(s.name) like CONCAT('%',UPPER(?1),'%') order by m.id desc")
+	Page<MvtStkSupplier> findEntriesByProductNameSupplierNameLike(String search, Pageable pageable);
 	
 	@Query("select sum(m.quantite) from  MvtStkSupplier m where m.produit.id = :idProduit and m.supplier.id = :idSupplier")
 	BigDecimal stockReelSupplier(@Param("idProduit") Long idProduit, @Param("idSupplier") Long idSupplier);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.refugietransaction.model.Camp;
+import com.refugietransaction.model.MvtStkSupplier;
 
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,9 @@ public class CampDto {
 	
 	@JsonIgnore
 	private List<MenageDto> menages;
+	
+	@JsonIgnore
+	private List<MvtStkSupplier> mvtStkSuppliers;
 	
 	public static CampDto fromEntity(Camp camp) {
 		if(camp == null){

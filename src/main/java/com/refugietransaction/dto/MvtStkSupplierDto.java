@@ -1,10 +1,11 @@
 package com.refugietransaction.dto;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Date;
 
 import com.refugietransaction.model.MvtStkSupplier;
-import com.refugietransaction.model.TypeMouvementStock;
+import com.refugietransaction.model.TypeMvtStkSupplier;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,11 +15,12 @@ import lombok.Data;
 public class MvtStkSupplierDto {
 	
 	private Long id;
-	private Date dateMouvement;
+	private Instant dateMouvement;
 	private BigDecimal quantite;
-	private TypeMouvementStock typeMouvement;
+	private TypeMvtStkSupplier typeMouvement;
 	private SupplierDto supplier;
 	private ProductDto produit;
+	private CampDto camp;
 	
 	public static MvtStkSupplierDto fromEntity(MvtStkSupplier mouvementStockSupplier) {
 		if(mouvementStockSupplier == null) {
@@ -33,6 +35,7 @@ public class MvtStkSupplierDto {
 				.typeMouvement(mouvementStockSupplier.getTypeMouvement())
 				.supplier(SupplierDto.fromEntity(mouvementStockSupplier.getSupplier()))
 				.produit(ProductDto.fromEntity(mouvementStockSupplier.getProduit()))
+				.camp(CampDto.fromEntity(mouvementStockSupplier.getCamp()))
 				.build();
 	}
 	
@@ -49,6 +52,7 @@ public class MvtStkSupplierDto {
 		mouvementStockSupplier.setTypeMouvement(mouvementStockSupplierDto.getTypeMouvement());
 		mouvementStockSupplier.setSupplier(SupplierDto.toEntity(mouvementStockSupplierDto.getSupplier()));
 		mouvementStockSupplier.setProduit(ProductDto.toEntity(mouvementStockSupplierDto.getProduit()));
+		mouvementStockSupplier.setCamp(CampDto.toEntity(mouvementStockSupplierDto.getCamp()));
 		
 		return mouvementStockSupplier;
 	}

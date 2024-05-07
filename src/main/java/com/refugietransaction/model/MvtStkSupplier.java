@@ -29,25 +29,25 @@ public class MvtStkSupplier extends AbstractEntity {
 	
 	@Column(name = "date_mouvement")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateMouvement;
+	private Instant dateMouvement;
 	
 	@Column(name = "quantite")
 	private BigDecimal quantite;
 	
 	@Column(name = "type_mouvement")
 	@Enumerated(EnumType.STRING)
-	private TypeMouvementStock typeMouvement;
+	private TypeMvtStkSupplier typeMouvement;
 	
 	@ManyToOne
 	@JoinColumn(name = "supplier_id")
-	@JsonIgnore
 	private Supplier supplier;
 	
 	@ManyToOne 
 	@JoinColumn(name = "id_article")
 	private Product produit;
 	
-	@ManyToOne 
-	@JoinColumn(name = "user_id")
-	private User user;
+	@ManyToOne
+	@JoinColumn(name = "camp_id")
+	private Camp camp;
+	
 }

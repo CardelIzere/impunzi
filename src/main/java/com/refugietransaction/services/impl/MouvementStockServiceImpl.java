@@ -1,36 +1,71 @@
-//package com.refugietransaction.services.impl;
-//
-//import java.math.BigDecimal;
-//import java.time.Instant;
-//import java.util.Date;
-//import java.util.List;
-//import java.util.stream.Collectors;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import com.refugietransaction.dto.MouvementStockSupplierDto;
-//import com.refugietransaction.exceptions.EntityNotFoundException;
-//import com.refugietransaction.exceptions.ErrorCodes;
-//import com.refugietransaction.exceptions.InvalidEntityException;
-//import com.refugietransaction.model.TypeMouvementStock;
-//import com.refugietransaction.repository.MouvementStockSupplierRepository;
-//import com.refugietransaction.services.MouvementStockService;
-//import com.refugietransaction.validator.MouvementStockSupplierValidator;
-//
-//import lombok.extern.slf4j.Slf4j;
-//
-//@Service
-//@Slf4j
-//public class MouvementStockServiceImpl implements MouvementStockService {
-//	
-//	private MouvementStockSupplierRepository mouvementStockRepository;
-//	
-//	@Autowired
-//	public MouvementStockServiceImpl(MouvementStockSupplierRepository mouvementStockRepository) {
-//		this.mouvementStockRepository = mouvementStockRepository;
-//	}
-//
+package com.refugietransaction.services.impl;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.refugietransaction.dto.MvtStkSupplierDto;
+import com.refugietransaction.exceptions.EntityNotFoundException;
+import com.refugietransaction.exceptions.ErrorCodes;
+import com.refugietransaction.exceptions.InvalidEntityException;
+import com.refugietransaction.model.Camp;
+import com.refugietransaction.model.MvtStkSupplier;
+import com.refugietransaction.model.TypeMvtStkSupplier;
+import com.refugietransaction.repository.CampRepository;
+import com.refugietransaction.repository.MvtStkSupplierRepository;
+import com.refugietransaction.services.MvtStkSupplierService;
+import com.refugietransaction.validator.MvtStkSupplierValidator;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class MouvementStockServiceImpl implements MvtStkSupplierService {
+	
+	private final MvtStkSupplierRepository mvtStkSupplierRepository;
+	private final CampRepository campRepository;
+	
+	@Autowired
+	public MouvementStockServiceImpl(MvtStkSupplierRepository mvtStkSupplierRepository, CampRepository campRepository) {
+		this.mvtStkSupplierRepository = mvtStkSupplierRepository;
+		this.campRepository = campRepository;
+	}
+
+	@Override
+	public MvtStkSupplierDto save(MvtStkSupplierDto dto) {
+		List<String> errors = MvtStkSupplierValidator.validate(dto);
+		if(!errors.isEmpty()) {
+			log.error("Entries is not valid {}", dto);
+			throw new InvalidEntityException("L'entree n'est pas valide", ErrorCodes.ENTREE_SUPPLIER_NOT_VALID, errors);
+		}
+		
+		dto.setDateMouvement(Instant.now());;
+		dto.setTypeMouvement(TypeMvtStkSupplier.ENTREE);;
+		
+		return MvtStkSupplierDto.fromEntity(
+				mvtStkSupplierRepository.save(MvtStkSupplierDto.toEntity(dto))
+		);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findEntriesByProductNameSupplierNameLike(String search, Pageable pageable) {
+		Page<MvtStkSupplier> mvtStkSuppliers;
+		if(search != null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByProductNameSupplierNameLike(search, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findAllEntries(pageable);
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
 //	@Override
 //	public BigDecimal stockReelMenage(Long idProduit, Long idMenage) {
 //		
@@ -208,7 +243,7 @@
 //				.map(MouvementStockSupplierDto::fromEntity)
 //				.collect(Collectors.toList());
 //	}
-//	
-//	
-//
-//}
+	
+	
+
+}

@@ -1,5 +1,7 @@
 package com.refugietransaction.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,6 +43,12 @@ public class MenageController implements MenageApi {
 	public Page<MenageDto> findAllMenages(String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return menageService.findByPersonneContactNumTeleLike(search, pageable);
+	}
+
+	@Override
+	public List<MenageDto> findAllMenagesByCampId(Long idCamp) {
+		
+		return menageService.findAllMenagesByCampId(idCamp);
 	}
 
 }

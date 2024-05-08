@@ -47,6 +47,14 @@ public interface MenageApi {
     		@RequestParam(value = "size", defaultValue = "10") int size
     );
     
+    @ApiOperation(value = "Récupérer la liste des menages par le camp donné", notes = "Cette methode permet de chercher et renvoyer la liste des menages qui existent" + "dans la BDD",
+    		responseContainer = "List<MenageDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des ménages / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/menages/all/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<MenageDto> findAllMenagesByCampId(Long idCamp);
+    
     @ApiOperation(value = "Supprimer un menage par son ID", notes = "Cette methode permet de supprimer un menage")
     @ApiResponses(value = {
     		@ApiResponse(code = 200, message = "Le menage a ete supprime")

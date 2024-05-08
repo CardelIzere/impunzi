@@ -1,6 +1,8 @@
 package com.refugietransaction.services;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,6 +15,8 @@ public interface MenageService {
 	MenageDto findById(Long id);
 	
 	Page<MenageDto> findByPersonneContactNumTeleLike(String search, Pageable pageable);
+	
+	List<MenageDto> findAllMenagesByCampId(Long campId);
 
 	void delete(Long id);
 }

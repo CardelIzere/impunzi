@@ -157,5 +157,14 @@ public class MenageServiceImpl implements MenageService {
 		
 		return menages.map(MenageDto::fromEntity);
 	}
+
+
+	@Override
+	public List<MenageDto> findAllMenagesByCampId(Long campId) {
+		
+		return menageRepository.findAllByCamp_Id(campId).stream()
+				.map(MenageDto::fromEntity)
+				.collect(Collectors.toList());
+	}
 	
 }

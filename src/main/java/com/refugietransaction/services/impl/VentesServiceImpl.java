@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -16,6 +18,7 @@ import com.refugietransaction.dto.MvtStkMenageDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductDto;
 import com.refugietransaction.dto.ProductTypeDto;
+import com.refugietransaction.dto.VenteListDto;
 import com.refugietransaction.dto.VentesDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
@@ -144,6 +147,19 @@ public class VentesServiceImpl implements VentesService {
 		    }
 		    ventesRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public Page<VenteListDto> findCampSupplierVentesBySupplierProductNameLike(Long idCamp, Long idSupplier,
+			String search, Pageable pageable) {
+		Page<Ventes> ventes;
+		if(search != null) {
+			ventes = ventesRepository.findByIdCampAndIdSupplierVentesByNameLike(idCamp, idSupplier, search, pageable);
+		} else {
+			ventes = ventesRepository.findAllVentes(pageable);
+		}
+		
+		return ventes.map(VenteListDto::fromEntity);
 	}
 
 }

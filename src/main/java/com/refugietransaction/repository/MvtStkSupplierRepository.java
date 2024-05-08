@@ -18,8 +18,8 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("select m from MvtStkSupplier m where m.typeMouvement = 'ENTREE' order by m.id desc ")
 	Page<MvtStkSupplier> findAllEntries(Pageable pageable);
 	
-	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.typeMouvement = 'ENTREE' And UPPER(p.nomProduit) like CONCAT('%',UPPER(?1),'%') OR UPPER(s.name) like CONCAT('%',UPPER(?1),'%') order by m.id desc")
-	Page<MvtStkSupplier> findEntriesByProductNameSupplierNameLike(String search, Pageable pageable);
+	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.camp.id = :idCamp And m.supplier.id = :idSupplier And m.typeMouvement = 'ENTREE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
+	Page<MvtStkSupplier> findByIdCampAndIdSupplierEntriesByNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
 	
 	@Query("select sum(m.quantite) from  MvtStkSupplier m where m.produit.id = :idProduit and m.supplier.id = :idSupplier")
 	BigDecimal stockReelSupplier(@Param("idProduit") Long idProduit, @Param("idSupplier") Long idSupplier);

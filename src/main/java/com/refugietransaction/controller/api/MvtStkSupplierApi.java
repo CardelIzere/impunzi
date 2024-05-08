@@ -39,8 +39,10 @@ public interface MvtStkSupplierApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des entrées / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries/{idCamp}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<MvtStkSupplierDto> findAllEntries(
+    		@PathVariable("idCamp") Long idCamp,
+    		@PathVariable("idSupplier") Long idSupplier,
     		@RequestParam(value = "search", required = false) String search,
     		@RequestParam(value = "page", defaultValue = "0") int page,
     		@RequestParam(value = "size", defaultValue = "10") int size

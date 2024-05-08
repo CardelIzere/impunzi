@@ -28,13 +28,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class MouvementStockServiceImpl implements MvtStkSupplierService {
+public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 	
 	private final MvtStkSupplierRepository mvtStkSupplierRepository;
 	private final CampRepository campRepository;
 	
 	@Autowired
-	public MouvementStockServiceImpl(MvtStkSupplierRepository mvtStkSupplierRepository, CampRepository campRepository) {
+	public MvtStkSupplierServiceImpl(MvtStkSupplierRepository mvtStkSupplierRepository, CampRepository campRepository) {
 		this.mvtStkSupplierRepository = mvtStkSupplierRepository;
 		this.campRepository = campRepository;
 	}
@@ -44,11 +44,11 @@ public class MouvementStockServiceImpl implements MvtStkSupplierService {
 		List<String> errors = MvtStkSupplierValidator.validate(dto);
 		if(!errors.isEmpty()) {
 			log.error("Entries is not valid {}", dto);
-			throw new InvalidEntityException("L'entree n'est pas valide", ErrorCodes.ENTREE_SUPPLIER_NOT_VALID, errors);
+			throw new InvalidEntityException("Le mouvement stock du fournisseur n'est pas valide", ErrorCodes.MVTSTK_SUPPLIER_NOT_VALID, errors);
 		}
 		
-		dto.setDateMouvement(Instant.now());;
-		dto.setTypeMouvement(TypeMvtStkSupplier.ENTREE);;
+		dto.setDateMouvement(Instant.now());
+		dto.setTypeMouvement(TypeMvtStkSupplier.ENTREE);
 		
 		return MvtStkSupplierDto.fromEntity(
 				mvtStkSupplierRepository.save(MvtStkSupplierDto.toEntity(dto))
@@ -56,14 +56,31 @@ public class MouvementStockServiceImpl implements MvtStkSupplierService {
 	}
 
 	@Override
-	public Page<MvtStkSupplierDto> findEntriesByProductNameSupplierNameLike(String search, Pageable pageable) {
+	public Page<MvtStkSupplierDto> findCampSupplierEntriesByProductNameSupplierNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable) {
 		Page<MvtStkSupplier> mvtStkSuppliers;
 		if(search != null) {
-			mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByProductNameSupplierNameLike(search, pageable);
+			mvtStkSuppliers = mvtStkSupplierRepository.findByIdCampAndIdSupplierEntriesByNameLike(idCamp, idSupplier, search, pageable);
 		} else {
 			mvtStkSuppliers = mvtStkSupplierRepository.findAllEntries(pageable);
 		}
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public MvtStkSupplierDto sortie(MvtStkSupplierDto dto) {
+		List<String> errors = MvtStkSupplierValidator.validate(dto);
+		if(!errors.isEmpty()) {
+			log.error("Entries is not valid {}", dto);
+			throw new InvalidEntityException("Le mouvement stock du fournisseur n'est pas valide", ErrorCodes.MVTSTK_SUPPLIER_NOT_VALID, errors);
+		}
+		
+		dto.setDateMouvement(Instant.now());
+		dto.setQuantite(BigDecimal.valueOf(Math.abs(dto.getQuantite().doubleValue()) * -1) );
+		dto.setTypeMouvement(TypeMvtStkSupplier.SORTIE);
+		
+		return MvtStkSupplierDto.fromEntity(
+				mvtStkSupplierRepository.save(MvtStkSupplierDto.toEntity(dto))
+		);
 	}
 
 //	@Override

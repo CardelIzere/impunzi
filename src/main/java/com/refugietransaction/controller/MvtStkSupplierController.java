@@ -33,9 +33,9 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 	}
 
 	@Override
-	public Page<MvtStkSupplierDto> findAllEntries(String search, int page, int size) {
+	public Page<MvtStkSupplierDto> findAllEntries(Long idCamp, Long idSupplier, String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return mvtStkSupplierService.findEntriesByProductNameSupplierNameLike(search, pageable);
+		return mvtStkSupplierService.findCampSupplierEntriesByProductNameSupplierNameLike(idCamp, idSupplier, search, pageable);
 	}
 
 //	@Override

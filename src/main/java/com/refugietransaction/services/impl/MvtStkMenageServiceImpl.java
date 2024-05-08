@@ -25,6 +25,7 @@ import com.refugietransaction.repository.CampRepository;
 import com.refugietransaction.repository.MenageRepository;
 import com.refugietransaction.repository.MvtStkMenageRepository;
 import com.refugietransaction.services.MvtStkMenageService;
+import com.refugietransaction.validator.MvtStkMenageValidator;
 import com.refugietransaction.validator.ProductTypeDistributionValidator;
 import com.refugietransaction.validator.ProductTypeDistributionValidator;
 
@@ -118,6 +119,23 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 		}
 		
 		return mvtStkMenages.map(MvtStkMenageDto::fromEntity);
+	}
+
+	@Override
+	public MvtStkMenageDto sortie(MvtStkMenageDto dto) {
+		List<String> errors = MvtStkMenageValidator.validate(dto);
+		if(!errors.isEmpty()) {
+			log.error("HouseHold Stock mouvement is not valid {}", dto);
+			throw new InvalidEntityException("Le mouvement stock du menage n'est pas valide", ErrorCodes.MVTSTK_MENAGE_NOT_VALID, errors);
+		}
+		
+		dto.setDateMvt(Instant.now());
+		dto.setQuantite(BigDecimal.valueOf(Math.abs(dto.getQuantite().doubleValue()) * -1));
+		dto.setTypeMvtStkMenage(TypeMvtStkMenageEnum.ACHAT);
+		
+		return MvtStkMenageDto.fromEntity(
+				mvtStkMenageRepository.save(MvtStkMenageDto.toEntity(dto))
+		);
 	}
 
 }

@@ -14,6 +14,8 @@ public interface MvtStkMenageService {
 	
 	void productTypeDistribution(ProductTypeDistributionDto productTypeDistributionDto);
 	
+	MvtStkMenageDto sortie(MvtStkMenageDto dto);
+	
 	BigDecimal stockReelMenage(Long idProductType, Long idMenage);
 	
 	List<MvtStkMenageDto> mvtStkProductTypeMenage(Long idProductType, Long idMenage);

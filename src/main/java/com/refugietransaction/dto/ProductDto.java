@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.refugietransaction.model.LigneVente;
 import com.refugietransaction.model.Product;
 
 import lombok.Builder;
@@ -22,7 +23,10 @@ public class ProductDto {
 	private SupplierDto supplier;
 	
 	@JsonIgnore 
-	List<MvtStkSupplierDto> mouvementStockSuppliers;
+	private List<MvtStkSupplierDto> mouvementStockSuppliers;
+	
+	@JsonIgnore
+	private List<LigneVente> ligneVentes;
 	
 	public static ProductDto fromEntity(Product product) {
 		if(product == null) {

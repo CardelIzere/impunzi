@@ -36,4 +36,7 @@ public class Product extends AbstractEntity {
 	@ManyToOne
 	@JoinColumn(name = "supplier_id")
 	private Supplier supplier;
+	
+	@OneToMany(mappedBy = "product")
+	private List<LigneVente> ligneVente;
 }

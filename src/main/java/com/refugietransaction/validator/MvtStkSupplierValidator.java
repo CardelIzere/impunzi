@@ -14,15 +14,22 @@ public class MvtStkSupplierValidator {
 		
 		if (mouvementStockSupplierDto == null){
 
+			errors.add("Veillez renseigner la quantite du mouvenent");
 			errors.add("Veillez selectionner un produit");
 
 		}
 		
+		if(mouvementStockSupplierDto.getQuantite() == null) {
+			errors.add("Veillez renseigner la quantite du mouvenent");
+		}
+		
+		if(mouvementStockSupplierDto.getQuantite() == null || mouvementStockSupplierDto.getQuantite().compareTo(BigDecimal.valueOf(0)) == 0) {
+			errors.add("La quantite doit etre superieur à zero");
+		}
 		
 		if(mouvementStockSupplierDto.getProduit() == null || mouvementStockSupplierDto.getProduit().getId() == null) {
 			errors.add("Veillez selectionner un produit");
 		}
-		
 		return errors;
 	}
 }

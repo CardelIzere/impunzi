@@ -138,4 +138,23 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 		);
 	}
 
+	@Override
+	public List<MvtStkMenageDto> findMvtStkMenageByMenageId(Long idMenage) {
+		
+		return mvtStkMenageRepository.findMvtStkMenageByMenageId(idMenage).stream()
+				.map(MvtStkMenageDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public Page<MvtStkMenageDto> findAllByProductTypeMenageLike(String search, Pageable pageable) {
+		Page<MvtStkMenage> mvtStkMenages;
+		if(search != null) {
+			mvtStkMenages = mvtStkMenageRepository.findAllByProductTypeMenageLike(search, pageable);
+		} else {
+			mvtStkMenages = mvtStkMenageRepository.findAllMvtStkMenages(pageable);
+		}
+		return mvtStkMenages.map(MvtStkMenageDto::fromEntity);
+	}
+
 }

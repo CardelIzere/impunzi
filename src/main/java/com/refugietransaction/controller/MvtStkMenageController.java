@@ -42,6 +42,18 @@ public class MvtStkMenageController implements MvtStkMenageApi {
 		Pageable pageable = PageRequest.of(page, size);
 		return mvtStkMenageService.findEntriesByProductTypeMenageLike(search, pageable);
 	}
+
+	@Override
+	public List<MvtStkMenageDto> findMvtStkMenageByMenageId(Long idMenage) {
+		
+		return mvtStkMenageService.findMvtStkMenageByMenageId(idMenage);
+	}
+
+	@Override
+	public Page<MvtStkMenageDto> findAllMvtStkMenages(String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkMenageService.findAllByProductTypeMenageLike(search, pageable);
+	}
 	
 	
 }

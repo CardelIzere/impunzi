@@ -19,6 +19,12 @@ public interface MvtStkSupplierService {
 	
 	Page<MvtStkSupplierDto> findCampSupplierEntriesByProductNameSupplierNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
 	
+	List<MvtStkSupplierDto> findMvtStkSupplierBySupplierAndCamp(Long idSupplier, Long idCamp);
+	
+	List<MvtStkSupplierDto> findMvtStkSupplierByProductId(Long idProduit);
+	
+	Page<MvtStkSupplierDto> findAllByProductSupplierLike(String search, Pageable pageable);
+	
 //	BigDecimal stockReelMenage(Long idProduit, Long idMenage);
 //
 //	List<MvtStkSupplierDto> mvtStkArticleMenage(Long idProduit, Long idMenage);

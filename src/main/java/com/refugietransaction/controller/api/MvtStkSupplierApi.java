@@ -34,7 +34,7 @@ public interface MvtStkSupplierApi {
     @PostMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     MvtStkSupplierDto save(@RequestBody MvtStkSupplierDto dto);
 	
-	@ApiOperation(value = "Récupérer la liste des entrées", notes = "Cette methode permet de chercher et renvoyer la liste des entrées qui existent" + "dans la BDD",
+	@ApiOperation(value = "Récupérer la liste des entrées d'un fournisseur par camp avec pagination", notes = "Cette methode permet de chercher et renvoyer la liste des entrées qui existent" + "dans la BDD",
     		responseContainer = "Page<MvtStkSuppliersDto>")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des entrées / Une liste vide")
@@ -47,6 +47,37 @@ public interface MvtStkSupplierApi {
     		@RequestParam(value = "page", defaultValue = "0") int page,
     		@RequestParam(value = "size", defaultValue = "10") int size
     );
+	
+	@ApiOperation(value = "Récupérer l'etat du stock d'un fournisseur par camp", notes = "Cette methode permet de chercher et renvoyer l'etat du stock qui existent" + "dans la BDD",
+    		responseContainer = "Liste<MvtStkSuppliersDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "L' etat du stock / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/etat-stock/{idCamp}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<MvtStkSupplierDto> findMvtStkSupplierBySupplierAndCamp(
+    		@PathVariable("idCamp") Long idCamp,
+    		@PathVariable("idSupplier") Long idSupplier
+    );
+	
+	@ApiOperation(value = "Récupérer la liste des mouvements de stock", notes = "Cette methode permet de chercher et renvoyer la liste des mouvements de stock qui existent" + "dans la BDD",
+    		responseContainer = "Page<MvtStkSuppliersDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des Mvt de stock / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findAllMvtStkSuppliers(
+    		@RequestParam(value = "search", required = false) String search,
+    		@RequestParam(value = "page", defaultValue = "0") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size
+    );
+	
+	@ApiOperation(value = "Récupérer la liste des mouvements de stock d'un produit donné", notes = "Cette methode permet de chercher et renvoyer la liste de stock d'un produit qui existent" + "dans la BDD",
+    		responseContainer = "Liste<MvtStkSuppliersDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste du mouvement de stock d'un produit donné / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/all/{idProduit}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<MvtStkSupplierDto> findMvtStkSupplierByProductId(@PathVariable("idProduit") Long idProduit);
 
 //    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/stockReelMenage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
 //    BigDecimal stockReelMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);

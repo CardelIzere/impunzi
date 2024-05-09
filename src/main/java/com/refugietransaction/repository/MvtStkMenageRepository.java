@@ -27,4 +27,13 @@ public interface MvtStkMenageRepository extends JpaRepository<MvtStkMenage, Long
 	@Query("select m from MvtStkMenage m join ProductType pt on m.productType.id = pt.id join Menage me on m.menage.id = me.id where m.typeMvtStkMenageEnum = 'RECEPTION' And UPPER(pt.name) like CONCAT('%',UPPER(?1),'%') OR UPPER(me.personneContact) like CONCAT('%',UPPER(?1),'%') order by m.id desc ")
 	Page<MvtStkMenage> findEntriesByProductTypeMenageLike(String search, Pageable pageable);
 	
+	@Query("select m from MvtStkMenage m where m.menage.id = :idMenage order by m.id desc")
+	List<MvtStkMenage> findMvtStkMenageByMenageId(Long idMenage);
+	
+	@Query("select m from MvtStkMenage m order by m.id desc")
+	Page<MvtStkMenage> findAllMvtStkMenages(Pageable pageable);
+	
+	@Query("select m from MvtStkMenage m join ProductType pt on m.productType.id = pt.id join Menage me on m.menage.id = me.id where UPPER(pt.name) like CONCAT('%',UPPER(?1),'%') OR UPPER(me.personneContact) like CONCAT('%',UPPER(?1),'%') order by m.id desc ")
+	Page<MvtStkMenage> findAllByProductTypeMenageLike(String search, Pageable pageable);
+	
 }

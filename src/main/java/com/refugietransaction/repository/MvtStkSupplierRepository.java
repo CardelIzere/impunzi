@@ -27,6 +27,18 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("select m from  MvtStkSupplier m where m.produit.id = :idProduit and m.supplier.id = :idSupplier")
 	List<MvtStkSupplier> findAllByArticleIdAndSupplierId(@Param("idProduit") Long idProduit, @Param("idSupplier") Long idSupplier);
 	
+	@Query("select m from MvtStkSupplier m where m.supplier.id = :idSupplier and m.camp.id = :idCamp order by m.id desc")
+	List<MvtStkSupplier> findMvtStkSupplierBySupplierAndCamp(Long idSupplier, Long idCamp);
+	
+	@Query("select m from MvtStkSupplier m where m.produit.id = :idProduit order by m.id desc")
+	List<MvtStkSupplier> findMvtStkSupplierByProductId(Long idProduit);
+	
+	@Query("select m from MvtStkSupplier m order by m.id desc")
+	Page<MvtStkSupplier> findAllMvtStkSuppliers(Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where (UPPER(p.nomProduit) like CONCAT('%',UPPER(?1),'%') OR UPPER(s.name) like CONCAT('%',UPPER(?1),'%')) order by m.id desc")
+	Page<MvtStkSupplier> findAllByProductSupplierLike(String search, Pageable pageable);
+	
 	List<MvtStkSupplier> findAllById(Long id);
 	
 	//Liste des entrees de stock d'un produit donné dans un camp donné

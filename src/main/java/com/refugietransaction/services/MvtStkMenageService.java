@@ -21,4 +21,8 @@ public interface MvtStkMenageService {
 	List<MvtStkMenageDto> mvtStkProductTypeMenage(Long idProductType, Long idMenage);
 	
 	Page<MvtStkMenageDto> findEntriesByProductTypeMenageLike(String search, Pageable pageable);
+	
+	List<MvtStkMenageDto> findMvtStkMenageByMenageId(Long idMenage);
+	
+	Page<MvtStkMenageDto> findAllByProductTypeMenageLike(String search, Pageable pageable);
 }

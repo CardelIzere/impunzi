@@ -38,6 +38,24 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 		return mvtStkSupplierService.findCampSupplierEntriesByProductNameSupplierNameLike(idCamp, idSupplier, search, pageable);
 	}
 
+	@Override
+	public List<MvtStkSupplierDto> findMvtStkSupplierBySupplierAndCamp(Long idCamp, Long idSupplier) {
+		
+		return mvtStkSupplierService.findMvtStkSupplierBySupplierAndCamp(idSupplier, idCamp);
+	}
+
+	@Override
+	public List<MvtStkSupplierDto> findMvtStkSupplierByProductId(Long idProduit) {
+		
+		return mvtStkSupplierService.findMvtStkSupplierByProductId(idProduit);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findAllMvtStkSuppliers(String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findAllByProductSupplierLike(search, pageable);
+	}
+
 //	@Override
 //	public BigDecimal stockReelMenage(Long idProduit, Long idMenage) {
 //		return mouvementStockService.stockReelMenage(idProduit, idMenage);

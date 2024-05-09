@@ -47,4 +47,24 @@ public interface MvtStkMenageApi {
     		@RequestParam(value = "size", defaultValue = "10") int size
     );
     
+    @ApiOperation(value = "Récupérer l'etat de stock d'un menage", notes = "Cette methode permet de chercher et renvoyer l'etat de stock d'un menage qui existent" + "dans la BDD",
+    		responseContainer = "List<MvtStkMenageDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "L'etat de stock d'un menage / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstkmenage/etat-stock/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<MvtStkMenageDto> findMvtStkMenageByMenageId(@PathVariable("idMenage") Long idMenage);
+    
+    @ApiOperation(value = "Récupérer la liste des mouvements de stock", notes = "Cette methode permet de chercher et renvoyer la liste des entrées qui existent" + "dans la BDD",
+    		responseContainer = "Page<MvtStkMenageDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des mouvements de stock / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstkmenage/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkMenageDto> findAllMvtStkMenages(
+    		@RequestParam(value = "search", required = false) String search,
+    		@RequestParam(value = "page", defaultValue = "0") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size
+    );
+    
 }

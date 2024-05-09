@@ -83,6 +83,34 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		);
 	}
 
+	@Override
+	public List<MvtStkSupplierDto> findMvtStkSupplierBySupplierAndCamp(Long idSupplier, Long idCamp) {
+		
+		return mvtStkSupplierRepository.findMvtStkSupplierBySupplierAndCamp(idSupplier, idCamp).stream()
+				.map(MvtStkSupplierDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<MvtStkSupplierDto> findMvtStkSupplierByProductId(Long idProduit) {
+		
+		return mvtStkSupplierRepository.findMvtStkSupplierByProductId(idProduit).stream()
+				.map(MvtStkSupplierDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findAllByProductSupplierLike(String search, Pageable pageable) {
+		Page<MvtStkSupplier> mvtStkSuppliers;
+		if(search != null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findAllByProductSupplierLike(search, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findAllMvtStkSuppliers(pageable);
+		}
+		
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
 //	@Override
 //	public BigDecimal stockReelMenage(Long idProduit, Long idMenage) {
 //		

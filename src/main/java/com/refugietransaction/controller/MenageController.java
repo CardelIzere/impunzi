@@ -51,4 +51,10 @@ public class MenageController implements MenageApi {
 		return menageService.findAllMenagesByCampId(idCamp);
 	}
 
+	@Override
+	public List<MenageDto> findAllByCampIdByPersoContactNumTeleIdNumberLike(Long idCamp, String search, Long idNumber) {
+		
+		return menageService.findAllByCampIdByPersonneContactNumTeleIdNumberLike(idCamp, search, idNumber);
+	}
+
 }

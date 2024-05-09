@@ -166,5 +166,14 @@ public class MenageServiceImpl implements MenageService {
 				.map(MenageDto::fromEntity)
 				.collect(Collectors.toList());
 	}
+
+
+	@Override
+	public List<MenageDto> findAllByCampIdByPersonneContactNumTeleIdNumberLike(Long idCamp, String search, Long idNumber) {
+		
+		return menageRepository.findAllByCampIdByPersonneContactNumTeleIdNumberLike(idCamp, search, idNumber).stream()
+				.map(MenageDto::fromEntity)
+				.collect(Collectors.toList());
+	}
 	
 }

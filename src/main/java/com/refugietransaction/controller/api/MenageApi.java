@@ -53,7 +53,19 @@ public interface MenageApi {
             @ApiResponse(code = 200, message = "La liste des ménages / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/menages/all/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MenageDto> findAllMenagesByCampId(Long idCamp);
+    List<MenageDto> findAllMenagesByCampId(@PathVariable("idCamp") Long idCamp);
+    
+    @ApiOperation(value = "Récupérer la liste des menages par le camp donné avec search", notes = "Cette methode permet de chercher et renvoyer la liste des menages qui existent" + "dans la BDD",
+    		responseContainer = "List<MenageDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des ménages / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/menages/all-with-search/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<MenageDto> findAllByCampIdByPersoContactNumTeleIdNumberLike(
+    		@PathVariable("idCamp") Long idCamp,
+    		@RequestParam(value = "search", required = false) String search,
+    		@RequestParam(value = "idNumber", required = false) Long idNumber
+    );
     
     @ApiOperation(value = "Supprimer un menage par son ID", notes = "Cette methode permet de supprimer un menage")
     @ApiResponses(value = {

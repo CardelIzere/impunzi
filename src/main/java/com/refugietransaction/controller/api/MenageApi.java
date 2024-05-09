@@ -63,8 +63,7 @@ public interface MenageApi {
     @GetMapping(value = Constants.APP_ROOT + "/menages/all-with-search/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<MenageDto> findAllByCampIdByPersoContactNumTeleIdNumberLike(
     		@PathVariable("idCamp") Long idCamp,
-    		@RequestParam(value = "search", required = false) String search,
-    		@RequestParam(value = "idNumber", required = false) Long idNumber
+    		@RequestParam(value = "search", required = false) String search
     );
     
     @ApiOperation(value = "Supprimer un menage par son ID", notes = "Cette methode permet de supprimer un menage")

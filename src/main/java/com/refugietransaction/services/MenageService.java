@@ -18,7 +18,7 @@ public interface MenageService {
 	
 	List<MenageDto> findAllMenagesByCampId(Long campId);
 	
-	List<MenageDto> findAllByCampIdByPersonneContactNumTeleIdNumberLike(Long idCamp, String search, Long idNumber);
+	List<MenageDto> findAllByCampIdByPersonneContactNumTeleIdNumberLike(Long idCamp, String search);
 
 	void delete(Long id);
 }

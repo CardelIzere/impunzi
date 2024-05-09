@@ -32,7 +32,11 @@ public interface MenageRepository extends JpaRepository<Menage, Long> {
 	
 	List<Menage> findAllByCamp_Id(Long camp_id);
 	
-	@Query(value = "select m from Menage m where m.camp.id = :idCamp And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') OR UPPER(m.numTelephone) like CONCAT('%',UPPER(:search),'%') OR m.idNumber=:idNumber ")
-	List<Menage> findAllByCampIdByPersonneContactNumTeleIdNumberLike(Long idCamp, String search, Long idNumber);
+	@Query("SELECT m FROM Menage m WHERE " +
+			"m.camp.id = :idCamp And " +
+			"CAST(m.idNumber AS string) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+			"LOWER(m.personneContact) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+			"LOWER(m.numTelephone) LIKE LOWER(CONCAT('%', :searchString, '%'))")
+	List<Menage> findAllByCampIdByPersonneContactNumTeleIdNumberLike(Long idCamp, String searchString);
 
 }

@@ -65,4 +65,10 @@ public class ProductController implements ProductApi {
 		return productService.findAllSupplierProducts(idSupplier);
 	}
 
+	@Override
+	public List<ProductDto> findSoldProducts() {
+		
+		return productService.findSoldProducts();
+	}
+
 }

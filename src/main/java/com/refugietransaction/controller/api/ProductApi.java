@@ -79,6 +79,14 @@ public interface ProductApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/products/all/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<ProductDto> findAllSupplierProducts(@PathVariable("idSupplier") Long idSupplier);
+    
+    @ApiOperation(value = "Récupérer la liste des produits vendues", notes = "Cette methode permet de chercher et renvoyer la liste des produits vendues qui existent" + "dans la BDD",
+    		responseContainer = "List<ProduitDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des articles vendues / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/products/sold-products", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<ProductDto> findSoldProducts();
 
     @ApiOperation(value = "Supprimer un produit par son ID", notes = "Cette methode permet de supprimer un produit")
     @ApiResponses(value = {

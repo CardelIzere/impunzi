@@ -21,5 +21,7 @@ public interface ProductService {
 	
 	List<ProductDto> findAllSupplierProducts(Long idSupplier);
 	
+	List<ProductDto> findSoldProducts();
+	
 	void delete(Long id);
 }

@@ -2,6 +2,7 @@ package com.refugietransaction.dto;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.refugietransaction.model.LigneVente;
 
 import lombok.Builder;
@@ -12,7 +13,10 @@ import lombok.Data;
 public class LigneVenteDto {
 	
 	private Long id;
+	
+	@JsonIgnore
 	private VentesDto vente;
+	
 	private ProductDto product;
 	private BigDecimal quantite;
 	private BigDecimal prixUnitaire;

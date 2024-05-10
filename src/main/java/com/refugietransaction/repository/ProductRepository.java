@@ -35,4 +35,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	  
 	  @Query("select p from Product p where p.supplier.id = :idSupplier")
 	  List<Product> findAllSupplierProducts(Long idSupplier);
+	  
+	  @Query("select p from Product p join p.ligneVente lv where lv.quantite > 0")
+	  List<Product> findSoldProducts();
 }

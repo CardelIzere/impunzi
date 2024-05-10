@@ -155,4 +155,12 @@ public class ProductServiceImpl implements ProductService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public List<ProductDto> findSoldProducts() {
+		
+		return productRepository.findSoldProducts().stream()
+				.map(ProductDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
 }

@@ -29,6 +29,7 @@ import com.refugietransaction.model.Product;
 import com.refugietransaction.model.ProductType;
 import com.refugietransaction.model.TypeMvtStkMenageEnum;
 import com.refugietransaction.model.TypeMvtStkSupplier;
+import com.refugietransaction.model.VenteStatusEnum;
 import com.refugietransaction.model.Ventes;
 import com.refugietransaction.repository.LigneVenteRepository;
 import com.refugietransaction.repository.ProductRepository;
@@ -69,7 +70,6 @@ public class VentesServiceImpl implements VentesService {
 	    
 	    List<String> productErrors = new ArrayList<>();
 	    
-	    //Supplier
 	    dto.getLigneVentes().forEach(ligneVenteDto->{
 	    	Optional<Product> product = productRepository.findById(ligneVenteDto.getProduct().getId());
 	    	if(product.isEmpty()) {
@@ -81,6 +81,9 @@ public class VentesServiceImpl implements VentesService {
 	    	log.error("One or more products were not found in the DB, {}", errors);
 	    	throw new InvalidEntityException("Un ou plusieurs produits n'ont pas été trouvé dans la BDD", ErrorCodes.VENTE_NOT_VALID, errors);
 	    }
+	    
+	    dto.setDateVente(Instant.now());
+	    dto.setVenteStatusEnum(VenteStatusEnum.UNPAID);
 	    
 	    Ventes savedVentes = ventesRepository.save(VentesDto.toEntity(dto));
 	    
@@ -140,12 +143,13 @@ public class VentesServiceImpl implements VentesService {
 		      log.error("Vente ID is NULL");
 		      return;
 		    }
-		    List<LigneVente> ligneVentes = ligneVenteRepository.findAllByVenteId(id);
-		    if (!ligneVentes.isEmpty()) {
-		      throw new InvalidOperationException("Impossible de supprimer une vente ...",
-		          ErrorCodes.VENTE_ALREADY_IN_USE);
-		    }
+//		    List<LigneVente> ligneVentes = ligneVenteRepository.findAllByVenteId(id);
+//		    if (!ligneVentes.isEmpty()) {
+//		      throw new InvalidOperationException("Impossible de supprimer une vente ...",
+//		          ErrorCodes.VENTE_ALREADY_IN_USE);
+//		    }
 		    ventesRepository.deleteById(id);
+		    ligneVenteRepository.deleteById(id);
 		
 	}
 

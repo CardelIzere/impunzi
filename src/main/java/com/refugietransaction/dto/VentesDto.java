@@ -35,6 +35,7 @@ public class VentesDto {
 				.supplier(SupplierDto.fromEntity(ventes.getSupplier()))
 				.camp(CampDto.fromEntity(ventes.getCamp()))
 				.menage(MenageDto.fromEntity(ventes.getMenage()))
+				.venteStatusEnum(ventes.getVenteStatusEnum())
 				.build();
 	}
 	
@@ -49,6 +50,7 @@ public class VentesDto {
 		ventes.setSupplier(SupplierDto.toEntity(ventesDto.getSupplier()));
 		ventes.setCamp(CampDto.toEntity(ventesDto.getCamp()));
 		ventes.setMenage(MenageDto.toEntity(ventesDto.getMenage()));
+		ventes.setVenteStatusEnum(ventesDto.getVenteStatusEnum());
 		
 		return ventes;
 	}

@@ -167,4 +167,14 @@ public class VentesServiceImpl implements VentesService {
 		return ventes.map(VenteListDto::fromEntity);
 	}
 
+	@Override
+	public List<LigneVenteDto> findSoldProductsInAllSales(Long idVente) {
+		// TODO Auto-generated method stub
+		return ligneVenteRepository.findSoldProductsInAllSales(idVente).stream()
+				.map(LigneVenteDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
+	
+
 }

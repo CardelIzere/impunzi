@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.refugietransaction.dto.LigneVenteDto;
 import com.refugietransaction.dto.VenteListDto;
 import com.refugietransaction.dto.VentesDto;
 import com.refugietransaction.utils.Constants;
@@ -40,7 +41,7 @@ public interface VentesApi {
     VentesDto findById(@PathVariable("idVente") Long idVente);
     
     @ApiOperation(value = "Récupérer la liste de tous les ventes", notes = "Cette methode permet de chercher et renvoyer la liste des ventes qui existent" + "dans la BDD",
-    		responseContainer = "Page<VentesDto>")
+    		responseContainer = "List<VentesDto>")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des ventes / Une liste vide")
     })
@@ -60,6 +61,14 @@ public interface VentesApi {
     		@RequestParam(value = "page", defaultValue = "0") int page,
     		@RequestParam(value = "size", defaultValue = "10") int size
     );
+    
+    @ApiOperation(value = "Récupérer la liste des produits vendues", notes = "Cette methode permet de chercher et renvoyer la liste des ventes qui existent" + "dans la BDD",
+    		responseContainer = "List<LigneVenteDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des produits vendues / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/ventes/sold-products/{idVente}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<LigneVenteDto> findSoldProductsInAllSales(@PathVariable("idVente") Long idVente);
     
     @ApiOperation(value = "Supprimer une vente par son ID", notes = "Cette methode permet de supprimer une vente par ID")
     @ApiResponses(value = {

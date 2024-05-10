@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.VentesApi;
+import com.refugietransaction.dto.LigneVenteDto;
 import com.refugietransaction.dto.VenteListDto;
 import com.refugietransaction.dto.VentesDto;
 import com.refugietransaction.services.VentesService;
@@ -52,6 +53,12 @@ public class VentesController implements VentesApi {
 		
 		Pageable pageable = PageRequest.of(page, size);
 		return ventesService.findCampSupplierVentesBySupplierProductNameLike(idCamp, idSupplier, search, pageable);
+	}
+
+	@Override
+	public List<LigneVenteDto> findSoldProductsInAllSales(Long idVente) {
+		
+		return ventesService.findSoldProductsInAllSales(idVente);
 	}
 
 }

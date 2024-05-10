@@ -148,8 +148,9 @@ public class VentesServiceImpl implements VentesService {
 //		      throw new InvalidOperationException("Impossible de supprimer une vente ...",
 //		          ErrorCodes.VENTE_ALREADY_IN_USE);
 //		    }
+		
+			ligneVenteRepository.deleteById(id);
 		    ventesRepository.deleteById(id);
-		    ligneVenteRepository.deleteById(id);
 		
 	}
 

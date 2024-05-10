@@ -155,11 +155,11 @@ public class VentesServiceImpl implements VentesService {
 	}
 
 	@Override
-	public Page<VenteListDto> findCampSupplierVentesBySupplierProductNameLike(Long idCamp, Long idSupplier,
+	public Page<VenteListDto> findCampSupplierVentesBySupplierPersonneContactLike(Long idCamp, Long idSupplier,
 			String search, Pageable pageable) {
 		Page<Ventes> ventes;
 		if(search != null) {
-			ventes = ventesRepository.findByIdCampAndIdSupplierVentesByNameLike(idCamp, idSupplier, search, pageable);
+			ventes = ventesRepository.findByIdCampAndIdSupplierVentesByPersonneContactLike(idCamp, idSupplier, search, pageable);
 		} else {
 			ventes = ventesRepository.findAllVentes(pageable);
 		}
@@ -173,6 +173,18 @@ public class VentesServiceImpl implements VentesService {
 		return ligneVenteRepository.findSoldProductsInAllSales(idVente).stream()
 				.map(LigneVenteDto::fromEntity)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public Page<VenteListDto> findSupplierVentesByPersonneContactLike(Long idSupplier, String search,
+			Pageable pageable) {
+		Page<Ventes> ventes;
+		if(search != null) {
+			ventes = ventesRepository.findByIdSupplierVentesByPersonneContactLike(idSupplier, search, pageable);
+		} else {
+			ventes = ventesRepository.findAllVentes(pageable);
+		}
+		return ventes.map(VenteListDto::fromEntity);
 	}
 
 	

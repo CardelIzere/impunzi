@@ -49,16 +49,22 @@ public class VentesController implements VentesApi {
 	}
 
 	@Override
-	public Page<VenteListDto> findAllVentes(Long idCamp, Long idSupplier, String search, int page, int size) {
+	public Page<VenteListDto> findCampSupplierVentes(Long idCamp, Long idSupplier, String search, int page, int size) {
 		
 		Pageable pageable = PageRequest.of(page, size);
-		return ventesService.findCampSupplierVentesBySupplierProductNameLike(idCamp, idSupplier, search, pageable);
+		return ventesService.findCampSupplierVentesBySupplierPersonneContactLike(idCamp, idSupplier, search, pageable);
 	}
 
 	@Override
 	public List<LigneVenteDto> findSoldProductsInAllSales(Long idVente) {
 		
 		return ventesService.findSoldProductsInAllSales(idVente);
+	}
+
+	@Override
+	public Page<VenteListDto> findSupplierVentes(Long idSupplier, String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return ventesService.findSupplierVentesByPersonneContactLike(idSupplier, search, pageable);
 	}
 
 }

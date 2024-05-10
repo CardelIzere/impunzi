@@ -17,9 +17,11 @@ public interface VentesService {
 
 		List<VentesDto> findAll();
 		
-		Page<VenteListDto> findCampSupplierVentesBySupplierProductNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
+		Page<VenteListDto> findCampSupplierVentesBySupplierPersonneContactLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
 		
 		List<LigneVenteDto> findSoldProductsInAllSales(Long idVente);
+		
+		Page<VenteListDto> findSupplierVentesByPersonneContactLike(Long idSupplier, String search, Pageable pageable);
 
 		void delete(Long id);
 }

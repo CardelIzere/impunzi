@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.refugietransaction.dto.TransactionDto;
@@ -104,6 +106,30 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		transactionRepository.deleteById(idTransaction);
 		
+	}
+
+	@Override
+	public Page<TransactionDto> findCampSupplierTransactionByPersonneContactLike(Long idCamp, Long idSupplier,
+			String search, Pageable pageable) {
+		Page<Transaction> transactions;
+		if(search != null) {
+			transactions = transactionRepository.findCampSupplierTransactionByIdNumberLike(idCamp, idSupplier, search, pageable);
+		} else {
+			transactions = transactionRepository.findAllTransactions(pageable);
+		}
+		return transactions.map(TransactionDto::fromEntity);
+	}
+
+	@Override
+	public Page<TransactionDto> findSupplierTransactionByIdNumberLike(Long idSupplier, String search,
+			Pageable pageable) {
+		Page<Transaction> transactions;
+		if(search != null) {
+			transactions = transactionRepository.findSupplierTransactionByIdNumberLike(idSupplier, search, pageable);
+		} else {
+			transactions = transactionRepository.findAllTransactions(pageable);
+		}
+		return transactions.map(TransactionDto::fromEntity);
 	}
 
 }

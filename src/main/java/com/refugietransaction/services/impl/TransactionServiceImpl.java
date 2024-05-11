@@ -59,9 +59,8 @@ public class TransactionServiceImpl implements TransactionService {
 		BigDecimal montantTransaction = BigDecimal.ZERO;
 		for(LigneVente ligneVente : ventes.getLigneVentes()) {
 			BigDecimal prixUnitaire = ligneVente.getPrixUnitaire();
-			BigDecimal quantite = ligneVente.getQuantite();
 			
-			montantTransaction = montantTransaction.add(prixUnitaire.multiply(quantite));
+			montantTransaction = montantTransaction.add(prixUnitaire);
 		}
 		
 		Transaction transaction = new Transaction();

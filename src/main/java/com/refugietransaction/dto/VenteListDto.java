@@ -18,6 +18,7 @@ public class VenteListDto {
 	
 	private Long id;
 	private Long idNumber;
+	private String saleCode;
 	private String personneContact;
 	private Instant dateVente;
 	private VenteStatusEnum venteStatusEnum;
@@ -37,15 +38,13 @@ public class VenteListDto {
 		BigDecimal total = BigDecimal.ZERO;
 		for(LigneVente ligneVente : ligneVentes) {
 			BigDecimal prixUnitaire = ligneVente.getPrixUnitaire();
-			BigDecimal quantite = ligneVente.getQuantite();
-			
-			BigDecimal ligneVenteTotal = prixUnitaire.multiply(quantite);
-			total = total.add(ligneVenteTotal);
+			total = total.add(prixUnitaire);
 		}
 		
 		return VenteListDto.builder()
 				.id(ventes.getId())
 				.idNumber(ventes.getMenage().getIdNumber())
+				.saleCode(ventes.getSaleCode())
 				.personneContact(ventes.getMenage().getPersonneContact())
 				.dateVente(ventes.getDateVente())
 				.venteStatusEnum(ventes.getVenteStatusEnum())

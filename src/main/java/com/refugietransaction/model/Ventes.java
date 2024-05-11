@@ -27,6 +27,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "ventes")
 public class Ventes extends AbstractEntity {
 	
+	@Column(name = "salecode")
+	private String saleCode;
+	
 	@Column(name = "datevente")
 	private Instant dateVente;
 	

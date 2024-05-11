@@ -15,6 +15,7 @@ import lombok.Data;
 public class VentesDto {
 	
 	private Long id;
+	private String saleCode;
 	private Instant dateVente;
 	private SupplierDto supplier;
 	private CampDto camp;
@@ -31,6 +32,7 @@ public class VentesDto {
 		
 		return VentesDto.builder()
 				.id(ventes.getId())
+				.saleCode(ventes.getSaleCode())
 				.dateVente(ventes.getDateVente())
 				.supplier(SupplierDto.fromEntity(ventes.getSupplier()))
 				.camp(CampDto.fromEntity(ventes.getCamp()))
@@ -46,6 +48,7 @@ public class VentesDto {
 		
 		Ventes ventes = new Ventes();
 		ventes.setId(ventesDto.getId());
+		ventes.setSaleCode(ventesDto.getSaleCode());
 		ventes.setDateVente(ventesDto.getDateVente());
 		ventes.setSupplier(SupplierDto.toEntity(ventesDto.getSupplier()));
 		ventes.setCamp(CampDto.toEntity(ventesDto.getCamp()));

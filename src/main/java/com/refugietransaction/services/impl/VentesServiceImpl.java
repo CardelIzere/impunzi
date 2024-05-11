@@ -1,9 +1,11 @@
 package com.refugietransaction.services.impl;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +84,7 @@ public class VentesServiceImpl implements VentesService {
 	    	throw new InvalidEntityException("Un ou plusieurs produits n'ont pas été trouvé dans la BDD", ErrorCodes.VENTE_NOT_VALID, errors);
 	    }
 	    
+	    dto.setSaleCode(transactionCodePrefix()+generateTransactionCode(6));
 	    dto.setDateVente(Instant.now());
 	    dto.setVenteStatusEnum(VenteStatusEnum.UNPAID);
 	    
@@ -96,6 +99,25 @@ public class VentesServiceImpl implements VentesService {
 	    });
 	    
 		return VentesDto.fromEntity(savedVentes);
+	}
+	
+	public static String generateTransactionCode(int length) {
+		Random random = new Random();
+		StringBuilder accountNumber = new StringBuilder();
+		for(int i=0;i<length;i++) {
+			accountNumber.append(random.nextInt(10));
+		}
+		
+		return accountNumber.toString();
+	}
+	
+	public static String transactionCodePrefix() {
+		LocalDate currentDate = LocalDate.now();
+		int year = currentDate.getYear();
+		int month = currentDate.getMonthValue();
+		int day = currentDate.getDayOfMonth();
+		
+		return String.valueOf(year)+String.valueOf(month)+String.valueOf(day);
 	}
 
 	private void updateMvtStkSupplier(LigneVente ligneVente) {

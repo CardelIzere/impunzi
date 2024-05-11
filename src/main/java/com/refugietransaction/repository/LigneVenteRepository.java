@@ -16,5 +16,8 @@ public interface LigneVenteRepository extends JpaRepository<LigneVente, Long> {
 	
 	@Query("SELECT lv FROM LigneVente lv  JOIN Product p on lv.product.id = p.id where lv.vente.id = :idVente")
 	List<LigneVente> findSoldProductsInAllSales(Long idVente);
+	
+	@Query("select lv from LigneVente lv where lv.vente.id = :idVente")
+	List<LigneVente> findLigneVenteByIdVente(Long idVente);
 
 }

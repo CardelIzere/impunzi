@@ -20,6 +20,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "transaction")
 public class Transaction extends AbstractEntity {
 	
+	@Column(name = "transactioncode")
+	private String transactionCode;
+	
 	@Column(name = "datetransaction")
 	private Instant dateTransaction;
 	

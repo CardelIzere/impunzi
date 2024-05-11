@@ -17,13 +17,17 @@ import lombok.Data;
 public class VenteListDto {
 	
 	private Long id;
+	private String nomCamp;
 	private Long idNumber;
 	private String saleCode;
 	private String personneContact;
 	private Instant dateVente;
 	private VenteStatusEnum venteStatusEnum;
 	private BigDecimal montantTotal;
+	@JsonIgnore
 	private MenageDto menage;
+	@JsonIgnore
+	private CampDto camp;
 	
 	@JsonIgnore
 	private List<LigneVente> ligneVentes;
@@ -43,6 +47,7 @@ public class VenteListDto {
 		
 		return VenteListDto.builder()
 				.id(ventes.getId())
+				.nomCamp(ventes.getCamp().getNomCamp())
 				.idNumber(ventes.getMenage().getIdNumber())
 				.saleCode(ventes.getSaleCode())
 				.personneContact(ventes.getMenage().getPersonneContact())

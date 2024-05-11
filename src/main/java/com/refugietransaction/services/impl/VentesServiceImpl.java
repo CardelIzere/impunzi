@@ -165,11 +165,13 @@ public class VentesServiceImpl implements VentesService {
 		      log.error("Vente ID is NULL");
 		      return;
 		    }
-//		    List<LigneVente> ligneVentes = ligneVenteRepository.findAllByVenteId(id);
-//		    if (!ligneVentes.isEmpty()) {
-//		      throw new InvalidOperationException("Impossible de supprimer une vente ...",
-//		          ErrorCodes.VENTE_ALREADY_IN_USE);
-//		    }
+		
+			Ventes ventes = ventesRepository.findVentesById(id);
+			
+			if(ventes.getVenteStatusEnum() == VenteStatusEnum.PAID) {
+				throw new InvalidOperationException("Impossible de supprimer une vente car il est deja payé", 
+						ErrorCodes.VENTE_ALREADY_PAID);
+			}
 		
 			ligneVenteRepository.deleteById(id);
 		    ventesRepository.deleteById(id);

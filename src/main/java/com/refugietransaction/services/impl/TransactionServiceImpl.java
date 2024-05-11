@@ -2,8 +2,10 @@ package com.refugietransaction.services.impl;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		
 		Transaction transaction = new Transaction();
+		transaction.setTransactionCode(transactionCodePrefix()+generateTransactionCode(5));
 		transaction.setDateTransaction(Instant.now());
 		transaction.setMontantTransaction(montantTransaction);
 		transaction.setVentes(ventes);
@@ -76,6 +79,25 @@ public class TransactionServiceImpl implements TransactionService {
 		ventesRepository.save(ventes);
 		
 		return TransactionDto.fromEntity(transaction);
+	}
+	
+	public static String generateTransactionCode(int length) {
+		Random random = new Random();
+		StringBuilder accountNumber = new StringBuilder();
+		for(int i=0;i<length;i++){
+			accountNumber.append(random.nextInt(10));
+		}
+		
+		return accountNumber.toString();
+	}
+	
+	public static String transactionCodePrefix() {
+		LocalDate currentDate = LocalDate.now();
+		int year = currentDate.getYear();
+		int month = currentDate.getMonthValue();
+		int day = currentDate.getDayOfMonth();
+		
+		return String.valueOf(year)+String.valueOf(month)+String.valueOf(day);
 	}
 
 	@Override

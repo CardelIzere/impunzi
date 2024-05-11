@@ -13,6 +13,7 @@ import lombok.Data;
 public class TransactionDto {
 	
 	private Long id;
+	private String transactionCode;
 	private Instant dateTransaction;
 	private BigDecimal montantTransaction;
 	private VentesDto ventes;
@@ -24,6 +25,7 @@ public class TransactionDto {
 			
 			return TransactionDto.builder()
 					.id(transaction.getId())
+					.transactionCode(transaction.getTransactionCode())
 					.dateTransaction(transaction.getDateTransaction())
 					.montantTransaction(transaction.getMontantTransaction())
 					.ventes(VentesDto.fromEntity(transaction.getVentes()))
@@ -37,6 +39,7 @@ public class TransactionDto {
 		
 		Transaction transaction = new Transaction();
 		transaction.setId(transactionDto.getId());
+		transaction.setTransactionCode(transactionDto.getTransactionCode());
 		transaction.setDateTransaction(transactionDto.getDateTransaction());
 		transaction.setMontantTransaction(transactionDto.getMontantTransaction());
 		transaction.setVentes(VentesDto.toEntity(transactionDto.getVentes()));

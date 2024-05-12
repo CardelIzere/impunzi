@@ -36,4 +36,10 @@ public interface MvtStkMenageRepository extends JpaRepository<MvtStkMenage, Long
 	@Query("select m from MvtStkMenage m join ProductType pt on m.productType.id = pt.id join Menage me on m.menage.id = me.id where UPPER(pt.name) like CONCAT('%',UPPER(?1),'%') OR UPPER(me.personneContact) like CONCAT('%',UPPER(?1),'%') order by m.id desc ")
 	Page<MvtStkMenage> findAllByProductTypeMenageLike(String search, Pageable pageable);
 	
+	@Query("SELECT m.productType, SUM(m.quantite) " +
+			"FROM MvtStkMenage m " +
+			"WHERE m.menage.id = :idMenage " +
+			"GROUP BY m.productType")
+	List<Object[]> findTotalQuantityByIdMenage(@Param("idMenage") Long idMenage);
+	
 }

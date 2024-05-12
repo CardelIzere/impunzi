@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.refugietransaction.dto.MenageStockDto;
 import com.refugietransaction.dto.MvtStkMenageDto;
 import com.refugietransaction.dto.ProductTypeDistributionDto;
 
@@ -25,4 +26,6 @@ public interface MvtStkMenageService {
 	List<MvtStkMenageDto> findMvtStkMenageByMenageId(Long idMenage);
 	
 	Page<MvtStkMenageDto> findAllByProductTypeMenageLike(String search, Pageable pageable);
+	
+	List<MenageStockDto> getTotalQuantityByIdMenage(Long idMenage);
 }

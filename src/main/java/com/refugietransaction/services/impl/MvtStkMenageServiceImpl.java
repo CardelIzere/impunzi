@@ -11,15 +11,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.refugietransaction.dto.MenageStockDto;
 import com.refugietransaction.dto.MvtStkMenageDto;
 import com.refugietransaction.dto.ProductTypeDistributionDto;
 import com.refugietransaction.dto.ProductTypeDto;
+import com.refugietransaction.dto.SalesUnitDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.Menage;
 import com.refugietransaction.model.MvtStkMenage;
+import com.refugietransaction.model.ProductType;
 import com.refugietransaction.model.TypeMvtStkMenageEnum;
 import com.refugietransaction.repository.CampRepository;
 import com.refugietransaction.repository.MenageRepository;
@@ -155,6 +158,26 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 			mvtStkMenages = mvtStkMenageRepository.findAllMvtStkMenages(pageable);
 		}
 		return mvtStkMenages.map(MvtStkMenageDto::fromEntity);
+	}
+
+	@Override
+	public List<MenageStockDto> getTotalQuantityByIdMenage(Long idMenage) {
+		List<Object[]> results = mvtStkMenageRepository.findTotalQuantityByIdMenage(idMenage);
+		
+		return results.stream().map(result->{
+			ProductType productType = (ProductType) result[0];
+			BigDecimal totalQuantity = (BigDecimal) result[1];
+			
+			ProductTypeDto productTypeDto = ProductTypeDto.fromEntity(productType);
+			
+			MenageStockDto menageStockDto = new MenageStockDto();
+			
+			menageStockDto.setProductType(productTypeDto);
+			menageStockDto.setInStockQuantity(totalQuantity);
+			
+			return menageStockDto;
+			
+		}).collect(Collectors.toList());
 	}
 
 }

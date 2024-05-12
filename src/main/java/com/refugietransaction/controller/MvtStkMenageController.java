@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.MvtStkMenageApi;
+import com.refugietransaction.dto.MenageStockDto;
 import com.refugietransaction.dto.MvtStkMenageDto;
 import com.refugietransaction.dto.ProductTypeDistributionDto;
 import com.refugietransaction.services.MvtStkMenageService;
@@ -43,17 +44,23 @@ public class MvtStkMenageController implements MvtStkMenageApi {
 		return mvtStkMenageService.findEntriesByProductTypeMenageLike(search, pageable);
 	}
 
-	@Override
-	public List<MvtStkMenageDto> findMvtStkMenageByMenageId(Long idMenage) {
-		
-		return mvtStkMenageService.findMvtStkMenageByMenageId(idMenage);
-	}
+//	@Override
+//	public List<MvtStkMenageDto> findMvtStkMenageByMenageId(Long idMenage) {
+//		
+//		return mvtStkMenageService.findMvtStkMenageByMenageId(idMenage);
+//	}
 
 	@Override
 	public Page<MvtStkMenageDto> findAllMvtStkMenages(String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return mvtStkMenageService.findAllByProductTypeMenageLike(search, pageable);
 	}
+
+@Override
+public List<MenageStockDto> getTotalQuantityByIdMenage(Long idMenage) {
+	
+	return mvtStkMenageService.getTotalQuantityByIdMenage(idMenage);
+}
 	
 	
 }

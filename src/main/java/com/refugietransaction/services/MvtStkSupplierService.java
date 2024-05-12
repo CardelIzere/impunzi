@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.refugietransaction.dto.MvtStkSupplierDto;
+import com.refugietransaction.dto.SupplierStockDto;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 
 public interface MvtStkSupplierService {
@@ -24,6 +25,8 @@ public interface MvtStkSupplierService {
 	List<MvtStkSupplierDto> findMvtStkSupplierByProductId(Long idProduit);
 	
 	Page<MvtStkSupplierDto> findAllByProductSupplierLike(String search, Pageable pageable);
+	
+	List<SupplierStockDto> getTotalQuantityByIdSupplier(Long idSupplier);
 	
 //	BigDecimal stockReelMenage(Long idProduit, Long idMenage);
 //

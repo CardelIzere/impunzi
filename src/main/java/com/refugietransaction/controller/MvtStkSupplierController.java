@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.MvtStkSupplierApi;
 import com.refugietransaction.dto.MvtStkSupplierDto;
+import com.refugietransaction.dto.SupplierStockDto;
 import com.refugietransaction.services.MvtStkSupplierService;
 
 @RestController
@@ -54,6 +55,12 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 	public Page<MvtStkSupplierDto> findAllMvtStkSuppliers(String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return mvtStkSupplierService.findAllByProductSupplierLike(search, pageable);
+	}
+
+	@Override
+	public List<SupplierStockDto> getTotalQuantityByIdSupplier(Long idSupplier) {
+		
+		return mvtStkSupplierService.getTotalQuantityByIdSupplier(idSupplier);
 	}
 
 //	@Override

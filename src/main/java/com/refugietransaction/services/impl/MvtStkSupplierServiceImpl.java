@@ -12,12 +12,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.refugietransaction.dto.CampDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
+import com.refugietransaction.dto.ProductDto;
+import com.refugietransaction.dto.ProductTypeDto;
+import com.refugietransaction.dto.SupplierStockDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.MvtStkSupplier;
+import com.refugietransaction.model.Product;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.repository.CampRepository;
 import com.refugietransaction.repository.MvtStkSupplierRepository;
@@ -109,6 +114,29 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		}
 		
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public List<SupplierStockDto> getTotalQuantityByIdSupplier(Long idSupplier) {
+		List<Object[]> results = mvtStkSupplierRepository.findTotalQuantityByIdSupplier(idSupplier);
+		
+		return results.stream().map(result->{
+			Camp camp = (Camp) result[0];
+			Product product = (Product) result[1];
+			BigDecimal totalQuantity = (BigDecimal) result[2];
+			
+			CampDto campDto = CampDto.fromEntity(camp);
+			
+			ProductDto productDto = ProductDto.fromEntity(product);
+			
+			SupplierStockDto supplierStockDto = new SupplierStockDto();
+			
+			supplierStockDto.setCamp(campDto);
+			supplierStockDto.setProduct(productDto);
+			supplierStockDto.setInStockQuantity(totalQuantity);
+			
+			return supplierStockDto;
+		}).collect(Collectors.toList());
 	}
 
 //	@Override

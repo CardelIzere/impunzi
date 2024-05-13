@@ -63,6 +63,24 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 		return mvtStkSupplierService.findStockQuantityByCamp(supplierId);
 	}
 
+	@Override
+	public Page<MvtStkSupplierDto> findAllSorties(Long idCamp, Long idSupplier, String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findCampSupplierSortiesByProductNameSupplierNameLike(idCamp, idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findAllSupplierEntries(Long idSupplier, String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findSupplierEntriesByProductNameSupplierNameLike(idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findAllSupplierSorties(Long idSupplier, String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findSupplierSortiesByProductNameSupplierNameLike(idSupplier, search, pageable);
+	}
+
 	
 
 //	@Override

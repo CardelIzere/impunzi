@@ -49,6 +49,46 @@ public interface MvtStkSupplierApi {
     		@RequestParam(value = "size", defaultValue = "10") int size
     );
 	
+	@ApiOperation(value = "Récupérer la liste des entrées d'un fournisseur avec pagination", notes = "Cette methode permet de chercher et renvoyer la liste des entrées qui existent" + "dans la BDD",
+    		responseContainer = "Page<MvtStkSuppliersDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des entrées / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findAllSupplierEntries(
+    		@PathVariable("idSupplier") Long idSupplier,
+    		@RequestParam(value = "search", required = false) String search,
+    		@RequestParam(value = "page", defaultValue = "0") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size
+    );
+	
+	@ApiOperation(value = "Récupérer la liste des sorties d'un fournisseur par camp avec pagination", notes = "Cette methode permet de chercher et renvoyer la liste des entrées qui existent" + "dans la BDD",
+    		responseContainer = "Page<MvtStkSuppliersDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des sorties / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sorties/{idCamp}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findAllSorties(
+    		@PathVariable("idCamp") Long idCamp,
+    		@PathVariable("idSupplier") Long idSupplier,
+    		@RequestParam(value = "search", required = false) String search,
+    		@RequestParam(value = "page", defaultValue = "0") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size
+    );
+	
+	@ApiOperation(value = "Récupérer la liste des sorties d'un fournisseur avec pagination", notes = "Cette methode permet de chercher et renvoyer la liste des entrées qui existent" + "dans la BDD",
+    		responseContainer = "Page<MvtStkSuppliersDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des sorties / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sorties/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findAllSupplierSorties(
+    		@PathVariable("idSupplier") Long idSupplier,
+    		@RequestParam(value = "search", required = false) String search,
+    		@RequestParam(value = "page", defaultValue = "0") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size
+    );
+	
 	@ApiOperation(value = "Récupérer l'etat du stock d'un fournisseur par camp", notes = "Cette methode permet de chercher et renvoyer l'etat du stock qui existent" + "dans la BDD",
     		responseContainer = "Liste<MvtStkSuppliersDto>")
     @ApiResponses(value = {

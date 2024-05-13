@@ -123,8 +123,13 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 	@Override
 	public Page<MvtStkSupplierDto> findCampSupplierSortiesByProductNameSupplierNameLike(Long idCamp, Long idSupplier,
 			String search, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		Page<MvtStkSupplier> mvtStkSuppliers;
+		if(search != null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByIdCampAndIdSupplierSortiesByNameLike(idCamp, idSupplier, search, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findAllSorties(pageable);
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
 	}
 
 	@Override
@@ -155,6 +160,30 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 			campStockDTOS.add(campStockDTO);
 		}
 		return campStockDTOS;
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierEntriesByProductNameSupplierNameLike(Long idSupplier, String search,
+			Pageable pageable) {
+		Page<MvtStkSupplier> mvtStkSuppliers;
+		if(search != null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByIdSupplierEntriesByNameLike(idSupplier, search, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findAllEntries(pageable);
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierSortiesByProductNameSupplierNameLike(Long idSupplier, String search,
+			Pageable pageable) {
+		Page<MvtStkSupplier> mvtStkSupplier;
+		if(search != null) {
+			mvtStkSupplier = mvtStkSupplierRepository.findByIdSupplierSortiesByNameLike(idSupplier, search, pageable);
+		} else {
+			mvtStkSupplier = mvtStkSupplierRepository.findAllSorties(pageable);
+		}
+		return mvtStkSupplier.map(MvtStkSupplierDto::fromEntity);
 	}
 
 //	@Override

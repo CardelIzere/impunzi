@@ -24,6 +24,9 @@ public class MenageDto {
 	
 	private CampDto camp;
 	
+	@JsonIgnore
+	private List<MvtStkMenageDto> mvtStkMenages;
+	
 	public static MenageDto fromEntity(Menage menage) {
 		if(menage == null) {
 			return null;

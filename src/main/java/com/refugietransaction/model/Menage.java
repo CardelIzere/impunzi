@@ -44,5 +44,8 @@ public class Menage extends AbstractEntity {
 	@JoinColumn(name = "camp_id")
 	private Camp camp;
 	
+	@OneToMany(mappedBy = "menage")
+	private List<MvtStkMenage> mvtStkMenage;
+	
 	
 }

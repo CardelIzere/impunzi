@@ -20,6 +20,8 @@ public interface MvtStkSupplierService {
 	
 	Page<MvtStkSupplierDto> findCampSupplierEntriesByProductNameSupplierNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
 	
+	Page<MvtStkSupplierDto> findSupplierEntriesByProductNameSupplierNameLike(Long idSupplier, String search, Pageable pageable);
+	
 	List<MvtStkSupplierDto> findMvtStkSupplierBySupplierAndCamp(Long idSupplier, Long idCamp);
 	
 	List<MvtStkSupplierDto> findMvtStkSupplierByProductId(Long idProduit);
@@ -27,6 +29,8 @@ public interface MvtStkSupplierService {
 	Page<MvtStkSupplierDto> findAllByProductSupplierLike(String search, Pageable pageable);
 	
 	Page<MvtStkSupplierDto> findCampSupplierSortiesByProductNameSupplierNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
+	
+	Page<MvtStkSupplierDto> findSupplierSortiesByProductNameSupplierNameLike(Long idSupplier, String search, Pageable pageable);
 	
 	List<CampStockDto> findStockQuantityByCamp(Long supplierId);
 	

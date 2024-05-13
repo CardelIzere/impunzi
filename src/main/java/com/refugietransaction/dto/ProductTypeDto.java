@@ -19,6 +19,9 @@ public class ProductTypeDto {
 	@JsonIgnore
 	private List<ProductDto> products;
 	
+	@JsonIgnore
+	private List<MvtStkMenageDto> mvtStkMenages;
+	
 	public static ProductTypeDto fromEntity(ProductType productType) {
 		if(productType == null) {
 			return null;

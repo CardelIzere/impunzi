@@ -28,4 +28,7 @@ public class ProductType extends AbstractEntity {
 	
 	@OneToMany(mappedBy = "productType")
 	private List<Product> products;
+	
+	@OneToMany(mappedBy = "productType")
+	private List<MvtStkMenage> mvtStkMenage;
 }

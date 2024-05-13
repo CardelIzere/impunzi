@@ -12,8 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
-import com.refugietransaction.dto.SupplierStockDto;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.utils.Constants;
 
@@ -80,13 +80,13 @@ public interface MvtStkSupplierApi {
     @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/all/{idProduit}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<MvtStkSupplierDto> findMvtStkSupplierByProductId(@PathVariable("idProduit") Long idProduit);
 	
-	@ApiOperation(value = "Récupérer l'etat de stock d'un fournisseur", notes = "Cette methode permet de chercher et renvoyer l'etat de stock d'un fournisseur qui existent" + "dans la BDD",
-    		responseContainer = "List<MvtStkSupplierDto>")
+	@ApiOperation(value = "Récupérer l'etat du stock d'un fournisseur dans chaque camp ", notes = "Cette methode permet de chercher et renvoyer la liste de stock d'un produit qui existent" + "dans la BDD",
+            responseContainer = "Liste<CampStockDto>")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "L'etat de stock d'un fournisseur / Une liste vide")
+            @ApiResponse(code = 200, message = "La liste de l'etat du stock / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/etat-stock/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<SupplierStockDto> getTotalQuantityByIdSupplier(@PathVariable("idSupplier") Long idSupplier);
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/supplier-stock-quantity-groupby-camp/{supplierId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<CampStockDto> getStockQuantities(@PathVariable("supplierId") Long supplierId);
 
 //    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/stockReelMenage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
 //    BigDecimal stockReelMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);

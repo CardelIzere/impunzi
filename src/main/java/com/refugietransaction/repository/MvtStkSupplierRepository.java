@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.MvtStkSupplier;
 
 public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, Long> {
@@ -39,13 +40,20 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where (UPPER(p.nomProduit) like CONCAT('%',UPPER(?1),'%') OR UPPER(s.name) like CONCAT('%',UPPER(?1),'%')) order by m.id desc")
 	Page<MvtStkSupplier> findAllByProductSupplierLike(String search, Pageable pageable);
 	
+	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.camp.id = :idCamp And m.supplier.id = :idSupplier And m.typeMouvement = 'SORTIE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
+	Page<MvtStkSupplier> findByIdCampAndIdSupplierSortiesByNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
+	
 	List<MvtStkSupplier> findAllById(Long id);
 	
-	@Query("SELECT m.camp, m.produit, SUM(m.quantite) " +
-			"FROM MvtStkSupplier m " +
-			"WHERE m.supplier.id = :idSupplier " + 
-			"GROUP BY m.camp, m.produit")
-	List<Object[]> findTotalQuantityByIdSupplier(Long idSupplier);
+	@Query("SELECT ms.produit, SUM(ms.quantite) " +
+			"FROM MvtStkSupplier ms " +
+			"WHERE ms.camp = :camp " +
+			"AND ms.supplier.id = :supplierId " +
+			"GROUP BY ms.produit")
+	List<Object[]> findStockQuantityByCamp(@Param("supplierId") Long supplierId,Camp camp);
+
+	@Query("SELECT DISTINCT m.camp FROM MvtStkSupplier m WHERE m.supplier.id = :supplierId")
+	List<Camp> findDistinctCampsBySupplierId(@Param("supplierId") Long supplierId);
 	
 	//Liste des entrees de stock d'un produit donné dans un camp donné
 //	@Query("select m from MouvementStock m join User u on m.user.id = u.id join UserAssignment ua on u.id = ua.utilisateur.id join Camp c on ua.camp.id = c.id where m.produit.id = :idProduit AND c.id = :idCamp AND m.typeMouvement = 'ENTREE' ")

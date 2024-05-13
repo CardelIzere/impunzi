@@ -12,8 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.MvtStkSupplierApi;
+import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
-import com.refugietransaction.dto.SupplierStockDto;
 import com.refugietransaction.services.MvtStkSupplierService;
 
 @RestController
@@ -58,10 +58,12 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 	}
 
 	@Override
-	public List<SupplierStockDto> getTotalQuantityByIdSupplier(Long idSupplier) {
+	public List<CampStockDto> getStockQuantities(Long supplierId) {
 		
-		return mvtStkSupplierService.getTotalQuantityByIdSupplier(idSupplier);
+		return mvtStkSupplierService.findStockQuantityByCamp(supplierId);
 	}
+
+	
 
 //	@Override
 //	public BigDecimal stockReelMenage(Long idProduit, Long idMenage) {

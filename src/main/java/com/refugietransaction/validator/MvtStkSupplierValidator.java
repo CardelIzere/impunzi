@@ -14,13 +14,14 @@ public class MvtStkSupplierValidator {
 		
 		if (mouvementStockSupplierDto == null){
 
-			errors.add("Veillez renseigner la quantite du mouvenent");
-			errors.add("Veillez selectionner un produit");
+			errors.add("Veuillez renseigner la quantite du mouvenent");
+			errors.add("Veuillez selectionner un produit");
+			errors.add("Veuillez selectionner un camp");
 
 		}
 		
 		if(mouvementStockSupplierDto.getQuantite() == null) {
-			errors.add("Veillez renseigner la quantite du mouvenent");
+			errors.add("Veuillez renseigner la quantite du mouvenent");
 		}
 		
 		if(mouvementStockSupplierDto.getQuantite() == null || mouvementStockSupplierDto.getQuantite().compareTo(BigDecimal.valueOf(0)) == 0) {
@@ -28,7 +29,11 @@ public class MvtStkSupplierValidator {
 		}
 		
 		if(mouvementStockSupplierDto.getProduit() == null || mouvementStockSupplierDto.getProduit().getId() == null) {
-			errors.add("Veillez selectionner un produit");
+			errors.add("Veuillez selectionner un produit");
+		}
+		
+		if(mouvementStockSupplierDto.getCamp() == null || mouvementStockSupplierDto.getCamp().getId() == null || mouvementStockSupplierDto.getCamp().getId().compareTo(0L) == 0) {
+			errors.add("Veuillez selectionner le camp");
 		}
 		return errors;
 	}

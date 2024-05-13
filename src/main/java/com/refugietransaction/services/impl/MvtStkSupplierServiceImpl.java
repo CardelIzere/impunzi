@@ -2,6 +2,7 @@ package com.refugietransaction.services.impl;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.refugietransaction.dto.CampDto;
+import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductDto;
 import com.refugietransaction.dto.ProductTypeDto;
-import com.refugietransaction.dto.SupplierStockDto;
+import com.refugietransaction.dto.StockQuantityDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
@@ -116,27 +118,43 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
 	}
 
+	
+
 	@Override
-	public List<SupplierStockDto> getTotalQuantityByIdSupplier(Long idSupplier) {
-		List<Object[]> results = mvtStkSupplierRepository.findTotalQuantityByIdSupplier(idSupplier);
-		
-		return results.stream().map(result->{
-			Camp camp = (Camp) result[0];
-			Product product = (Product) result[1];
-			BigDecimal totalQuantity = (BigDecimal) result[2];
-			
-			CampDto campDto = CampDto.fromEntity(camp);
-			
-			ProductDto productDto = ProductDto.fromEntity(product);
-			
-			SupplierStockDto supplierStockDto = new SupplierStockDto();
-			
-			supplierStockDto.setCamp(campDto);
-			supplierStockDto.setProduct(productDto);
-			supplierStockDto.setInStockQuantity(totalQuantity);
-			
-			return supplierStockDto;
-		}).collect(Collectors.toList());
+	public Page<MvtStkSupplierDto> findCampSupplierSortiesByProductNameSupplierNameLike(Long idCamp, Long idSupplier,
+			String search, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CampStockDto> findStockQuantityByCamp(Long supplierId) {
+		List<Camp> camps =mvtStkSupplierRepository.findDistinctCampsBySupplierId(supplierId);
+
+		List<CampStockDto> campStockDTOS=new ArrayList<>();
+		for (Camp camp : camps) {
+			//System.out.println("Camp: " + camp.getName());
+			List<Object[]> results = mvtStkSupplierRepository.findStockQuantityByCamp(supplierId,camp);
+			List<StockQuantityDto> stockQuantities=new ArrayList<>();
+			for (Object[] result : results) {
+				Product product = (Product) result[0];
+				BigDecimal quantity = (BigDecimal) result[1];
+
+				StockQuantityDto stockQuantityDTO = new StockQuantityDto();
+				stockQuantityDTO.setProductName(product.getNomProduit());
+				stockQuantityDTO.setQuantity(quantity);
+				stockQuantities.add(stockQuantityDTO);
+
+
+				//System.out.println("\tProduct: " + product.getName() + ", Quantity: " + quantity);
+			}
+
+			CampStockDto campStockDTO = new CampStockDto();
+			campStockDTO.setCampName(camp.getNomCamp());
+			campStockDTO.setStockQuantities(stockQuantities);
+			campStockDTOS.add(campStockDTO);
+		}
+		return campStockDTOS;
 	}
 
 //	@Override

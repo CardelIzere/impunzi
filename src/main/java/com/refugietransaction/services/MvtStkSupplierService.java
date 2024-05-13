@@ -8,8 +8,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
-import com.refugietransaction.dto.SupplierStockDto;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 
 public interface MvtStkSupplierService {
@@ -26,7 +26,9 @@ public interface MvtStkSupplierService {
 	
 	Page<MvtStkSupplierDto> findAllByProductSupplierLike(String search, Pageable pageable);
 	
-	List<SupplierStockDto> getTotalQuantityByIdSupplier(Long idSupplier);
+	Page<MvtStkSupplierDto> findCampSupplierSortiesByProductNameSupplierNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
+	
+	List<CampStockDto> findStockQuantityByCamp(Long supplierId);
 	
 //	BigDecimal stockReelMenage(Long idProduit, Long idMenage);
 //

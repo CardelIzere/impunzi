@@ -22,6 +22,7 @@ public class MvtStkSupplierDto {
 	private ProductDto produit;
 	private CampDto camp;
 	
+	
 	public static MvtStkSupplierDto fromEntity(MvtStkSupplier mouvementStockSupplier) {
 		if(mouvementStockSupplier == null) {
 			return null;

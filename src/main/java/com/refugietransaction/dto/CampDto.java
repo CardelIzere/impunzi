@@ -1,6 +1,5 @@
 package com.refugietransaction.dto;
 
-import java.time.Instant;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,9 +24,8 @@ public class CampDto {
 	private List<MvtStkSupplier> mvtStkSuppliers;
 	
 	public static CampDto fromEntity(Camp camp) {
-		if(camp == null){
+		if(camp == null) {
 			return null;
-			//TODO throw an exception 
 		}
 		
 		return CampDto.builder()
@@ -38,9 +36,8 @@ public class CampDto {
 	}
 	
 	public static Camp toEntity(CampDto campDto) {
-		if(campDto == null){
+		if(campDto == null) {
 			return null;
-			//TODO throw an exception
 		}
 		
 		Camp camp = new Camp();

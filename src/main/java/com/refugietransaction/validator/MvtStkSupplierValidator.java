@@ -16,7 +16,6 @@ public class MvtStkSupplierValidator {
 
 			errors.add("Veuillez renseigner la quantite du mouvenent");
 			errors.add("Veuillez selectionner un produit");
-			errors.add("Veuillez selectionner un camp");
 
 		}
 		
@@ -32,9 +31,6 @@ public class MvtStkSupplierValidator {
 			errors.add("Veuillez selectionner un produit");
 		}
 		
-		if(mouvementStockSupplierDto.getCamp() == null || mouvementStockSupplierDto.getCamp().getId() == null || mouvementStockSupplierDto.getCamp().getId().compareTo(0L) == 0) {
-			errors.add("Veuillez selectionner le camp");
-		}
 		return errors;
 	}
 }

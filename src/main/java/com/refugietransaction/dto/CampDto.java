@@ -21,7 +21,7 @@ public class CampDto {
 	private List<MenageDto> menages;
 	
 	@JsonIgnore
-	private List<MvtStkSupplier> mvtStkSuppliers;
+	private List<MvtStkSupplierDto> mouvementStockSuppliers;
 	
 	public static CampDto fromEntity(Camp camp) {
 		if(camp == null) {

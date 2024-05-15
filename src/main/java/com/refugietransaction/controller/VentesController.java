@@ -1,5 +1,8 @@
 package com.refugietransaction.controller;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +65,31 @@ public class VentesController implements VentesApi {
 	}
 
 	@Override
-	public Page<VenteListDto> findSupplierVentes(Long idSupplier, String search, int page, int size) {
+	public Page<VenteListDto> findSupplierVentes(Long idSupplier, Date startDate, Date endDate, String search, int page,
+			int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return ventesService.findSupplierVentesByPersonneContactLike(idSupplier, search, pageable);
+		return ventesService.findSupplierVentes(startDate, endDate, idSupplier, search, pageable);
 	}
+
+	@Override
+	public BigDecimal sumSupplierVentes(Long idSupplier, Date startDate, Date endDate, String search) {
+		return ventesService.sumSupplierVentes(startDate, endDate, idSupplier, search);
+	}
+
+	@Override
+	public Page<VenteListDto> findSupplierAndCampVentes(Long idSupplier, Long idCamp, Date startDate, Date endDate,
+			String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return ventesService.findSupplierAndCampVentes(startDate, endDate, idSupplier, idCamp, search, pageable);
+	}
+
+	@Override
+	public BigDecimal sumSupplierAndCampVentes(Long idSupplier, Long idCamp, Date startDate, Date endDate,
+			String search) {
+
+		return ventesService.sumSupplierAndCampVentes(startDate, endDate, idSupplier, idCamp, search);
+	}
+
+	
 
 }

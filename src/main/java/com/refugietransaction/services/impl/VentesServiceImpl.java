@@ -1,8 +1,10 @@
 package com.refugietransaction.services.impl;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -184,11 +186,11 @@ public class VentesServiceImpl implements VentesService {
 	}
 
 	@Override
-	public Page<VenteListDto> findCampSupplierVentesBySupplierPersonneContactLike(Long idCamp, Long idSupplier,
+	public Page<VenteListDto> findCampSupplierVentesBySupplierPersonneContactLike(Long idSupplier, Long idCamp,
 			String search, Pageable pageable) {
 		Page<Ventes> ventes;
 		if(search != null) {
-			ventes = ventesRepository.findByIdCampAndIdSupplierVentesByPersonneContactLike(idCamp, idSupplier, search, pageable);
+			ventes = ventesRepository.findByIdSupplierIdCampVentesByPersonneContactLike(idSupplier, idCamp, search, pageable);
 		} else {
 			ventes = ventesRepository.findAllVentes(pageable);
 		}
@@ -215,6 +217,96 @@ public class VentesServiceImpl implements VentesService {
 		}
 		return ventes.map(VenteListDto::fromEntity);
 	}
+
+	@Override
+	public Page<VenteListDto> findSupplierVentes(Date startDate, Date endDate, Long supplierId, String search,
+			Pageable pageable) {
+		Page<Ventes> ventes=null;
+		if(startDate == null && endDate == null) {
+			//If both startDate and endDate are null, return all records without date filtering 
+			if(search == null || search.isEmpty()) {
+				ventes = ventesRepository.findBySupplierId(supplierId, pageable);
+			} else {
+				ventes = ventesRepository.findByIdSupplierVentesByPersonneContactLike(supplierId, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				ventes = ventesRepository.findByStartDateAndEndDateAndSupplierId(startDate, endDate, supplierId, pageable);
+			} else {
+				ventes = ventesRepository.findByStartDateAndEndDateAndSearchAndSupplierId(startDate, endDate, supplierId, search, pageable);
+			}
+		}
+		return ventes.map(VenteListDto::fromEntity);
+	}
+
+	@Override
+	public BigDecimal sumSupplierVentes(Date startDate, Date endDate, Long supplierId, String search) {
+		
+		BigDecimal totalSum;
+		if(startDate == null && endDate == null) {
+			//if both startDate and endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				totalSum = ventesRepository.sumBySupplierId(supplierId);
+			} else {
+				totalSum = ventesRepository.sumBySupplierIdAndSearch(supplierId, search);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				totalSum = ventesRepository.sumByStartDateAndEndDateAndSupplierId(startDate, endDate, supplierId);
+			} else {
+				totalSum = ventesRepository.sumByStartDateAndEndDateAndSearchAndSupplierId(startDate, endDate, supplierId, search);
+			}
+		}
+		return totalSum;
+	}
+
+	@Override
+	public Page<VenteListDto> findSupplierAndCampVentes(Date startDate, Date endDate, Long supplierId, Long campId,
+			String search, Pageable pageable) {
+		Page<Ventes> ventes=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				ventes = ventesRepository.findBySupplierIdAndCampId(supplierId, campId, pageable);
+			} else {
+				ventes = ventesRepository.findByIdSupplierIdCampVentesByPersonneContactLike(supplierId, campId, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				ventes = ventesRepository.findByStartDateAndEndDateAndSupplierIdAndCampId(startDate, endDate, supplierId, campId, pageable);
+			} else {
+				ventes = ventesRepository.findByStartDateAndEndDateAndSearchAndSupplierIdAndCampId(startDate, endDate, supplierId, campId, search, pageable);
+			}
+		}
+		return ventes.map(VenteListDto::fromEntity);
+	}
+
+	@Override
+	public BigDecimal sumSupplierAndCampVentes(Date startDate, Date endDate, Long supplierId, Long campId,
+			String search) {
+		BigDecimal totalSum;
+		if(startDate == null && endDate == null) {
+			//if both startDate and endDate are null, return all records without filtering 
+			if(search == null || search.isEmpty()) {
+				totalSum = ventesRepository.sumBySupplierIdAndCampId(supplierId, campId);
+			} else {
+				totalSum = ventesRepository.sumBySupplierIdAndCampIdAndSearch(supplierId, campId, search);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				totalSum = ventesRepository.sumByStartDateAndEndDateAndSupplierIdAndCampId(startDate, endDate, supplierId, campId);
+			} else {
+				totalSum = ventesRepository.sumByStartDateAndEndDateAndSearchAndSupplierIdAndCampId(startDate, endDate, supplierId, campId, search);
+			}
+		}
+		return totalSum;
+	}
+
+	
 
 	
 

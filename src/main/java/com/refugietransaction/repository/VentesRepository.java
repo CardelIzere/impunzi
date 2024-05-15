@@ -42,7 +42,7 @@ public interface VentesRepository extends JpaRepository<Ventes, Long> {
 	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where TO_CHAR(v.dateVente, '%Y-%m-%d') BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID' order by v.id desc")
 	Page<Ventes> findByStartDateAndEndDateAndSupplierId(Date startDate, Date endDate, Long idSupplier, Pageable pageable);
 	
-	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where TO_DATE(v.dateVente, '%Y-%m-%d') BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID'")
+	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where TO_CHAR(v.dateVente, '%Y-%m-%d') BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID'")
 	BigDecimal sumByStartDateAndEndDateAndSupplierId(Date startDate , Date endDate , Long idSupplier);
 	
 	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where TO_CHAR(v.dateVente, '%Y-%m-%d') BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")

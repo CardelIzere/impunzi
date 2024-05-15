@@ -39,7 +39,7 @@ public interface VentesRepository extends JpaRepository<Ventes, Long> {
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.supplier.id = :idSupplier And v.venteStatusEnum = 'PAID' ")
 	BigDecimal sumBySupplierId(Long idSupplier);
 	
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where TO_CHAR(v.dateVente, '%Y-%m-%d') BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID' order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID' order by v.id desc")
 	Page<Ventes> findByStartDateAndEndDateAndSupplierId(Date startDate, Date endDate, Long idSupplier, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where TO_CHAR(v.dateVente, '%Y-%m-%d') BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID'")

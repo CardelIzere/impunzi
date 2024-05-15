@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +32,7 @@ public class MvtStkSupplier extends AbstractEntity {
 	
 	@Column(name = "date_mouvement")
 	@Temporal(TemporalType.TIMESTAMP)
+	@Convert(converter = LocalDateConverter.class)
 	private LocalDate dateMouvement;
 	
 	@Column(name = "quantite")

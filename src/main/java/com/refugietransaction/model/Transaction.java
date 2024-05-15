@@ -3,12 +3,17 @@ package com.refugietransaction.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +29,8 @@ public class Transaction extends AbstractEntity {
 	private String transactionCode;
 	
 	@Column(name = "datetransaction")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Convert(converter = LocalDateConverter.class)
 	private LocalDate dateTransaction;
 	
 	@Column(name = "montanttransaction")

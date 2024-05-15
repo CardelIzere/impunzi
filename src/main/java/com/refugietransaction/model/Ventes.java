@@ -3,8 +3,11 @@ package com.refugietransaction.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +17,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,6 +36,8 @@ public class Ventes extends AbstractEntity {
 	private String saleCode;
 	
 	@Column(name = "datevente")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Convert(converter = LocalDateConverter.class)
 	private LocalDate dateVente;
 	
 	@ManyToOne

@@ -36,8 +36,7 @@ public class Ventes extends AbstractEntity {
 	private String saleCode;
 	
 	@Column(name = "datevente")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Convert(converter = LocalDateConverter.class)
+	@Temporal(TemporalType.DATE)
 	private LocalDate dateVente;
 	
 	@ManyToOne

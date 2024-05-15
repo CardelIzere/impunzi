@@ -27,8 +27,7 @@ import lombok.NoArgsConstructor;
 public class MvtStkMenage extends AbstractEntity{
 
     @Column(name = "datemvt")
-    @Temporal(TemporalType.TIMESTAMP)
-	@Convert(converter = LocalDateConverter.class)
+    @Temporal(TemporalType.DATE)
     private LocalDate dateMvt;
 
     @Column(name = "quantite")

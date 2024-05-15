@@ -31,8 +31,7 @@ import lombok.NoArgsConstructor;
 public class MvtStkSupplier extends AbstractEntity {
 	
 	@Column(name = "date_mouvement")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Convert(converter = LocalDateConverter.class)
+	@Temporal(TemporalType.DATE)
 	private LocalDate dateMouvement;
 	
 	@Column(name = "quantite")

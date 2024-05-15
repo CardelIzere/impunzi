@@ -29,8 +29,7 @@ public class Transaction extends AbstractEntity {
 	private String transactionCode;
 	
 	@Column(name = "datetransaction")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Convert(converter = LocalDateConverter.class)
+	@Temporal(TemporalType.DATE)
 	private LocalDate dateTransaction;
 	
 	@Column(name = "montanttransaction")

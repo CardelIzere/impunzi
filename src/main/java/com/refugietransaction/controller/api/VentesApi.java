@@ -2,6 +2,7 @@ package com.refugietransaction.controller.api;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -83,8 +84,8 @@ public interface VentesApi {
     Page<VenteListDto> findSupplierVentes(
     	    @PathVariable("idSupplier") Long idSupplier,
 
-    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
     	    @RequestParam(value = "search", required = false) String search,
     	    @RequestParam(value = "page", defaultValue = "0") int page,
     	    @RequestParam(value = "size", defaultValue = "10") int size
@@ -99,8 +100,8 @@ public interface VentesApi {
     Page<VenteListDto> findSupplierAndCampVentes(
     	    @PathVariable("idSupplier") Long idSupplier,
     	    @PathVariable("idCamp") Long idCamp,
-    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
     	    @RequestParam(value = "search", required = false) String search,
     	    @RequestParam(value = "page", defaultValue = "0") int page,
     	    @RequestParam(value = "size", defaultValue = "10") int size
@@ -109,8 +110,8 @@ public interface VentesApi {
     @GetMapping(value = Constants.APP_ROOT + "/ventes/sum/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
     BigDecimal sumSupplierVentes(
             @PathVariable("idSupplier") Long idSupplier,
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(value = "search", required = false) String search
     );
     
@@ -118,8 +119,8 @@ public interface VentesApi {
     BigDecimal sumSupplierAndCampVentes(
             @PathVariable("idSupplier") Long idSupplier,
             @PathVariable("idCamp") Long idCamp,
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(value = "search", required = false) String search
     );
     

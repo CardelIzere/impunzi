@@ -2,6 +2,7 @@ package com.refugietransaction.services.impl;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,7 +69,7 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
                 BigDecimal quantity=BigDecimal.valueOf(nbPersonnes).multiply(consParPersonne);
 
                 MvtStkMenage mvtStkMenage=new MvtStkMenage();
-                mvtStkMenage.setDateMvt(Instant.now());
+                mvtStkMenage.setDateMvt(LocalDate.now());
                 mvtStkMenage.setQuantite(quantity);
                 mvtStkMenage.setProductType(ProductTypeDto.toEntity(productTypeDistributionDto.getProductTypeDto()));
                 mvtStkMenage.setTypeMvtStkMenageEnum(TypeMvtStkMenageEnum.RECEPTION);
@@ -132,7 +133,7 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 			throw new InvalidEntityException("Le mouvement stock du menage n'est pas valide", ErrorCodes.MVTSTK_MENAGE_NOT_VALID, errors);
 		}
 		
-		dto.setDateMvt(Instant.now());
+		dto.setDateMvt(LocalDate.now());
 		dto.setQuantite(BigDecimal.valueOf(Math.abs(dto.getQuantite().doubleValue()) * -1));
 		dto.setTypeMvtStkMenage(TypeMvtStkMenageEnum.ACHAT);
 		

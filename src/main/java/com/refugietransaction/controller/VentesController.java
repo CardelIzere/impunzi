@@ -2,6 +2,7 @@ package com.refugietransaction.controller;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -65,26 +66,26 @@ public class VentesController implements VentesApi {
 	}
 
 	@Override
-	public Page<VenteListDto> findSupplierVentes(Long idSupplier, Date startDate, Date endDate, String search, int page,
+	public Page<VenteListDto> findSupplierVentes(Long idSupplier, LocalDate startDate, LocalDate endDate, String search, int page,
 			int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return ventesService.findSupplierVentes(startDate, endDate, idSupplier, search, pageable);
 	}
 
 	@Override
-	public BigDecimal sumSupplierVentes(Long idSupplier, Date startDate, Date endDate, String search) {
+	public BigDecimal sumSupplierVentes(Long idSupplier, LocalDate startDate, LocalDate endDate, String search) {
 		return ventesService.sumSupplierVentes(startDate, endDate, idSupplier, search);
 	}
 
 	@Override
-	public Page<VenteListDto> findSupplierAndCampVentes(Long idSupplier, Long idCamp, Date startDate, Date endDate,
+	public Page<VenteListDto> findSupplierAndCampVentes(Long idSupplier, Long idCamp, LocalDate startDate, LocalDate endDate,
 			String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return ventesService.findSupplierAndCampVentes(startDate, endDate, idSupplier, idCamp, search, pageable);
 	}
 
 	@Override
-	public BigDecimal sumSupplierAndCampVentes(Long idSupplier, Long idCamp, Date startDate, Date endDate,
+	public BigDecimal sumSupplierAndCampVentes(Long idSupplier, Long idCamp, LocalDate startDate, LocalDate endDate,
 			String search) {
 
 		return ventesService.sumSupplierAndCampVentes(startDate, endDate, idSupplier, idCamp, search);

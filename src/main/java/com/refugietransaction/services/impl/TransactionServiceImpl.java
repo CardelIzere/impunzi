@@ -69,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		Transaction transaction = new Transaction();
 		transaction.setTransactionCode(transactionCodePrefix()+generateTransactionCode(5));
-		transaction.setDateTransaction(Instant.now());
+		transaction.setDateTransaction(LocalDate.now());
 		transaction.setMontantTransaction(montantTransaction);
 		transaction.setVentes(ventes);
 		

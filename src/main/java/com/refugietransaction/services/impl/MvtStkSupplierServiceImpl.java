@@ -2,6 +2,7 @@ package com.refugietransaction.services.impl;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,7 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 			throw new InvalidEntityException("Le mouvement stock du fournisseur n'est pas valide", ErrorCodes.MVTSTK_SUPPLIER_NOT_VALID, errors);
 		}
 		
-		dto.setDateMouvement(Instant.now());
+		dto.setDateMouvement(LocalDate.now());
 		dto.setTypeMouvement(TypeMvtStkSupplier.ENTREE);
 		
 		return MvtStkSupplierDto.fromEntity(
@@ -81,7 +82,7 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 			throw new InvalidEntityException("Le mouvement stock du fournisseur n'est pas valide", ErrorCodes.MVTSTK_SUPPLIER_NOT_VALID, errors);
 		}
 		
-		dto.setDateMouvement(Instant.now());
+		dto.setDateMouvement(LocalDate.now());
 		dto.setQuantite(BigDecimal.valueOf(Math.abs(dto.getQuantite().doubleValue()) * -1) );
 		dto.setTypeMouvement(TypeMvtStkSupplier.SORTIE);
 		

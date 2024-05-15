@@ -1,7 +1,7 @@
 package com.refugietransaction.dto;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,7 +21,7 @@ public class VenteListDto {
 	private Long idNumber;
 	private String saleCode;
 	private String personneContact;
-	private Instant dateVente;
+	private LocalDate dateVente;
 	private VenteStatusEnum venteStatusEnum;
 	private BigDecimal montantTotal;
 	@JsonIgnore

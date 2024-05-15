@@ -1,7 +1,7 @@
 package com.refugietransaction.dto;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import com.refugietransaction.model.Transaction;
 
@@ -14,7 +14,7 @@ public class TransactionDto {
 	
 	private Long id;
 	private String transactionCode;
-	private Instant dateTransaction;
+	private LocalDate dateTransaction;
 	private BigDecimal montantTransaction;
 	private VentesDto ventes;
 	

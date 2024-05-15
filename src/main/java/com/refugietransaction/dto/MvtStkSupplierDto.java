@@ -2,6 +2,7 @@ package com.refugietransaction.dto;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.refugietransaction.model.MvtStkSupplier;
@@ -15,7 +16,7 @@ import lombok.Data;
 public class MvtStkSupplierDto {
 	
 	private Long id;
-	private Instant dateMouvement;
+	private LocalDate dateMouvement;
 	private BigDecimal quantite;
 	private TypeMvtStkSupplier typeMouvement;
 	private SupplierDto supplier;

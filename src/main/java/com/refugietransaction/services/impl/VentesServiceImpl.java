@@ -87,7 +87,7 @@ public class VentesServiceImpl implements VentesService {
 	    }
 	    
 	    dto.setSaleCode(transactionCodePrefix()+generateTransactionCode(6));
-	    dto.setDateVente(Instant.now());
+	    dto.setDateVente(LocalDate.now());
 	    dto.setVenteStatusEnum(VenteStatusEnum.UNPAID);
 	    
 	    Ventes savedVentes = ventesRepository.save(VentesDto.toEntity(dto));
@@ -125,7 +125,7 @@ public class VentesServiceImpl implements VentesService {
 	private void updateMvtStkSupplier(LigneVente ligneVente) {
 		MvtStkSupplierDto mvtStkSupplierDto = MvtStkSupplierDto.builder()
 				.produit(ProductDto.fromEntity(ligneVente.getProduct()))
-				.dateMouvement(Instant.now())
+				.dateMouvement(LocalDate.now())
 				.typeMouvement(TypeMvtStkSupplier.SORTIE)
 				.quantite(ligneVente.getQuantite())
 				.build();
@@ -136,7 +136,7 @@ public class VentesServiceImpl implements VentesService {
 	private void updateMvtStkMenage(LigneVente ligneVente) {
 		MvtStkMenageDto mvtStkMenageDto = MvtStkMenageDto.builder()
 				.productType(ProductTypeDto.fromEntity(ligneVente.getProduct().getProductType()))
-				.dateMvt(Instant.now())
+				.dateMvt(LocalDate.now())
 				.typeMvtStkMenage(TypeMvtStkMenageEnum.ACHAT)
 				.quantite(ligneVente.getQuantite())
 				.build();
@@ -219,7 +219,7 @@ public class VentesServiceImpl implements VentesService {
 	}
 
 	@Override
-	public Page<VenteListDto> findSupplierVentes(Date startDate, Date endDate, Long supplierId, String search,
+	public Page<VenteListDto> findSupplierVentes(LocalDate startDate, LocalDate endDate, Long supplierId, String search,
 			Pageable pageable) {
 		Page<Ventes> ventes=null;
 		if(startDate == null && endDate == null) {
@@ -241,7 +241,7 @@ public class VentesServiceImpl implements VentesService {
 	}
 
 	@Override
-	public BigDecimal sumSupplierVentes(Date startDate, Date endDate, Long supplierId, String search) {
+	public BigDecimal sumSupplierVentes(LocalDate startDate, LocalDate endDate, Long supplierId, String search) {
 		
 		BigDecimal totalSum;
 		if(startDate == null && endDate == null) {
@@ -263,7 +263,7 @@ public class VentesServiceImpl implements VentesService {
 	}
 
 	@Override
-	public Page<VenteListDto> findSupplierAndCampVentes(Date startDate, Date endDate, Long supplierId, Long campId,
+	public Page<VenteListDto> findSupplierAndCampVentes(LocalDate startDate, LocalDate endDate, Long supplierId, Long campId,
 			String search, Pageable pageable) {
 		Page<Ventes> ventes=null;
 		if(startDate == null || endDate == null) {
@@ -285,7 +285,7 @@ public class VentesServiceImpl implements VentesService {
 	}
 
 	@Override
-	public BigDecimal sumSupplierAndCampVentes(Date startDate, Date endDate, Long supplierId, Long campId,
+	public BigDecimal sumSupplierAndCampVentes(LocalDate startDate, LocalDate endDate, Long supplierId, Long campId,
 			String search) {
 		BigDecimal totalSum;
 		if(startDate == null && endDate == null) {

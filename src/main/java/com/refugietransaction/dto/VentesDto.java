@@ -1,6 +1,6 @@
 package com.refugietransaction.dto;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,7 +16,7 @@ public class VentesDto {
 	
 	private Long id;
 	private String saleCode;
-	private Instant dateVente;
+	private LocalDate dateVente;
 	private SupplierDto supplier;
 	private CampDto camp;
 	private MenageDto menage;

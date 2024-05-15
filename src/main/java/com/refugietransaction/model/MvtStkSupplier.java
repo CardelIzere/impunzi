@@ -1,7 +1,7 @@
 package com.refugietransaction.model;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,7 +29,7 @@ public class MvtStkSupplier extends AbstractEntity {
 	
 	@Column(name = "date_mouvement")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Instant dateMouvement;
+	private LocalDate dateMouvement;
 	
 	@Column(name = "quantite")
 	private BigDecimal quantite;

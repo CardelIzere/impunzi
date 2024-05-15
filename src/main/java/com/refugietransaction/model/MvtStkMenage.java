@@ -1,7 +1,7 @@
 package com.refugietransaction.model;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class MvtStkMenage extends AbstractEntity{
 
     @Column(name = "datemvt")
-    private Instant dateMvt;
+    private LocalDate dateMvt;
 
     @Column(name = "quantite")
     private BigDecimal quantite;

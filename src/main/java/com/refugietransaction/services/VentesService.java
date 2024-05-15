@@ -1,8 +1,7 @@
 package com.refugietransaction.services;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -26,13 +25,13 @@ public interface VentesService {
 		
 		Page<VenteListDto> findSupplierVentesByPersonneContactLike(Long idSupplier, String search, Pageable pageable);
 		
-		Page<VenteListDto> findSupplierVentes(Date startDate, Date endDate, Long supplierId, String search, Pageable pageable);
+		Page<VenteListDto> findSupplierVentes(LocalDate startDate, LocalDate endDate, Long supplierId, String search, Pageable pageable);
 		
-		BigDecimal sumSupplierVentes(Date startDate, Date endDate, Long supplierId, String search);
+		BigDecimal sumSupplierVentes(LocalDate startDate, LocalDate endDate, Long supplierId, String search);
 		
-		Page<VenteListDto> findSupplierAndCampVentes(Date startDate, Date endDate, Long supplierId, Long campId, String search, Pageable pageable);
+		Page<VenteListDto> findSupplierAndCampVentes(LocalDate startDate, LocalDate endDate, Long supplierId, Long campId, String search, Pageable pageable);
 		
-		BigDecimal sumSupplierAndCampVentes(Date startDate, Date endDate, Long supplierId, Long campId, String search);
+		BigDecimal sumSupplierAndCampVentes(LocalDate startDate, LocalDate endDate, Long supplierId, Long campId, String search);
 
 		void delete(Long id);
 }

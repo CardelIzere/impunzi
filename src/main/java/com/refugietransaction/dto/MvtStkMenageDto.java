@@ -1,7 +1,7 @@
 package com.refugietransaction.dto;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import com.refugietransaction.model.MvtStkMenage;
 import com.refugietransaction.model.TypeMvtStkMenageEnum;
@@ -14,7 +14,7 @@ import lombok.Data;
 public class MvtStkMenageDto {
 	
 	private Long id;
-	private Instant dateMvt;
+	private LocalDate dateMvt;
 	private BigDecimal quantite;
 	private TypeMvtStkMenageEnum typeMvtStkMenage;
 	private MenageDto menage;

@@ -1,7 +1,7 @@
 package com.refugietransaction.model;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ public class Transaction extends AbstractEntity {
 	private String transactionCode;
 	
 	@Column(name = "datetransaction")
-	private Instant dateTransaction;
+	private LocalDate dateTransaction;
 	
 	@Column(name = "montanttransaction")
 	private BigDecimal montantTransaction;

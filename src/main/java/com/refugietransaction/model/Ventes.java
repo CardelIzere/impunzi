@@ -1,6 +1,6 @@
 package com.refugietransaction.model;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -31,7 +31,7 @@ public class Ventes extends AbstractEntity {
 	private String saleCode;
 	
 	@Column(name = "datevente")
-	private Instant dateVente;
+	private LocalDate dateVente;
 	
 	@ManyToOne
 	@JoinColumn(name = "supplier_id")

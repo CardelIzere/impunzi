@@ -1,5 +1,7 @@
 package com.refugietransaction.controller;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,33 @@ public class TransactionController implements TransactionApi {
 	public Page<TransactionDto> findSupplierTransactions(Long idSupplier, String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return transactionService.findSupplierTransactionByIdNumberLike(idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<TransactionDto> findSupplierTransactions(Long idSupplier, LocalDate startDate, LocalDate endDate,
+			String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return transactionService.findSupplierTransactions(startDate, endDate, idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<TransactionDto> findSupplierAndCampTransactions(Long idSupplier, Long idCamp, LocalDate startDate,
+			LocalDate endDate, String search, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return transactionService.findSupplierAndCampTransactions(startDate, endDate, idSupplier, idCamp, search, pageable);
+	}
+
+	@Override
+	public BigDecimal sumSupplierTransactions(Long idSupplier, LocalDate startDate, LocalDate endDate, String search) {
+		
+		return transactionService.sumSupplierTransactions(startDate, endDate, idSupplier, search);
+	}
+
+	@Override
+	public BigDecimal sumSupplierAndCampTransactions(Long idSupplier, Long idCamp, LocalDate startDate,
+			LocalDate endDate, String search) {
+		
+		return transactionService.sumSupplierAndCampTransactions(startDate, endDate, idSupplier, idCamp, search);
 	}
 
 }

@@ -154,4 +154,92 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactions.map(TransactionDto::fromEntity);
 	}
 
+	@Override
+	public Page<TransactionDto> findSupplierTransactions(LocalDate startDate, LocalDate endDate, Long supplierId,
+			String search, Pageable pageable) {
+		Page<Transaction> transactions=null;
+		if(startDate == null && endDate == null) {
+			//if both startDate and endDate, return all records without 
+			if(search == null || search.isEmpty()) {
+				transactions = transactionRepository.findBySupplierId(supplierId, pageable);
+			} else {
+				transactions = transactionRepository.findSupplierTransactionByIdNumberLike(supplierId, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				transactions = transactionRepository.findByStartDateAndEndDateAndSupplierId(startDate, endDate, supplierId, pageable);
+			} else {
+				transactions = transactionRepository.findByStartDateAndEndDateAndSearchAndSupplierId(startDate, endDate, supplierId, search, pageable);
+			}
+		}
+		return transactions.map(TransactionDto::fromEntity);
+	}
+
+	@Override
+	public BigDecimal sumSupplierTransactions(LocalDate startDate, LocalDate endDate, Long supplierId, String search) {
+		BigDecimal totalSum;
+		if(startDate == null && endDate == null) {
+			//if both startDate and endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				totalSum = transactionRepository.sumBySupplierId(supplierId);
+			} else {
+				totalSum = transactionRepository.sumBySupplierIdAndSearch(supplierId, search);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				totalSum = transactionRepository.sumByStartDateAndEndDateAndSupplierId(startDate, endDate, supplierId);
+			} else {
+				totalSum = transactionRepository.sumByStartDateAndEndDateAndSearchAndSupplierId(startDate, endDate, supplierId, search);
+			}
+		}
+		return totalSum;
+	}
+
+	@Override
+	public Page<TransactionDto> findSupplierAndCampTransactions(LocalDate startDate, LocalDate endDate, Long supplierId,
+			Long campId, String search, Pageable pageable) {
+		Page<Transaction> transactions=null;
+		if(startDate == null && endDate == null) {
+			//if both startDate and endDate, return all records without 
+			if(search == null || search.isEmpty()) {
+				transactions = transactionRepository.findBySupplierIdAndCampId(supplierId, campId, pageable);
+			} else {
+				transactions = transactionRepository.findCampSupplierTransactionByIdNumberLike(campId, supplierId, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				transactions = transactionRepository.findByStartDateAndEndDateAndSupplierIdAndCampId(startDate, endDate, supplierId, campId, pageable);
+			} else {
+				transactions = transactionRepository.findByStartDateAndEndDateAndSearchAndSupplierIdAndCampId(startDate, endDate, supplierId, campId, search, pageable);
+			}
+		}
+		return transactions.map(TransactionDto::fromEntity);
+	}
+
+	@Override
+	public BigDecimal sumSupplierAndCampTransactions(LocalDate startDate, LocalDate endDate, Long supplierId,
+			Long campId, String search) {
+		
+		BigDecimal totalSum;
+		if(startDate == null && endDate == null) {
+			//if both startDate and endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				totalSum = transactionRepository.sumBySupplierIdAndCampId(supplierId, campId);
+			} else {
+				totalSum = transactionRepository.sumBySupplierIdAndCampIdAndSearch(supplierId, campId, search);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				totalSum = transactionRepository.sumByStartDateAndEndDateAndSupplierIdAndCampId(startDate, endDate, supplierId, campId);
+			} else {
+				totalSum = transactionRepository.sumByStartDateAndEndDateAndSearchAndSupplierIdAndCampId(startDate, endDate, supplierId, campId, search);
+			}
+		}
+		return totalSum;
+	}
+
 }

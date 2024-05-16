@@ -1,8 +1,11 @@
 package com.refugietransaction.controller.api;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +54,7 @@ public interface TransactionApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des transactions / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/transactions/list/{idCamp}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = Constants.APP_ROOT + "/transactions/all/{idCamp}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<TransactionDto> findCampSupplierTransactions(
     		@PathVariable("idCamp") Long idCamp,
     		@PathVariable("idSupplier") Long idSupplier,
@@ -65,12 +68,61 @@ public interface TransactionApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des transactions / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/transactions/list/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = Constants.APP_ROOT + "/transactions/all/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<TransactionDto> findSupplierTransactions(
     		@PathVariable("idSupplier") Long idSupplier,
     		@RequestParam(value = "search", required = false) String search,
     		@RequestParam(value = "page", defaultValue = "0") int page,
     		@RequestParam(value = "size", defaultValue = "10") int size
+    );
+    
+    @ApiOperation(value = "Récupérer la liste des transactions par fournisseur", notes = "Cette methode permet de chercher et renvoyer la liste des transactions qui existent" + "dans la BDD",
+    	    responseContainer = "Page<TransactionDto>")
+    @ApiResponses(value = {
+    		@ApiResponse(code = 200, message = "La liste des transactions / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/transactions/list/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<TransactionDto> findSupplierTransactions(
+    	    @PathVariable("idSupplier") Long idSupplier,
+
+    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+    	    @RequestParam(value = "search", required = false) String search,
+    	    @RequestParam(value = "page", defaultValue = "0") int page,
+    	    @RequestParam(value = "size", defaultValue = "10") int size
+    );
+    
+    @ApiOperation(value = "Récupérer la liste des transactions par fournisseur et par camp", notes = "Cette methode permet de chercher et renvoyer la liste des transactions qui existent" + "dans la BDD",
+    	    responseContainer = "Page<TransactionDto>")
+    @ApiResponses(value = {
+    		@ApiResponse(code = 200, message = "La liste des transactions / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/transactions/list/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<TransactionDto> findSupplierAndCampTransactions(
+    	    @PathVariable("idSupplier") Long idSupplier,
+    	    @PathVariable("idCamp") Long idCamp,
+    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+    	    @RequestParam(value = "search", required = false) String search,
+    	    @RequestParam(value = "page", defaultValue = "0") int page,
+    	    @RequestParam(value = "size", defaultValue = "10") int size
+    );
+    
+    @GetMapping(value = Constants.APP_ROOT + "/transactions/sum/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    BigDecimal sumSupplierTransactions(
+            @PathVariable("idSupplier") Long idSupplier,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(value = "search", required = false) String search
+    );
+    
+    @GetMapping(value = Constants.APP_ROOT + "/transactions/sum/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    BigDecimal sumSupplierAndCampTransactions(
+            @PathVariable("idSupplier") Long idSupplier,
+            @PathVariable("idCamp") Long idCamp,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(value = "search", required = false) String search
     );
     
     @ApiOperation(value = "Supprimer une transaction par son ID", notes = "Cette methode permet de supprimer un produit")

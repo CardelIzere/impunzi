@@ -42,6 +42,22 @@ public interface MvtStkSupplierService {
 	Page<MvtStkSupplierDto> findSupplierSortiesByProductNameSupplierNameLike(Long idSupplier, String search, Pageable pageable);
 	Page<MvtStkSupplierDto> findSupplierSorties(LocalDate startDate, LocalDate endDate, Long supplierId, String search, Pageable pageable);
 	
+	//Entries by product_id, camp_id and supplier_id
+	Page<MvtStkSupplierDto> findProductCampSupplierEntriesByProductNameSupplierNameLike(Long idProduct, Long idCamp, Long idSupplier, String search, Pageable pageable);
+	Page<MvtStkSupplierDto> findProductCampSupplierEntries(LocalDate startDate, LocalDate endDate, Long idProduct, Long idCamp, Long idSupplier, String search, Pageable pageable);
+	
+	//Entries by product_id and supplier_id
+	Page<MvtStkSupplierDto> findProductSupplierEntriesByProductNameSupplierNameLike(Long idProduct, Long idSupplier, String search, Pageable pageable);
+	Page<MvtStkSupplierDto> findProductSupplierEntries(LocalDate startDate, LocalDate endDate, Long idProduct, Long idSupplier, String search, Pageable pageable);
+	
+	//Sorties by product_id, camp_id and supplier_id
+	Page<MvtStkSupplierDto> findProductCampSupplierSortiesByProductNameSupplierNameLike(Long idProduct, Long idCamp, Long idSupplier, String search, Pageable pageable);
+	Page<MvtStkSupplierDto> findProductCampSupplierSorties(LocalDate startDate, LocalDate endDate, Long idProduct, Long idCamp, Long idSupplier, String search, Pageable pageable);
+	
+	//Sorties by product_id and supplier_id
+	Page<MvtStkSupplierDto> findProductSupplierSortiesByProductNameSupplierNameLike(Long idProduit, Long idSupplier, String search, Pageable pageable);
+	Page<MvtStkSupplierDto> findProductSupplierSorties(LocalDate startDate, LocalDate endDate, Long idProduct, Long idSupplier, String search, Pageable pageable);
+	
 	List<CampStockDto> findStockQuantityByCamp(Long supplierId);
 	
 //	BigDecimal stockReelMenage(Long idProduit, Long idMenage);

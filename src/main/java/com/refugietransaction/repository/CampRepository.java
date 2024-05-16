@@ -27,6 +27,4 @@ public interface CampRepository extends JpaRepository<Camp, Long> {
 	  @Query(value = "select c from Camp c where UPPER(c.nomCamp) like CONCAT('%', UPPER(?1), '%') OR UPPER(c.addressCamp) like CONCAT('%',UPPER(?1),'%') order by c.id desc ")
 	  Page<Camp> findByNameCampAddressLike(String search, Pageable pageable);
 	  
-//	  @Query(value = "select c from Camp c LEFT JOIN MvtStkSupplier mv where c.id = :idCamp And mv.supplier.id = :idSupplier And (UPPER(c.nomCamp) like CONCAT('%', UPPER(?1), '%') OR UPPER(c.addressCamp) like CONCAT('%',UPPER(?1),'%')) order by c.id desc ")
-//	  Page<Camp> findByCampSupplierAndSearch(Long idCamp, Long idSupplier, String search, Pageable pageable);
 }

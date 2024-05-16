@@ -279,6 +279,150 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
 	}
 
+	@Override
+	public Page<MvtStkSupplierDto> findProductCampSupplierEntriesByProductNameSupplierNameLike(Long idProduct,
+			Long idCamp, Long idSupplier, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers;
+		if(search != null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByIdProductIdCampAndIdSupplierEntriesByNameLike(idProduct, idCamp, idSupplier, search, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByProductIdSupplierIdCampIdEntries(idProduct, idSupplier, idCamp, pageable);
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductCampSupplierEntries(LocalDate startDate, LocalDate endDate,
+			Long idProduct, Long idCamp, Long idSupplier, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByProductIdSupplierIdCampIdEntries(idProduct, idSupplier, idCamp, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByIdProductIdCampAndIdSupplierEntriesByNameLike(idProduct, idCamp, idSupplier, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByStartDateAndEndDateAndProductIdSupplierIdCampId(startDate, endDate, idProduct, idSupplier, idCamp, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByStartDateAndEndDateAndSearchAndProductIdSupplierIdCampId(startDate, endDate, idProduct, idSupplier, idCamp, search, pageable);
+			}
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductSupplierEntriesByProductNameSupplierNameLike(Long idProduct,
+			Long idSupplier, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers;
+		if(search != null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByIdProductIdSupplierEntriesByNameLike(idProduct, idSupplier, search, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByProductIdSupplierIdEntries(idProduct, idSupplier, pageable);
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductSupplierEntries(LocalDate startDate, LocalDate endDate, Long idProduct,
+			Long idSupplier, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByProductIdSupplierIdEntries(idProduct, idSupplier, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByIdProductIdSupplierEntriesByNameLike(idProduct, idSupplier, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByStartDateAndEndDateAndProductIdSupplierId(startDate, endDate, idProduct, idSupplier, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByStartDateAndEndDateAndSearchAndProductIdSupplierId(startDate, endDate, idProduct, idSupplier, search, pageable);
+			}
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductCampSupplierSortiesByProductNameSupplierNameLike(Long idProduct,
+			Long idCamp, Long idSupplier, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers;
+		if(search != null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByIdProductIdCampAndIdSupplierSortiesByNameLike(idProduct, idCamp, idSupplier, search, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByProductIdSupplierIdCampIdSorties(idProduct, idSupplier, idCamp, pageable);
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductCampSupplierSorties(LocalDate startDate, LocalDate endDate,
+			Long idProduct, Long idCamp, Long idSupplier, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByProductIdSupplierIdCampIdSorties(idProduct, idSupplier, idCamp, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByIdProductIdCampAndIdSupplierSortiesByNameLike(idProduct, idCamp, idSupplier, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findSortiesByStartDateAndEndDateAndProductIdSupplierIdCampId(startDate, endDate, idProduct, idSupplier, idCamp, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findSortiesByStartDateAndEndDateAndSearchAndProductIdSupplierIdCampId(startDate, endDate, idProduct, idSupplier, idCamp, search, pageable);
+			}
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductSupplierSortiesByProductNameSupplierNameLike(Long idProduit,
+			Long idSupplier, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers;
+		if(search != null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByIdProductIdSupplierSortiesByNameLike(idProduit, idSupplier, search, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findByProductIdSupplierIdSorties(idProduit, idSupplier, pageable);
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductSupplierSorties(LocalDate startDate, LocalDate endDate, Long idProduct,
+			Long idSupplier, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByProductIdSupplierIdSorties(idProduct, idSupplier, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByIdProductIdSupplierSortiesByNameLike(idProduct, idSupplier, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findSortiesByStartDateAndEndDateAndProductIdSupplierId(startDate, endDate, idProduct, idSupplier, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findSortiesByStartDateAndEndDateAndSearchAndProductIdSupplierId(startDate, endDate, idProduct, idSupplier, search, pageable);
+			}
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
 //	@Override
 //	public BigDecimal stockReelMenage(Long idProduit, Long idMenage) {
 //		

@@ -114,6 +114,38 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 		return mvtStkSupplierService.findSupplierAndCampSorties(startDate, endDate, idSupplier, idCamp, search, pageable);
 	}
 
+	@Override
+	public Page<MvtStkSupplierDto> findProductSupplierEntries(Long idSupplier, Long idProduct, LocalDate startDate,
+			LocalDate endDate, String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findProductSupplierEntries(startDate, endDate, idProduct, idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductAndSupplierAndCampEntries(Long idProduct, Long idSupplier, Long idCamp,
+			LocalDate startDate, LocalDate endDate, String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findProductCampSupplierEntries(startDate, endDate, idProduct, idCamp, idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductSupplierSorties(Long idProduct, Long idSupplier, LocalDate startDate,
+			LocalDate endDate, String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findProductSupplierSorties(startDate, endDate, idProduct, idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findProductAndSupplierAndCampSorties(Long idProduct, Long idSupplier, Long idCamp,
+			LocalDate startDate, LocalDate endDate, String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findProductCampSupplierSorties(startDate, endDate, idProduct, idCamp, idSupplier, search, pageable);
+	}
+
 	
 
 //	@Override

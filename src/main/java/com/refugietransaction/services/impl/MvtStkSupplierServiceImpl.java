@@ -69,7 +69,7 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		if(search != null) {
 			mvtStkSuppliers = mvtStkSupplierRepository.findByIdCampAndIdSupplierEntriesByNameLike(idCamp, idSupplier, search, pageable);
 		} else {
-			mvtStkSuppliers = mvtStkSupplierRepository.findAllEntries(pageable);
+			mvtStkSuppliers = mvtStkSupplierRepository.findBySupplierIdCampIdEntries(idSupplier, idCamp, pageable);
 		}
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
 	}
@@ -128,7 +128,7 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		if(search != null) {
 			mvtStkSuppliers = mvtStkSupplierRepository.findByIdCampAndIdSupplierSortiesByNameLike(idCamp, idSupplier, search, pageable);
 		} else {
-			mvtStkSuppliers = mvtStkSupplierRepository.findAllSorties(pageable);
+			mvtStkSuppliers = mvtStkSupplierRepository.findBySupplierIdCampIdSorties(idSupplier, idCamp, pageable);
 		}
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
 	}
@@ -170,7 +170,7 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		if(search != null) {
 			mvtStkSuppliers = mvtStkSupplierRepository.findByIdSupplierEntriesByNameLike(idSupplier, search, pageable);
 		} else {
-			mvtStkSuppliers = mvtStkSupplierRepository.findAllEntries(pageable);
+			mvtStkSuppliers = mvtStkSupplierRepository.findBySupplierIdEntries(idSupplier, pageable);
 		}
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
 	}
@@ -182,9 +182,101 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		if(search != null) {
 			mvtStkSupplier = mvtStkSupplierRepository.findByIdSupplierSortiesByNameLike(idSupplier, search, pageable);
 		} else {
-			mvtStkSupplier = mvtStkSupplierRepository.findAllSorties(pageable);
+			mvtStkSupplier = mvtStkSupplierRepository.findBySupplierIdSorties(idSupplier, pageable);
 		}
 		return mvtStkSupplier.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierAndCampEntries(LocalDate startDate, LocalDate endDate, Long supplierId,
+			Long campId, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findBySupplierIdCampIdEntries(supplierId, campId, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByIdCampAndIdSupplierEntriesByNameLike(campId, supplierId, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByStartDateAndEndDateAndSupplierIdCampId(startDate, endDate, supplierId, campId, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByStartDateAndEndDateAndSearchAndSupplierIdCampId(startDate, endDate, supplierId, campId, search, pageable);
+			}
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierEntries(LocalDate startDate, LocalDate endDate, Long supplierId,
+			String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findBySupplierIdEntries(supplierId, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByIdSupplierEntriesByNameLike(supplierId, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByStartDateAndEndDateAndSupplierId(startDate, endDate, supplierId, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findEntriesByStartDateAndEndDateAndSearchAndSupplierId(startDate, endDate, supplierId, search, pageable);
+			}
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierAndCampSorties(LocalDate startDate, LocalDate endDate, Long supplierId,
+			Long campId, String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findBySupplierIdCampIdSorties(supplierId, campId, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByIdCampAndIdSupplierSortiesByNameLike(campId, supplierId, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findSortiesByStartDateAndEndDateAndSupplierIdCampId(startDate, endDate, supplierId, campId, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findSortiesByStartDateAndEndDateAndSearchAndSupplierIdCampId(startDate, endDate, supplierId, campId, search, pageable);
+			}
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierSorties(LocalDate startDate, LocalDate endDate, Long supplierId,
+			String search, Pageable pageable) {
+		
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			//if both startDate end endDate are null, return all records without date filtering
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findBySupplierIdSorties(supplierId, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findByIdSupplierSortiesByNameLike(supplierId, search, pageable);
+			}
+		}
+		else {
+			if(search == null || search.isEmpty()) {
+				mvtStkSuppliers = mvtStkSupplierRepository.findSortiesByStartDateAndEndDateAndSupplierId(startDate, endDate, supplierId, pageable);
+			} else {
+				mvtStkSuppliers = mvtStkSupplierRepository.findSortiesByStartDateAndEndDateAndSearchAndSupplierId(startDate, endDate, supplierId, search, pageable);
+			}
+		}
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
 	}
 
 //	@Override

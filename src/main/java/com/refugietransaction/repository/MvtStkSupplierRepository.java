@@ -2,6 +2,7 @@ package com.refugietransaction.repository;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -13,17 +14,39 @@ import org.springframework.data.repository.query.Param;
 
 import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.MvtStkSupplier;
+import com.refugietransaction.model.Ventes;
 
 public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, Long> {
 	
+	//Entries
 	@Query("select m from MvtStkSupplier m where m.typeMouvement = 'ENTREE' order by m.id desc ")
 	Page<MvtStkSupplier> findAllEntries(Pageable pageable);
 	
+	//Entries by camp_id and supplier_id
 	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.camp.id = :idCamp And m.supplier.id = :idSupplier And m.typeMouvement = 'ENTREE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
 	Page<MvtStkSupplier> findByIdCampAndIdSupplierEntriesByNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
 	
+	@Query("select m from MvtStkSupplier m join Supplier s on m.supplier.id = s.id where m.supplier.id = :idSupplier And m.camp.id = :idCamp And m.typeMouvement = 'ENTREE' order by m.id desc")
+	Page<MvtStkSupplier> findBySupplierIdCampIdEntries(Long idSupplier, Long idCamp, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Supplier s on m.supplier.id = s.id where m.dateMouvement BETWEEN :startDate AND :endDate AND m.supplier.id = :idSupplier And m.camp.id = :idCamp And m.typeMouvement = 'ENTREE' order by m.id desc")
+	Page<MvtStkSupplier> findEntriesByStartDateAndEndDateAndSupplierIdCampId(LocalDate startDate, LocalDate endDate, Long idSupplier, Long idCamp, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.dateMouvement BETWEEN :startDate AND :endDate AND m.supplier.id = :idSupplier And m.camp.id = :idCamp And m.typeMouvement = 'ENTREE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
+	Page<MvtStkSupplier> findEntriesByStartDateAndEndDateAndSearchAndSupplierIdCampId(LocalDate startDate ,LocalDate endDate, Long idSupplier, Long idCamp, String search, Pageable pageable);
+	
+	//Entries by supplier_id
 	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.supplier.id = :idSupplier And m.typeMouvement = 'ENTREE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
 	Page<MvtStkSupplier> findByIdSupplierEntriesByNameLike(Long idSupplier, String search, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Supplier s on m.supplier.id = s.id where m.supplier.id = :idSupplier And m.typeMouvement = 'ENTREE' order by m.id desc")
+	Page<MvtStkSupplier> findBySupplierIdEntries(Long idSupplier, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Supplier s on m.supplier.id = s.id where m.dateMouvement BETWEEN :startDate AND :endDate AND m.supplier.id = :idSupplier And m.typeMouvement = 'ENTREE' order by m.id desc")
+	Page<MvtStkSupplier> findEntriesByStartDateAndEndDateAndSupplierId(LocalDate startDate, LocalDate endDate, Long idSupplier, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.dateMouvement BETWEEN :startDate AND :endDate AND m.supplier.id = :idSupplier And m.typeMouvement = 'ENTREE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
+	Page<MvtStkSupplier> findEntriesByStartDateAndEndDateAndSearchAndSupplierId(LocalDate startDate ,LocalDate endDate, Long idSupplier, String search, Pageable pageable);
 	
 	@Query("select sum(m.quantite) from  MvtStkSupplier m where m.produit.id = :idProduit and m.supplier.id = :idSupplier")
 	BigDecimal stockReelSupplier(@Param("idProduit") Long idProduit, @Param("idSupplier") Long idSupplier);
@@ -43,14 +66,35 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where (UPPER(p.nomProduit) like CONCAT('%',UPPER(?1),'%') OR UPPER(s.name) like CONCAT('%',UPPER(?1),'%')) order by m.id desc")
 	Page<MvtStkSupplier> findAllByProductSupplierLike(String search, Pageable pageable);
 	
+	//Sorties
 	@Query("select m from MvtStkSupplier m where m.typeMouvement = 'SORTIE' order by m.id desc ")
 	Page<MvtStkSupplier> findAllSorties(Pageable pageable);
 	
+	//Sorties by camp_id and suuplier_id
 	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.camp.id = :idCamp And m.supplier.id = :idSupplier And m.typeMouvement = 'SORTIE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
 	Page<MvtStkSupplier> findByIdCampAndIdSupplierSortiesByNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
 	
+	@Query("select m from MvtStkSupplier m join Supplier s on m.supplier.id = s.id where m.supplier.id = :idSupplier And m.camp.id = :idCamp And m.typeMouvement = 'SORTIE' order by m.id desc")
+	Page<MvtStkSupplier> findBySupplierIdCampIdSorties(Long idSupplier, Long idCamp, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Supplier s on m.supplier.id = s.id where m.dateMouvement BETWEEN :startDate AND :endDate AND m.supplier.id = :idSupplier And m.camp.id = :idCamp And m.typeMouvement = 'SORTIE' order by m.id desc")
+	Page<MvtStkSupplier> findSortiesByStartDateAndEndDateAndSupplierIdCampId(LocalDate startDate, LocalDate endDate, Long idSupplier, Long idCamp, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.dateMouvement BETWEEN :startDate AND :endDate AND m.supplier.id = :idSupplier And m.camp.id = :idCamp And m.typeMouvement = 'SORTIE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
+	Page<MvtStkSupplier> findSortiesByStartDateAndEndDateAndSearchAndSupplierIdCampId(LocalDate startDate ,LocalDate endDate, Long idSupplier, Long idCamp, String search, Pageable pageable);
+	
+	//Sorties by supplier_id
 	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.supplier.id = :idSupplier And m.typeMouvement = 'SORTIE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
 	Page<MvtStkSupplier> findByIdSupplierSortiesByNameLike(Long idSupplier, String search, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Supplier s on m.supplier.id = s.id where m.supplier.id = :idSupplier And m.typeMouvement = 'SORTIE' order by m.id desc")
+	Page<MvtStkSupplier> findBySupplierIdSorties(Long idSupplier, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Supplier s on m.supplier.id = s.id where m.dateMouvement BETWEEN :startDate AND :endDate AND m.supplier.id = :idSupplier And m.typeMouvement = 'SORTIE' order by m.id desc")
+	Page<MvtStkSupplier> findSortiesByStartDateAndEndDateAndSupplierId(LocalDate startDate, LocalDate endDate, Long idSupplier, Pageable pageable);
+	
+	@Query("select m from MvtStkSupplier m join Product p on m.produit.id = p.id join Supplier s on m.supplier.id = s.id where m.dateMouvement BETWEEN :startDate AND :endDate AND m.supplier.id = :idSupplier And m.typeMouvement = 'SORTIE' And (UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') OR UPPER(s.name) like CONCAT('%',UPPER(:search),'%')) order by m.id desc")
+	Page<MvtStkSupplier> findSortiesByStartDateAndEndDateAndSearchAndSupplierId(LocalDate startDate ,LocalDate endDate, Long idSupplier, String search, Pageable pageable);
 	
 	List<MvtStkSupplier> findAllById(Long id);
 	

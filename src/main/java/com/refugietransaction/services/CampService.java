@@ -17,5 +17,7 @@ public interface CampService {
 	
 	Page<CampDto> findByNameCampAddressLike(String search, Pageable pageable);
 	
+	//Page<CampDto> findByCampSupplierAndSearch(Long idCamp, Long idSupplier, String search, Pageable pageable);
+	
 	void delete(Long id);
 }

@@ -2,6 +2,7 @@ package com.refugietransaction.controller;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -79,6 +80,38 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 	public Page<MvtStkSupplierDto> findAllSupplierSorties(Long idSupplier, String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return mvtStkSupplierService.findSupplierSortiesByProductNameSupplierNameLike(idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierEntries(Long idSupplier, LocalDate startDate, LocalDate endDate,
+			String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findSupplierEntries(startDate, endDate, idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierAndCampEntries(Long idSupplier, Long idCamp, LocalDate startDate,
+			LocalDate endDate, String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findSupplierAndCampEntries(startDate, endDate, idSupplier, idCamp, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierSorties(Long idSupplier, LocalDate startDate, LocalDate endDate,
+			String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findSupplierSorties(startDate, endDate, idSupplier, search, pageable);
+	}
+
+	@Override
+	public Page<MvtStkSupplierDto> findSupplierAndCampSorties(Long idSupplier, Long idCamp, LocalDate startDate,
+			LocalDate endDate, String search, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return mvtStkSupplierService.findSupplierAndCampSorties(startDate, endDate, idSupplier, idCamp, search, pageable);
 	}
 
 	

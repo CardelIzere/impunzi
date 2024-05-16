@@ -2,6 +2,7 @@ package com.refugietransaction.services;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +19,14 @@ public interface MvtStkSupplierService {
 	
 	MvtStkSupplierDto sortie(MvtStkSupplierDto dto);
 	
+	//Entries by camp_id and supplier_id
 	Page<MvtStkSupplierDto> findCampSupplierEntriesByProductNameSupplierNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
+	Page<MvtStkSupplierDto> findSupplierAndCampEntries(LocalDate startDate, LocalDate endDate, Long supplierId, Long campId, String search, Pageable pageable);
 	
+	//Entries by supplier_id
 	Page<MvtStkSupplierDto> findSupplierEntriesByProductNameSupplierNameLike(Long idSupplier, String search, Pageable pageable);
+	Page<MvtStkSupplierDto> findSupplierEntries(LocalDate startDate, LocalDate endDate, Long supplierId, String search, Pageable pageable);
+	
 	
 	List<MvtStkSupplierDto> findMvtStkSupplierBySupplierAndCamp(Long idSupplier, Long idCamp);
 	
@@ -28,9 +34,13 @@ public interface MvtStkSupplierService {
 	
 	Page<MvtStkSupplierDto> findAllByProductSupplierLike(String search, Pageable pageable);
 	
+	//Sorties by camp_id and supplier_id
 	Page<MvtStkSupplierDto> findCampSupplierSortiesByProductNameSupplierNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
+	Page<MvtStkSupplierDto> findSupplierAndCampSorties(LocalDate startDate, LocalDate endDate, Long supplierId, Long campId, String search, Pageable pageable);
 	
+	//Sorties by supplier_id
 	Page<MvtStkSupplierDto> findSupplierSortiesByProductNameSupplierNameLike(Long idSupplier, String search, Pageable pageable);
+	Page<MvtStkSupplierDto> findSupplierSorties(LocalDate startDate, LocalDate endDate, Long supplierId, String search, Pageable pageable);
 	
 	List<CampStockDto> findStockQuantityByCamp(Long supplierId);
 	

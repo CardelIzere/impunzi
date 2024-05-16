@@ -2,6 +2,7 @@ package com.refugietransaction.controller.api;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
+import com.refugietransaction.dto.VenteListDto;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.utils.Constants;
 
@@ -127,6 +129,70 @@ public interface MvtStkSupplierApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/supplier-stock-quantity-groupby-camp/{supplierId}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<CampStockDto> getStockQuantities(@PathVariable("supplierId") Long supplierId);
+	
+	@ApiOperation(value = "Récupérer la liste des entrees par fournisseur", notes = "Cette methode permet de chercher et renvoyer la liste des ventes qui existent" + "dans la BDD",
+    	    responseContainer = "Page<MvtStkSupplierDto>")
+    @ApiResponses(value = {
+    		@ApiResponse(code = 200, message = "La liste des entrees / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries/list/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findSupplierEntries(
+    	    @PathVariable("idSupplier") Long idSupplier,
+
+    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+    	    @RequestParam(value = "search", required = false) String search,
+    	    @RequestParam(value = "page", defaultValue = "0") int page,
+    	    @RequestParam(value = "size", defaultValue = "10") int size
+    );
+	
+	@ApiOperation(value = "Récupérer la liste des entrees par fournisseur et par camp", notes = "Cette methode permet de chercher et renvoyer la liste des ventes qui existent" + "dans la BDD",
+    	    responseContainer = "Page<MvtStkSupplierDto>")
+    @ApiResponses(value = {
+    		@ApiResponse(code = 200, message = "La liste des entrees / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries/list/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findSupplierAndCampEntries(
+    	    @PathVariable("idSupplier") Long idSupplier,
+    	    @PathVariable("idCamp") Long idCamp,
+    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+    	    @RequestParam(value = "search", required = false) String search,
+    	    @RequestParam(value = "page", defaultValue = "0") int page,
+    	    @RequestParam(value = "size", defaultValue = "10") int size
+    );
+	
+	@ApiOperation(value = "Récupérer la liste des sorties par fournisseur", notes = "Cette methode permet de chercher et renvoyer la liste des ventes qui existent" + "dans la BDD",
+    	    responseContainer = "Page<MvtStkSupplierDto>")
+    @ApiResponses(value = {
+    		@ApiResponse(code = 200, message = "La liste des sorties / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sorties/list/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findSupplierSorties(
+    	    @PathVariable("idSupplier") Long idSupplier,
+
+    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+    	    @RequestParam(value = "search", required = false) String search,
+    	    @RequestParam(value = "page", defaultValue = "0") int page,
+    	    @RequestParam(value = "size", defaultValue = "10") int size
+    );
+	
+	@ApiOperation(value = "Récupérer la liste des sorties par fournisseur et par camp", notes = "Cette methode permet de chercher et renvoyer la liste des ventes qui existent" + "dans la BDD",
+    	    responseContainer = "Page<MvtStkSupplierDto>")
+    @ApiResponses(value = {
+    		@ApiResponse(code = 200, message = "La liste des sorties / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sorties/list/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Page<MvtStkSupplierDto> findSupplierAndCampSorties(
+    	    @PathVariable("idSupplier") Long idSupplier,
+    	    @PathVariable("idCamp") Long idCamp,
+    	    @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+    	    @RequestParam(value = "search", required = false) String search,
+    	    @RequestParam(value = "page", defaultValue = "0") int page,
+    	    @RequestParam(value = "size", defaultValue = "10") int size
+    );
 
 //    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/stockReelMenage/{idProduit}/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
 //    BigDecimal stockReelMenage(@PathVariable("idProduit") Long idProduit, @PathVariable("idMenage") Long idMenage);

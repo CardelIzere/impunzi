@@ -16,12 +16,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.refugietransaction.dto.CampDto;
 import com.refugietransaction.dto.LigneVenteDto;
 import com.refugietransaction.dto.MenageDto;
 import com.refugietransaction.dto.MvtStkMenageDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductDto;
 import com.refugietransaction.dto.ProductTypeDto;
+import com.refugietransaction.dto.SupplierDto;
 import com.refugietransaction.dto.VenteListDto;
 import com.refugietransaction.dto.VentesDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
@@ -125,6 +127,8 @@ public class VentesServiceImpl implements VentesService {
 	private void updateMvtStkSupplier(LigneVente ligneVente) {
 		MvtStkSupplierDto mvtStkSupplierDto = MvtStkSupplierDto.builder()
 				.produit(ProductDto.fromEntity(ligneVente.getProduct()))
+				.supplier(SupplierDto.fromEntity(ligneVente.getProduct().getSupplier()))
+				.camp(CampDto.fromEntity(ligneVente.getVente().getCamp()))
 				.dateMouvement(LocalDate.now())
 				.typeMouvement(TypeMvtStkSupplier.SORTIE)
 				.quantite(ligneVente.getQuantite())
@@ -136,6 +140,7 @@ public class VentesServiceImpl implements VentesService {
 	private void updateMvtStkMenage(LigneVente ligneVente) {
 		MvtStkMenageDto mvtStkMenageDto = MvtStkMenageDto.builder()
 				.productType(ProductTypeDto.fromEntity(ligneVente.getProduct().getProductType()))
+				.menage(MenageDto.fromEntity(ligneVente.getVente().getMenage()))
 				.dateMvt(LocalDate.now())
 				.typeMvtStkMenage(TypeMvtStkMenageEnum.ACHAT)
 				.quantite(ligneVente.getQuantite())

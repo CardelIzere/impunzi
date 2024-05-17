@@ -9,6 +9,7 @@ public class StockQuantityDto {
 	
 	private String productName;
 	private BigDecimal quantity;
+	private String salesName;
 	
 	public StockQuantityDto() {
 		
@@ -20,5 +21,9 @@ public class StockQuantityDto {
 	
 	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
+	}
+	
+	public void setSalesName(String salesName) {
+		this.salesName = salesName;
 	}
 }

@@ -26,6 +26,8 @@ import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.model.Product;
+import com.refugietransaction.model.ProductType;
+import com.refugietransaction.model.SalesUnit;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.repository.CampRepository;
 import com.refugietransaction.repository.MvtStkSupplierRepository;
@@ -145,10 +147,11 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 			for (Object[] result : results) {
 				Product product = (Product) result[0];
 				BigDecimal quantity = (BigDecimal) result[1];
-
+				
 				StockQuantityDto stockQuantityDTO = new StockQuantityDto();
 				stockQuantityDTO.setProductName(product.getNomProduit());
 				stockQuantityDTO.setQuantity(quantity);
+				stockQuantityDTO.setSalesName(product.getProductType().getSalesUnit().getName());
 				stockQuantities.add(stockQuantityDTO);
 
 

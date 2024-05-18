@@ -28,50 +28,50 @@ public interface VentesRepository extends JpaRepository<Ventes, Long> {
 	Page<Ventes> findAllByPersonneContactLike(String search, Pageable pageable);
 	
 	//listing by id_supplier
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.supplier.id = :idSupplier And v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.supplier.id = :idSupplier And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")
 	Page<Ventes> findByIdSupplierVentesByPersonneContactLike(Long idSupplier, String search, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.supplier.id = :idSupplier And v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%')")
 	BigDecimal sumBySupplierIdAndSearch(Long idSupplier, String search);
 	
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.supplier.id = :idSupplier And v.venteStatusEnum = 'PAID' order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.supplier.id = :idSupplier order by v.id desc")
 	Page<Ventes> findBySupplierId(Long idSupplier, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.supplier.id = :idSupplier And v.venteStatusEnum = 'PAID' ")
 	BigDecimal sumBySupplierId(Long idSupplier);
 	
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID' order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier order by v.id desc")
 	Page<Ventes> findByStartDateAndEndDateAndSupplierId(LocalDate startDate, LocalDate endDate, Long idSupplier, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID'")
 	BigDecimal sumByStartDateAndEndDateAndSupplierId(LocalDate startDate , LocalDate endDate , Long idSupplier);
 	
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")
 	Page<Ventes> findByStartDateAndEndDateAndSearchAndSupplierId(LocalDate startDate ,LocalDate endDate, Long idSupplier, String search, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%')")
 	BigDecimal sumByStartDateAndEndDateAndSearchAndSupplierId( LocalDate startDate , LocalDate endDate, Long idSupplier, String search);
 	
 	//listing by id_supplier and id_camp
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.supplier.id = :idSupplier And v.camp.id = :idCamp And v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.supplier.id = :idSupplier And v.camp.id = :idCamp And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")
 	Page<Ventes> findByIdSupplierIdCampVentesByPersonneContactLike(Long idSupplier, Long idCamp, String search, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.supplier.id = :idSupplier And v.camp.id = :idCamp And v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%')")
 	BigDecimal sumBySupplierIdAndCampIdAndSearch(Long idSupplier, Long idCamp, String search);
 	
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.supplier.id = :idSupplier And v.camp.id = :idCamp And v.venteStatusEnum = 'PAID' order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.supplier.id = :idSupplier And v.camp.id = :idCamp order by v.id desc")
 	Page<Ventes> findBySupplierIdAndCampId(Long idSupplier, Long idCamp, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.supplier.id = :idSupplier And v.camp.id = :idCamp And v.venteStatusEnum = 'PAID' ")
 	BigDecimal sumBySupplierIdAndCampId(Long idSupplier, Long idCamp);
 	
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.camp.id = :idCamp AND v.venteStatusEnum = 'PAID' order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.camp.id = :idCamp order by v.id desc")
 	Page<Ventes> findByStartDateAndEndDateAndSupplierIdAndCampId(LocalDate startDate, LocalDate endDate, Long idSupplier, Long idCamp, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.camp.id = :idCamp AND v.venteStatusEnum = 'PAID'")
 	BigDecimal sumByStartDateAndEndDateAndSupplierIdAndCampId(LocalDate startDate , LocalDate endDate , Long idSupplier, Long idCamp);
 	
-	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.camp.id = :idCamp AND v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")
+	@Query("select v from Ventes v join Menage m on v.menage.id = m.id where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.camp.id = :idCamp And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%') order by v.id desc")
 	Page<Ventes> findByStartDateAndEndDateAndSearchAndSupplierIdAndCampId(LocalDate startDate , LocalDate endDate, Long idSupplier, Long idCamp, String search, Pageable pageable);
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.camp.id = :idCamp AND v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%')")

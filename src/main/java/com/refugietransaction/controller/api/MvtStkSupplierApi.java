@@ -199,7 +199,7 @@ public interface MvtStkSupplierApi {
     @ApiResponses(value = {
     		@ApiResponse(code = 200, message = "La liste des entrees / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries-product-supplier/list/{idProduct}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries/nouveau-mvt-stock-produit-by-camp/{idProduct}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<MvtStkSupplierDto> findProductSupplierEntries(
     	    @PathVariable("idSupplier") Long idSupplier,
     	    @PathVariable("idProduct") Long idProduct,
@@ -215,7 +215,7 @@ public interface MvtStkSupplierApi {
     @ApiResponses(value = {
     		@ApiResponse(code = 200, message = "La liste des entrees / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries/list/{idProduct}/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/entries/nouveau-mvt-stock-produit-camp/{idProduct}/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<MvtStkSupplierDto> findProductAndSupplierAndCampEntries(
     		@PathVariable("idProduct") Long idProduct,
     	    @PathVariable("idSupplier") Long idSupplier,
@@ -232,7 +232,7 @@ public interface MvtStkSupplierApi {
     @ApiResponses(value = {
     		@ApiResponse(code = 200, message = "La liste des sorties / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sorties-product-supplier/list/{idProduct}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sorties/nouveau-mvt-stock-produit-by-camp/{idProduct}/{idSupplier}", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<MvtStkSupplierDto> findProductSupplierSorties(
     		@PathVariable("idProduct") Long idProduct,
     	    @PathVariable("idSupplier") Long idSupplier,
@@ -248,7 +248,7 @@ public interface MvtStkSupplierApi {
     @ApiResponses(value = {
     		@ApiResponse(code = 200, message = "La liste des sorties / Une liste vide")
     })
-    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sorties/list/{idProduct}/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/sorties/nouveau-mvt-stock-produit-camp/{idProduct}/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
     Page<MvtStkSupplierDto> findProductAndSupplierAndCampSorties(
     		@PathVariable("idProduct") Long idProduct,
     	    @PathVariable("idSupplier") Long idSupplier,

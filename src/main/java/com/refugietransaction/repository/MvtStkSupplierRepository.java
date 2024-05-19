@@ -162,6 +162,8 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("SELECT DISTINCT m.camp FROM MvtStkSupplier m WHERE m.supplier.id = :supplierId")
 	List<Camp> findDistinctCampsBySupplierId(@Param("supplierId") Long supplierId);
 	
+	
+	
 	//Liste des entrees de stock d'un produit donné dans un camp donné
 //	@Query("select m from MouvementStock m join User u on m.user.id = u.id join UserAssignment ua on u.id = ua.utilisateur.id join Camp c on ua.camp.id = c.id where m.produit.id = :idProduit AND c.id = :idCamp AND m.typeMouvement = 'ENTREE' ")
 //	List<MouvementStock> findEntreeByIdProduitIdCamp(@Param("idProduit") Long idProduit, @Param("idCamp") Long idCamp);

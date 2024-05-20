@@ -180,6 +180,20 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 			"GROUP BY m.produit")
 	List<Object[]> findTotalQuantityByIdCamp(@Param("idCamp") Long idCamp);
 	
+	@Query("SELECT m.produit, SUM(m.quantite) " +
+			"FROM MvtStkSupplier m " +
+			"WHERE m.camp.id = :idCamp " +
+			"AND m.supplier.id = :idSupplier " +
+			"GROUP BY m.produit")
+	List<Object[]> findTotalQuantityByIdCampIdSupplier(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier);
+	
+	@Query("SELECT ms " +
+			"FROM MvtStkSupplier ms " +
+			"WHERE ms.produit.id = :idProduct " +
+			"AND ms.supplier.id = :idSupplier " +
+			"AND ms.camp.id = :idCamp ")
+	List<MvtStkSupplier> findProductMvtStkBySupplierCamp(@Param("idProduct") Long idProduct, @Param("idSupplier") Long idSupplier, @Param("idCamp") Long idCamp);
+	
 	
 	
 	//Liste des entrees de stock d'un produit donné dans un camp donné

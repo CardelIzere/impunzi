@@ -58,4 +58,5 @@ public class MvtStkSupplierDto {
 		
 		return mouvementStockSupplier;
 	}
+
 }

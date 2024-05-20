@@ -160,6 +160,18 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 		return mvtStkSupplierService.getProductWithQuantityByIdCamp(idCamp);
 	}
 
+	@Override
+	public List<ByCampStockDto> getTotalQuantityByIdCampIdSupplier(Long idSupplier, Long idCamp) {
+		
+		return mvtStkSupplierService.getProductsWithQuantityByIdCampIdSupplier(idCamp, idSupplier);
+	}
+
+	@Override
+	public List<MvtStkSupplierDto> getProductMvtStkByIdCampIdSupplier(Long idProduct, Long idSupplier, Long idCamp) {
+		
+		return mvtStkSupplierService.getProductMvtStkBySupplierCamp(idProduct, idSupplier, idCamp);
+	}
+
 	
 
 //	@Override

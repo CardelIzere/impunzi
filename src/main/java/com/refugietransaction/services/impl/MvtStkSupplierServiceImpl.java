@@ -476,6 +476,34 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		}).collect(Collectors.toList());
 	}
 
+	@Override
+	public List<ByCampStockDto> getProductsWithQuantityByIdCampIdSupplier(Long idCamp, Long idSupplier) {
+		
+		List<Object[]> results = mvtStkSupplierRepository.findTotalQuantityByIdCampIdSupplier(idCamp, idSupplier);
+		
+		return results.stream().map(result->{
+			Product product = (Product) result[0];
+			BigDecimal totalQuantity = (BigDecimal) result[1];
+			
+			ProductDto productDto = ProductDto.fromEntity(product);
+			
+			ByCampStockDto byCampStockDto = new ByCampStockDto();
+			
+			byCampStockDto.setProduct(productDto);
+			byCampStockDto.setInStockQuantity(totalQuantity);
+			
+			return byCampStockDto;
+		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<MvtStkSupplierDto> getProductMvtStkBySupplierCamp(Long idProduct, Long idSupplier, Long idCamp) {
+		
+		return mvtStkSupplierRepository.findProductMvtStkBySupplierCamp(idProduct, idSupplier, idCamp).stream()
+				.map(MvtStkSupplierDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+
 //	@Override
 //	public BigDecimal stockReelMenage(Long idProduit, Long idMenage) {
 //		

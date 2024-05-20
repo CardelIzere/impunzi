@@ -13,6 +13,7 @@ import com.refugietransaction.dto.ByCampStockDto;
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductCampStockDto;
+import com.refugietransaction.dto.ProductDto;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 
 public interface MvtStkSupplierService {
@@ -70,6 +71,10 @@ public interface MvtStkSupplierService {
 	List<ProductCampStockDto> findProductStockQuantityByCamp(Long productId);
 	
 	List<ByCampStockDto> getProductWithQuantityByIdCamp(Long idCamp);
+	
+	List<ByCampStockDto> getProductsWithQuantityByIdCampIdSupplier(Long idCamp, Long idSupplier);
+	
+	List<MvtStkSupplierDto> getProductMvtStkBySupplierCamp(Long idProduct, Long idSupplier, Long idCamp);
 	
 //	BigDecimal stockReelMenage(Long idProduit, Long idMenage);
 //

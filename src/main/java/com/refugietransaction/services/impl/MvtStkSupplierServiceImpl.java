@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import com.refugietransaction.dto.CampDto;
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
+import com.refugietransaction.dto.ProductCampStockDto;
 import com.refugietransaction.dto.ProductDto;
+import com.refugietransaction.dto.ProductStockQuantityDto;
 import com.refugietransaction.dto.ProductTypeDto;
 import com.refugietransaction.dto.StockQuantityDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
@@ -424,6 +426,33 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 			}
 		}
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public List<ProductCampStockDto> findProductStockQuantityByCamp(Long productId) {
+		
+		List<Camp> camps = mvtStkSupplierRepository.findDistinctCampsByProductId(productId);
+		
+		List<ProductCampStockDto> campStockDTOS = new ArrayList<>();
+		for(Camp camp : camps) {
+			List<Object[]> results = mvtStkSupplierRepository.findProductStockQuantityByCamp(productId, camp);
+			List<ProductStockQuantityDto> stockQuantities = new ArrayList<>();
+			for(Object[] result : results) {
+				Product product = (Product) result[0];
+				BigDecimal quantity = (BigDecimal) result[1];
+				
+				ProductStockQuantityDto stockQuantityDto = new ProductStockQuantityDto();
+				stockQuantityDto.setQuantity(quantity);
+				stockQuantityDto.setSalesName(product.getProductType().getSalesUnit().getName());
+				stockQuantities.add(stockQuantityDto);
+			}
+			
+			ProductCampStockDto campStockDto = new ProductCampStockDto();
+			campStockDto.setCampName(camp.getNomCamp());
+			campStockDto.setStockQuantities(stockQuantities);
+			campStockDTOS.add(campStockDto);
+		}
+		return campStockDTOS;
 	}
 
 //	@Override

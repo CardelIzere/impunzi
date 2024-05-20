@@ -163,6 +163,17 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	List<Camp> findDistinctCampsBySupplierId(@Param("supplierId") Long supplierId);
 	
 	
+	@Query("SELECT ms.produit, SUM(ms.quantite) " +
+			"FROM MvtStkSupplier ms " +
+			"WHERE ms.camp = :camp " +
+			"AND ms.produit.id = :productId " +
+			"GROUP BY ms.produit")
+	List<Object[]> findProductStockQuantityByCamp(@Param("productId") Long productId,Camp camp);
+
+	@Query("SELECT DISTINCT m.camp FROM MvtStkSupplier m WHERE m.produit.id = :productId")
+	List<Camp> findDistinctCampsByProductId(@Param("productId") Long productId);
+	
+	
 	
 	//Liste des entrees de stock d'un produit donné dans un camp donné
 //	@Query("select m from MouvementStock m join User u on m.user.id = u.id join UserAssignment ua on u.id = ua.utilisateur.id join Camp c on ua.camp.id = c.id where m.produit.id = :idProduit AND c.id = :idCamp AND m.typeMouvement = 'ENTREE' ")

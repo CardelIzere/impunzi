@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
+import com.refugietransaction.dto.ProductCampStockDto;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 
 public interface MvtStkSupplierService {
@@ -59,6 +60,8 @@ public interface MvtStkSupplierService {
 	Page<MvtStkSupplierDto> findProductSupplierSorties(LocalDate startDate, LocalDate endDate, Long idProduct, Long idSupplier, String search, Pageable pageable);
 	
 	List<CampStockDto> findStockQuantityByCamp(Long supplierId);
+	
+	List<ProductCampStockDto> findProductStockQuantityByCamp(Long productId);
 	
 //	BigDecimal stockReelMenage(Long idProduit, Long idMenage);
 //

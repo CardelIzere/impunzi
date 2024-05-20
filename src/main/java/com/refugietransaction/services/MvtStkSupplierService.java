@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.refugietransaction.dto.ByCampStockDto;
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductCampStockDto;
@@ -29,11 +30,14 @@ public interface MvtStkSupplierService {
 	Page<MvtStkSupplierDto> findSupplierEntries(LocalDate startDate, LocalDate endDate, Long supplierId, String search, Pageable pageable);
 	
 	
+	//-----------------------
+	
 	List<MvtStkSupplierDto> findMvtStkSupplierBySupplierAndCamp(Long idSupplier, Long idCamp);
 	
 	List<MvtStkSupplierDto> findMvtStkSupplierByProductId(Long idProduit);
 	
 	Page<MvtStkSupplierDto> findAllByProductSupplierLike(String search, Pageable pageable);
+	
 	
 	//Sorties by camp_id and supplier_id
 	Page<MvtStkSupplierDto> findCampSupplierSortiesByProductNameSupplierNameLike(Long idCamp, Long idSupplier, String search, Pageable pageable);
@@ -59,9 +63,13 @@ public interface MvtStkSupplierService {
 	Page<MvtStkSupplierDto> findProductSupplierSortiesByProductNameSupplierNameLike(Long idProduit, Long idSupplier, String search, Pageable pageable);
 	Page<MvtStkSupplierDto> findProductSupplierSorties(LocalDate startDate, LocalDate endDate, Long idProduct, Long idSupplier, String search, Pageable pageable);
 	
+	//----------------
+	
 	List<CampStockDto> findStockQuantityByCamp(Long supplierId);
 	
 	List<ProductCampStockDto> findProductStockQuantityByCamp(Long productId);
+	
+	List<ByCampStockDto> getProductWithQuantityByIdCamp(Long idCamp);
 	
 //	BigDecimal stockReelMenage(Long idProduit, Long idMenage);
 //

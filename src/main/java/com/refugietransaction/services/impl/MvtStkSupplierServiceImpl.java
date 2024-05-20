@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.refugietransaction.dto.ByCampStockDto;
 import com.refugietransaction.dto.CampDto;
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
@@ -453,6 +454,26 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 			campStockDTOS.add(campStockDto);
 		}
 		return campStockDTOS;
+	}
+
+	@Override
+	public List<ByCampStockDto> getProductWithQuantityByIdCamp(Long idCamp) {
+		
+		List<Object[]> results = mvtStkSupplierRepository.findTotalQuantityByIdCamp(idCamp);
+		
+		return results.stream().map(result->{
+			Product product = (Product) result[0];
+			BigDecimal totalQuantity = (BigDecimal) result[1];
+			
+			ProductDto productDto = ProductDto.fromEntity(product);
+			
+			ByCampStockDto byCampStockDto = new ByCampStockDto();
+			
+			byCampStockDto.setProduct(productDto);
+			byCampStockDto.setInStockQuantity(totalQuantity);
+			
+			return byCampStockDto;
+		}).collect(Collectors.toList());
 	}
 
 //	@Override

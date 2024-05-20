@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import com.refugietransaction.dto.ByCampStockDto;
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductCampStockDto;
@@ -138,6 +139,14 @@ public interface MvtStkSupplierApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/product-stock-quantity-groupby-camp/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<ProductCampStockDto> getProductStockQuantities(@PathVariable("productId") Long productId);
+	
+	@ApiOperation(value = "Récupérer la liste des produits avec la quantite en stock par un camp donné", notes = "Cette methode permet de chercher et renvoyer la liste des produits avec la quantite du stock qui existent" + "dans la BDD",
+    		responseContainer = "List<ByCampStockDto>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La liste des produits avec la quantite de stock par camp donné / Une liste vide")
+    })
+    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/list-product-with-quantity/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<ByCampStockDto> getTotalQuantityByIdCamp(@PathVariable("idCamp") Long idCamp);
 	
 	@ApiOperation(value = "Récupérer la liste des entrees par fournisseur", notes = "Cette methode permet de chercher et renvoyer la liste des entrees qui existent" + "dans la BDD",
     	    responseContainer = "Page<MvtStkSupplierDto>")

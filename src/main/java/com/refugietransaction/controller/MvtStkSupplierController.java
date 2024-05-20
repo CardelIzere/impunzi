@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.MvtStkSupplierApi;
+import com.refugietransaction.dto.ByCampStockDto;
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductCampStockDto;
@@ -151,6 +152,12 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 	public List<ProductCampStockDto> getProductStockQuantities(Long productId) {
 		
 		return mvtStkSupplierService.findProductStockQuantityByCamp(productId);
+	}
+
+	@Override
+	public List<ByCampStockDto> getTotalQuantityByIdCamp(Long idCamp) {
+		
+		return mvtStkSupplierService.getProductWithQuantityByIdCamp(idCamp);
 	}
 
 	

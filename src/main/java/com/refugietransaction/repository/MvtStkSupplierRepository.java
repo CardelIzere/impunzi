@@ -183,14 +183,14 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 			"GROUP BY p.id, p.nomProduit, p.price")
 	Page<ByCampStockProjection> findTotalQuantityByIdCampIdSupplierAndNameProductLike(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier, String search, Pageable pageable);
 	
-	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, p.price AS price, SUM(m.quantite) AS inStockQuantity, s.name AS salesName " +
+	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, pt.name AS nomProductType, p.price AS price, SUM(m.quantite) AS inStockQuantity, s.name AS salesName " +
 			"FROM MvtStkSupplier m " +
 			"JOIN Product p ON m.produit.id = p.id " +
 			"JOIN ProductType pt ON p.productType.id = pt.id " +
 			"JOIN SalesUnit s ON pt.salesUnit.id = s.id " +
 			"WHERE m.camp.id = :idCamp " +
 			"AND m.supplier.id = :idSupplier " +
-			"GROUP BY p.id, p.nomProduit, p.price, s.name")
+			"GROUP BY p.id, p.nomProduit, pt.name, p.price, s.name")
 	Page<ByCampStockProjection> findTotalQuantityByIdCampIdSupplier(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier, Pageable pageable);
 	
 	@Query("SELECT ms " +

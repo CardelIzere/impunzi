@@ -1,5 +1,6 @@
 package com.refugietransaction.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Getter;
@@ -8,7 +9,8 @@ import lombok.Getter;
 public class ProductCampStockDto {
 	
 	private String campName;
-	private List<ProductStockQuantityDto> stockQuantities;
+	private BigDecimal quantity;
+	private String salesName;
 	
 	public ProductCampStockDto() {
 		
@@ -18,7 +20,11 @@ public class ProductCampStockDto {
 		this.campName = campName;
 	}
 	
-	public void setStockQuantities(List<ProductStockQuantityDto> stockQuantities) {
-		this.stockQuantities = stockQuantities;
+	public void setQuantity(BigDecimal quantity) {
+		this.quantity = quantity;
+	}
+	
+	public void setSalesName(String salesName) {
+		this.salesName = salesName;
 	}
 }

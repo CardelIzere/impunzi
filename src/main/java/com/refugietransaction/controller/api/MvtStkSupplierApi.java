@@ -17,6 +17,7 @@ import com.refugietransaction.dto.ByCampStockDto;
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductCampStockDto;
+import com.refugietransaction.dto.ProductStockQuantityDto;
 import com.refugietransaction.dto.VenteListDto;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.utils.Constants;
@@ -133,12 +134,12 @@ public interface MvtStkSupplierApi {
     List<CampStockDto> getStockQuantities(@PathVariable("supplierId") Long supplierId);
 	
 	@ApiOperation(value = "Récupérer l'etat du stock d'un produit dans chaque camp ", notes = "Cette methode permet de chercher et renvoyer la liste de stock d'un produit qui existent" + "dans la BDD",
-            responseContainer = "Liste<ProductCampStockDto>")
+            responseContainer = "Liste<ProductStockQuantityDto>")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste de l'etat du stock / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/product-stock-quantity-groupby-camp/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<ProductCampStockDto> getProductStockQuantities(@PathVariable("productId") Long productId);
+    List<ProductStockQuantityDto> getProductStockQuantities(@PathVariable("productId") Long productId);
 	
 	@ApiOperation(value = "Récupérer la liste des produits d'un supplier dans un camp donné avec la quantite en stock", notes = "Cette methode permet de chercher et renvoyer la liste des produits avec la quantite du stock qui existent" + "dans la BDD",
     		responseContainer = "Page<ByCampStockDto>")

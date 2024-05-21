@@ -431,30 +431,23 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 	}
 
 	@Override
-	public List<ProductCampStockDto> findProductStockQuantityByCamp(Long productId) {
+	public List<ProductStockQuantityDto> findProductStockQuantityByCamp(Long productId) {
 		
-		List<Camp> camps = mvtStkSupplierRepository.findDistinctCampsByProductId(productId);
-		
-		List<ProductCampStockDto> campStockDTOS = new ArrayList<>();
-		for(Camp camp : camps) {
-			List<Object[]> results = mvtStkSupplierRepository.findProductStockQuantityByCamp(productId, camp);
-			List<ProductStockQuantityDto> stockQuantities = new ArrayList<>();
-			for(Object[] result : results) {
-				Product product = (Product) result[0];
-				BigDecimal quantity = (BigDecimal) result[1];
-				
-				ProductStockQuantityDto stockQuantityDto = new ProductStockQuantityDto();
-				stockQuantityDto.setQuantity(quantity);
-				stockQuantityDto.setSalesName(product.getProductType().getSalesUnit().getName());
-				stockQuantities.add(stockQuantityDto);
-			}
+			List<Object[]> results = mvtStkSupplierRepository.findProductStockQuantityByCamp(productId);
 			
-			ProductCampStockDto campStockDto = new ProductCampStockDto();
-			campStockDto.setCampName(camp.getNomCamp());
-			campStockDto.setStockQuantities(stockQuantities);
-			campStockDTOS.add(campStockDto);
-		}
-		return campStockDTOS;
+			
+		return results.stream().map(result->{
+			String camp = (String) result[0];
+			Product product = (Product) result[1];
+			BigDecimal quantity = (BigDecimal) result[2];
+			
+			ProductStockQuantityDto stockQuantityDto = new ProductStockQuantityDto();
+			stockQuantityDto.setCampName(camp);
+			stockQuantityDto.setQuantity(quantity);
+			stockQuantityDto.setSalesName(product.getProductType().getSalesUnit().getName());
+			
+			return stockQuantityDto;
+		}).collect(Collectors.toList());
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import com.refugietransaction.dto.ByCampStockDto;
 import com.refugietransaction.dto.CampStockDto;
 import com.refugietransaction.dto.MvtStkSupplierDto;
 import com.refugietransaction.dto.ProductCampStockDto;
+import com.refugietransaction.dto.ProductStockQuantityDto;
 import com.refugietransaction.services.MvtStkSupplierService;
 
 @RestController
@@ -149,7 +150,7 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 	}
 
 	@Override
-	public List<ProductCampStockDto> getProductStockQuantities(Long productId) {
+	public List<ProductStockQuantityDto> getProductStockQuantities(Long productId) {
 		
 		return mvtStkSupplierService.findProductStockQuantityByCamp(productId);
 	}

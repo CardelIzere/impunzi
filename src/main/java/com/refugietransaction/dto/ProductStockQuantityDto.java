@@ -7,11 +7,16 @@ import lombok.Getter;
 @Getter
 public class ProductStockQuantityDto {
 	
+	private String campName;
 	private BigDecimal quantity;
 	private String salesName;
 	
 	public ProductStockQuantityDto() {
 		
+	}
+	
+	public void setCampName(String campName) {
+		this.campName = campName;
 	}
 	
 	public void setQuantity(BigDecimal quantity) {

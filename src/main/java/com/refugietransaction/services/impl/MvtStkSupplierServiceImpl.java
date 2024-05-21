@@ -32,6 +32,7 @@ import com.refugietransaction.model.Product;
 import com.refugietransaction.model.ProductType;
 import com.refugietransaction.model.SalesUnit;
 import com.refugietransaction.model.TypeMvtStkSupplier;
+import com.refugietransaction.projections.ByCampStockProjection;
 import com.refugietransaction.repository.CampRepository;
 import com.refugietransaction.repository.MvtStkSupplierRepository;
 import com.refugietransaction.services.MvtStkSupplierService;
@@ -457,231 +458,32 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 	}
 
 	@Override
-	public List<ByCampStockDto> getProductWithQuantityByIdCamp(Long idCamp) {
+	public Page<ByCampStockDto> getProductsWithQuantityByIdCampIdSupplier(Long idCamp, Long idSupplier, String search,
+			Pageable pageable) {
 		
-		List<Object[]> results = mvtStkSupplierRepository.findTotalQuantityByIdCamp(idCamp);
+		Page<ByCampStockProjection> byCampStockProjections;
+		if(search != null) {
+			byCampStockProjections = mvtStkSupplierRepository.findTotalQuantityByIdCampIdSupplierAndNameProductLike(idCamp, idSupplier, search, pageable);
+		} else {
+			byCampStockProjections = mvtStkSupplierRepository.findTotalQuantityByIdCampIdSupplier(idCamp, idSupplier, pageable);
+		}
 		
-		return results.stream().map(result->{
-			Product product = (Product) result[0];
-			BigDecimal totalQuantity = (BigDecimal) result[1];
-			
-			ProductDto productDto = ProductDto.fromEntity(product);
-			
-			ByCampStockDto byCampStockDto = new ByCampStockDto();
-			
-			byCampStockDto.setProduct(productDto);
-			byCampStockDto.setInStockQuantity(totalQuantity);
-			
-			return byCampStockDto;
-		}).collect(Collectors.toList());
+		return byCampStockProjections.map(ByCampStockDto::fromEntity);
 	}
 
 	@Override
-	public List<ByCampStockDto> getProductsWithQuantityByIdCampIdSupplier(Long idCamp, Long idSupplier) {
+	public Page<MvtStkSupplierDto> getProductMvtStkBySupplierCamp(LocalDate startDate, LocalDate endDate,
+			Long idProduct, Long idSupplier, Long idCamp, Pageable pageable) {
 		
-		List<Object[]> results = mvtStkSupplierRepository.findTotalQuantityByIdCampIdSupplier(idCamp, idSupplier);
+		Page<MvtStkSupplier> mvtStkSuppliers=null;
+		if(startDate == null || endDate == null) {
+			mvtStkSuppliers = mvtStkSupplierRepository.findProductMvtStkBySupplierCamp(idProduct, idSupplier, idCamp, pageable);
+		} else {
+			mvtStkSuppliers = mvtStkSupplierRepository.findProductMvtStkBySupplierCampWithDate(startDate, endDate, idProduct, idSupplier, idCamp, pageable);
+		}
 		
-		return results.stream().map(result->{
-			Product product = (Product) result[0];
-			BigDecimal totalQuantity = (BigDecimal) result[1];
-			
-			ProductDto productDto = ProductDto.fromEntity(product);
-			
-			ByCampStockDto byCampStockDto = new ByCampStockDto();
-			
-			byCampStockDto.setProduct(productDto);
-			byCampStockDto.setInStockQuantity(totalQuantity);
-			
-			return byCampStockDto;
-		}).collect(Collectors.toList());
+		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
 	}
 
-	@Override
-	public List<MvtStkSupplierDto> getProductMvtStkBySupplierCamp(Long idProduct, Long idSupplier, Long idCamp) {
-		
-		return mvtStkSupplierRepository.findProductMvtStkBySupplierCamp(idProduct, idSupplier, idCamp).stream()
-				.map(MvtStkSupplierDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
-//	@Override
-//	public BigDecimal stockReelMenage(Long idProduit, Long idMenage) {
-//		
-//		if(idProduit == null) {
-//			log.warn("ID produit is NULL");
-//			return BigDecimal.valueOf(-1);
-//		}
-//		
-//		if(idMenage == null) {
-//			log.warn("ID menage is NULL");
-//			return BigDecimal.valueOf(-1);
-//		}
-//		
-//		return mouvementStockRepository.stockReelMenage(idProduit, idMenage);
-//	}
-//
-//	@Override
-//	public List<MouvementStockSupplierDto> mvtStkArticleMenage(Long idProduit, Long idMenage) {
-//		
-//		return mouvementStockRepository.findAllByArticleIdAndMenageId(idProduit, idMenage).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-//
-//	@Override
-//	public MouvementStockSupplierDto entreeStock(MouvementStockSupplierDto dto) {
-//		return entreePositive(dto, TypeMouvementStock.ENTREE);
-//	}
-//
-//	@Override
-//	public MouvementStockSupplierDto sortieStock(MouvementStockSupplierDto dto) {
-//		return sortiePositive(dto, TypeMouvementStock.SORTIE);
-//	}
-//	
-//	private MouvementStockSupplierDto entreePositive(MouvementStockSupplierDto dto, TypeMouvementStock typeMouvement) {
-//		
-//		List<String> errors = MouvementStockSupplierValidator.validate(dto);
-//		if(!errors.isEmpty()) {
-//			log.error("Article is not valid {}", dto);
-//			throw new InvalidEntityException("Le mouvement de stock n'est pas valide", ErrorCodes.MVT_STK_NOT_VALID, errors);
-//		}
-//		dto.setQuantite(
-//				BigDecimal.valueOf(
-//						Math.abs(dto.getQuantite().doubleValue())
-//						)
-//				);
-//		dto.setTypeMouvement(typeMouvement);
-//		
-//		return MouvementStockSupplierDto.fromEntity(
-//				mouvementStockRepository.save(MouvementStockSupplierDto.toEntity(dto))
-//		);
-//	}
-//	
-//	private MouvementStockSupplierDto sortiePositive(MouvementStockSupplierDto dto, TypeMouvementStock typeMouvement) {
-//		
-//		List<String> errors = MouvementStockSupplierValidator.validate(dto);
-//		if(!errors.isEmpty()) {
-//			log.error("Article is not valid {}", dto);
-//			throw new InvalidEntityException("Le mouvement du stock n'est pas valide", ErrorCodes.MVT_STK_NOT_VALID, errors);
-//		}
-//		dto.setQuantite(
-//				BigDecimal.valueOf(
-//						Math.abs(dto.getQuantite().doubleValue())
-//						)
-//				);
-//		dto.setTypeMouvement(typeMouvement);
-//		
-//		return MouvementStockSupplierDto.fromEntity(
-//				mouvementStockRepository.save(MouvementStockSupplierDto.toEntity(dto))
-//		);
-//	}
-//	
-//	//Pour le camp
-//
-////	@Override
-////	public List<MouvementStockDto> entreeArticleCamp(Long idProduit, Long idCamp) {
-////		
-////		return mouvementStockRepository.findEntreeByIdProduitIdCamp(idProduit, idCamp).stream()
-////				.map(MouvementStockDto::fromEntity)
-////				.collect(Collectors.toList());
-////	}
-////
-////	@Override
-////	public List<MouvementStockDto> sortieArticleCamp(Long idProduit, Long idCamp) {
-////		
-////		return mouvementStockRepository.findSortieByIdProduitIdCamp(idProduit, idCamp).stream()
-////				.map(MouvementStockDto::fromEntity)
-////				.collect(Collectors.toList());
-////	}
-////
-////	@Override
-////	public List<MouvementStockDto> entreeArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
-////			Date endDate) {
-////		
-////		return mouvementStockRepository.findEntreeByIdProduitIdCampPeriode(idProduit, idCamp, startDate, endDate).stream()
-////				.map(MouvementStockDto::fromEntity)
-////				.collect(Collectors.toList());
-////	}
-////
-////	@Override
-////	public List<MouvementStockDto> sortieArticleCampPeriode(Long idProduit, Long idCamp, Date startDate,
-////			Date endDate) {
-////		
-////		return mouvementStockRepository.findSortieByIdProduitIdCampPeriode(idProduit, idCamp, startDate, endDate).stream()
-////				.map(MouvementStockDto::fromEntity)
-////				.collect(Collectors.toList());
-////	}
-//	
-//	//Pour le menage
-//
-//	@Override
-//	public List<MouvementStockSupplierDto> entreeArticleMenage(Long idProduit, Long idMenage) {
-//		
-//		return mouvementStockRepository.findEntreeByIdProduitIdMenage(idProduit, idMenage).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-//
-//	@Override
-//	public List<MouvementStockSupplierDto> sortieArticleMenage(Long idProduit, Long idMenage) {
-//		
-//		return mouvementStockRepository.findSortieByIdProduitIdMenage(idProduit, idMenage).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-//
-//	@Override
-//	public List<MouvementStockSupplierDto> entreeArticleMenagePeriode(Long idProduit, Long idMenage, Date startDate,
-//			Date endDate) {
-//		
-//		return mouvementStockRepository.findEntreeByIdProduitIdMenagePeriode(idProduit, idMenage, startDate, endDate).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-//
-//	@Override
-//	public List<MouvementStockSupplierDto> sortieArticleMenagePeriode(Long idProduit, Long idMenage, Date startDate,
-//			Date endDate) {
-//		
-//		return mouvementStockRepository.findSortieByIdProduitIdMenagePeriode(idProduit, idMenage, startDate, endDate).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-//	
-//	@Override
-//	public List<MouvementStockSupplierDto> entreeArticleUser(Long idProduit, Long idUser) {
-//		
-//		return mouvementStockRepository.findEntreeByIdProduitIdAgent(idProduit, idUser).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-//
-//	@Override
-//	public List<MouvementStockSupplierDto> sortieArticleUser(Long idProduit, Long idUser) {
-//		
-//		return mouvementStockRepository.findSortieByIdProduitIdAgent(idProduit, idUser).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-//
-//	@Override
-//	public List<MouvementStockSupplierDto> entreeArticleUserPeriode(Long idProduit, Long idUser, Date startDate,
-//			Date endDate) {
-//		
-//		return mouvementStockRepository.findEntreeByIdProduitIdAgentPeriode(idProduit, idUser, startDate, endDate).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-//
-//	@Override
-//	public List<MouvementStockSupplierDto> sortieArticleUserPeriode(Long idProduit, Long idUser, Date startDate,
-//			Date endDate) {
-//		
-//		return mouvementStockRepository.findSortieByIdProduitIdAgentPeriode(idProduit, idUser, startDate, endDate).stream()
-//				.map(MouvementStockSupplierDto::fromEntity)
-//				.collect(Collectors.toList());
-//	}
-	
-	
 
 }

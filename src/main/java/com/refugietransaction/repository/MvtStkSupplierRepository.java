@@ -15,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.model.Ventes;
+import com.refugietransaction.projections.ByCampStockProjection;
 
 public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, Long> {
 	
@@ -173,26 +174,41 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("SELECT DISTINCT m.camp FROM MvtStkSupplier m WHERE m.produit.id = :productId")
 	List<Camp> findDistinctCampsByProductId(@Param("productId") Long productId);
 	
-	
-	@Query("SELECT m.produit, SUM(m.quantite) " +
+	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, p.price AS price, SUM(m.quantite) AS inStockQuantity " +
 			"FROM MvtStkSupplier m " +
-			"WHERE m.camp.id = :idCamp " +
-			"GROUP BY m.produit")
-	List<Object[]> findTotalQuantityByIdCamp(@Param("idCamp") Long idCamp);
-	
-	@Query("SELECT m.produit, SUM(m.quantite) " +
-			"FROM MvtStkSupplier m " +
+			"JOIN Product p ON m.produit.id = p.id " +
 			"WHERE m.camp.id = :idCamp " +
 			"AND m.supplier.id = :idSupplier " +
-			"GROUP BY m.produit")
-	List<Object[]> findTotalQuantityByIdCampIdSupplier(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier);
+			"AND UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') " +
+			"GROUP BY p.id, p.nomProduit, p.price")
+	Page<ByCampStockProjection> findTotalQuantityByIdCampIdSupplierAndNameProductLike(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier, String search, Pageable pageable);
+	
+	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, p.price AS price, SUM(m.quantite) AS inStockQuantity, s.name AS salesName " +
+			"FROM MvtStkSupplier m " +
+			"JOIN Product p ON m.produit.id = p.id " +
+			"JOIN ProductType pt ON p.productType.id = pt.id " +
+			"JOIN SalesUnit s ON pt.salesUnit.id = s.id " +
+			"WHERE m.camp.id = :idCamp " +
+			"AND m.supplier.id = :idSupplier " +
+			"GROUP BY p.id, p.nomProduit, p.price, s.name")
+	Page<ByCampStockProjection> findTotalQuantityByIdCampIdSupplier(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier, Pageable pageable);
+	
+	@Query("SELECT ms " +
+			"FROM MvtStkSupplier ms " +
+			"WHERE ms.dateMouvement BETWEEN :startDate AND :endDate " +
+			"AND ms.produit.id = :idProduct " +
+			"AND ms.supplier.id = :idSupplier " +
+			"AND ms.camp.id = :idCamp " +
+			"order by ms.id desc")
+	Page<MvtStkSupplier> findProductMvtStkBySupplierCampWithDate(LocalDate startDate, LocalDate endDate, @Param("idProduct") Long idProduct, @Param("idSupplier") Long idSupplier, @Param("idCamp") Long idCamp, Pageable pageable);
 	
 	@Query("SELECT ms " +
 			"FROM MvtStkSupplier ms " +
 			"WHERE ms.produit.id = :idProduct " +
 			"AND ms.supplier.id = :idSupplier " +
-			"AND ms.camp.id = :idCamp ")
-	List<MvtStkSupplier> findProductMvtStkBySupplierCamp(@Param("idProduct") Long idProduct, @Param("idSupplier") Long idSupplier, @Param("idCamp") Long idCamp);
+			"AND ms.camp.id = :idCamp " +
+			"order by ms.id desc")
+	Page<MvtStkSupplier> findProductMvtStkBySupplierCamp(@Param("idProduct") Long idProduct, @Param("idSupplier") Long idSupplier, @Param("idCamp") Long idCamp, Pageable pageable);
 	
 	
 	

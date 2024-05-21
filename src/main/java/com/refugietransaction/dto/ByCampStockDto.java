@@ -2,6 +2,8 @@ package com.refugietransaction.dto;
 
 import java.math.BigDecimal;
 
+import com.refugietransaction.projections.ByCampStockProjection;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,15 +11,25 @@ import lombok.Data;
 @Builder
 public class ByCampStockDto {
 	
-	private ProductDto product;
+	private Long productId;
+	private String nomProduct;
+	private BigDecimal price;
 	private BigDecimal inStockQuantity;
-
-	public ByCampStockDto() {
-		
-	}
+	private String salesName;
 	
-	public ByCampStockDto(ProductDto product, BigDecimal inStockQuantity) {
-		this.product = product;
-		this.inStockQuantity = inStockQuantity;
+	public static ByCampStockDto fromEntity(ByCampStockProjection byCampStockProjection) {
+		if(byCampStockProjection == null) {
+			return null;
+		}
+		
+		return ByCampStockDto.builder()
+				.productId(byCampStockProjection.getProductId())
+				.nomProduct(byCampStockProjection.getNomProduit())
+				.price(byCampStockProjection.getPrice())
+				.inStockQuantity(byCampStockProjection.getInStockQuantity())
+				.salesName(byCampStockProjection.getSalesName())
+				.build();
 	}
+
+	
 }

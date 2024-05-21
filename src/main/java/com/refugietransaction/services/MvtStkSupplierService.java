@@ -70,11 +70,9 @@ public interface MvtStkSupplierService {
 	
 	List<ProductCampStockDto> findProductStockQuantityByCamp(Long productId);
 	
-	List<ByCampStockDto> getProductWithQuantityByIdCamp(Long idCamp);
+	Page<ByCampStockDto> getProductsWithQuantityByIdCampIdSupplier(Long idCamp, Long idSupplier, String search, Pageable pageable);
 	
-	List<ByCampStockDto> getProductsWithQuantityByIdCampIdSupplier(Long idCamp, Long idSupplier);
-	
-	List<MvtStkSupplierDto> getProductMvtStkBySupplierCamp(Long idProduct, Long idSupplier, Long idCamp);
+	Page<MvtStkSupplierDto> getProductMvtStkBySupplierCamp(LocalDate startDate, LocalDate endDate, Long idProduct, Long idSupplier, Long idCamp, Pageable pageable);
 	
 //	BigDecimal stockReelMenage(Long idProduit, Long idMenage);
 //

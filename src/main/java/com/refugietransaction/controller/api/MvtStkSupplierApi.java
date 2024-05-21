@@ -140,21 +140,19 @@ public interface MvtStkSupplierApi {
     @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/product-stock-quantity-groupby-camp/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<ProductCampStockDto> getProductStockQuantities(@PathVariable("productId") Long productId);
 	
-	@ApiOperation(value = "Récupérer la liste des produits avec la quantite en stock dans un camp donné", notes = "Cette methode permet de chercher et renvoyer la liste des produits avec la quantite du stock qui existent" + "dans la BDD",
-    		responseContainer = "List<ByCampStockDto>")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "La liste des produits avec la quantite de stock par camp donné / Une liste vide")
-    })
-    @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/list-product-with-quantity/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<ByCampStockDto> getTotalQuantityByIdCamp(@PathVariable("idCamp") Long idCamp);
-	
 	@ApiOperation(value = "Récupérer la liste des produits d'un supplier dans un camp donné avec la quantite en stock", notes = "Cette methode permet de chercher et renvoyer la liste des produits avec la quantite du stock qui existent" + "dans la BDD",
-    		responseContainer = "List<ByCampStockDto>")
+    		responseContainer = "Page<ByCampStockDto>")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des produits avec la quantite de stock par camp donné / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/list-product-supplier-camp-with-quantity/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<ByCampStockDto> getTotalQuantityByIdCampIdSupplier(@PathVariable("idSupplier") Long idSupplier, @PathVariable("idCamp") Long idCamp);
+    Page<ByCampStockDto> getTotalQuantityByIdCampIdSupplier(
+    		@PathVariable("idSupplier") Long idSupplier, 
+    		@PathVariable("idCamp") Long idCamp,
+    		@RequestParam(value = "search", required = false) String search,
+    	    @RequestParam(value = "page", defaultValue = "0") int page,
+    	    @RequestParam(value = "size", defaultValue = "10") int size
+    );
 	
 	@ApiOperation(value = "Récupérer la liste des produits d'un supplier dans un camp donné avec la quantite en stock", notes = "Cette methode permet de chercher et renvoyer la liste des produits avec la quantite du stock qui existent" + "dans la BDD",
     		responseContainer = "List<MvtStkSupplierDto>")
@@ -162,7 +160,15 @@ public interface MvtStkSupplierApi {
             @ApiResponse(code = 200, message = "La liste des produits avec la quantite de stock par camp donné / Une liste vide")
     })
     @GetMapping(value = Constants.APP_ROOT + "/mvtstksuppliers/product-mvtstk-supplier-camp/{idProduct}/{idSupplier}/{idCamp}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<MvtStkSupplierDto> getProductMvtStkByIdCampIdSupplier(@PathVariable("idProduct") Long idProduct, @PathVariable("idSupplier") Long idSupplier, @PathVariable("idCamp") Long idCamp);
+    Page<MvtStkSupplierDto> getProductMvtStkByIdCampIdSupplier(
+    		@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    	    @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+    		@PathVariable("idProduct") Long idProduct, 
+    		@PathVariable("idSupplier") Long idSupplier, 
+    		@PathVariable("idCamp") Long idCamp,
+    		@RequestParam(value = "page", defaultValue = "0") int page,
+    	    @RequestParam(value = "size", defaultValue = "10") int size
+    );
 	
 	@ApiOperation(value = "Récupérer la liste des entrees par fournisseur", notes = "Cette methode permet de chercher et renvoyer la liste des entrees qui existent" + "dans la BDD",
     	    responseContainer = "Page<MvtStkSupplierDto>")

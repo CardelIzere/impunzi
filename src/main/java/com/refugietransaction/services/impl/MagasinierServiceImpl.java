@@ -9,6 +9,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.refugietransaction.dto.CampDto;
@@ -36,12 +37,14 @@ public class MagasinierServiceImpl implements MagasinierService {
 	private final MagasinierRepository magasinierRepository;
 	private final UserRepository userRepository;
 	private final MailSenderService mailService;
+	private final PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public MagasinierServiceImpl(MagasinierRepository magasinierRepository, UserRepository userRepository, MailSenderService mailService) {
+	public MagasinierServiceImpl(MagasinierRepository magasinierRepository, UserRepository userRepository, MailSenderService mailService, PasswordEncoder passwordEncoder) {
 		this.magasinierRepository = magasinierRepository;
 		this.userRepository = userRepository;
 		this.mailService = mailService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public class MagasinierServiceImpl implements MagasinierService {
 			String noEncrypted_password=generateCommonLangPassword();
 			magasinierDto.getUser().setUserRoleEnum(UserRoleEnum.MAGASINIER);
 			magasinierDto.getUser().setIsUserActive(true);
-			magasinierDto.getUser().setUserPassword(generateCommonLangPassword());
+			magasinierDto.getUser().setUserPassword(passwordEncoder.encode(noEncrypted_password));
 
 			UserDto savedUser = UserDto.fromEntity(
 					userRepository.save(UserDto.toEntity(magasinierDto.getUser()))
@@ -105,9 +108,11 @@ public class MagasinierServiceImpl implements MagasinierService {
 		}
 
 		String pswd="";
+		String newNoEncryptPassword="";
 		if (!magasinierDto.getUser().getUserEmail().equals(userEmail(magasinierDto.getUser().getId())) ){
-
-			pswd=generateCommonLangPassword();
+			
+			newNoEncryptPassword=generateCommonLangPassword();
+			pswd=passwordEncoder.encode(newNoEncryptPassword);
 		}
 		else{
 			//get existing password

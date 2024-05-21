@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.refugietransaction.model.Superadmin;
+import com.refugietransaction.model.User;
 
 public interface SuperadminRepository extends JpaRepository<Superadmin, Long> {
 	
@@ -23,4 +24,6 @@ public interface SuperadminRepository extends JpaRepository<Superadmin, Long> {
 
 	@Query(value = "select s from Superadmin s where s.id = :id")
 	Superadmin findSuperAdminById(@Param("id") Long id);
+	
+	Superadmin findByUser(User user);
 }

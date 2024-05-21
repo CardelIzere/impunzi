@@ -5,17 +5,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.refugietransaction.dto.UserDto;
+import com.refugietransaction.dto.auth.AuthenticationRequest;
+import com.refugietransaction.dto.auth.AuthenticationResponse;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.model.User;
 import com.refugietransaction.repository.UserRepository;
 import com.refugietransaction.services.UserService;
+import com.refugietransaction.utils.JwtUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,11 +27,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-private final UserRepository userRepository;
+	private final UserRepository userRepository;
+	private final AuthenticationManager authenticationManager;
+	private final JwtUtils jwtUtils;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
+	public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
 		this.userRepository = userRepository;
+		this.authenticationManager = authenticationManager;
+		this.jwtUtils = jwtUtils;
 	}
 
 	@Override
@@ -81,6 +89,17 @@ private final UserRepository userRepository;
 		return userRepository.findAll().stream()
 				.map(UserDto::fromEntity)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public AuthenticationResponse authenticate(AuthenticationRequest request) {
+		
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+		final String token = jwtUtils.generateToken(authentication);
+		return AuthenticationResponse.builder()
+				.token(token)
+				.build();
 	}
 
 }

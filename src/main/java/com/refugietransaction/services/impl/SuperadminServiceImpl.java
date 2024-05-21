@@ -9,6 +9,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.refugietransaction.dto.SuperadminDto;
@@ -35,12 +36,14 @@ public class SuperadminServiceImpl implements SuperadminService {
 	private final SuperadminRepository superadminRepository;
 	private final UserRepository userRepository;
 	private final MailSenderService mailService;
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public SuperadminServiceImpl(SuperadminRepository superadminRepository, UserRepository userRepository, MailSenderService mailService) {
+	public SuperadminServiceImpl(SuperadminRepository superadminRepository, UserRepository userRepository, MailSenderService mailService, PasswordEncoder passwordEncoder) {
 		this.superadminRepository = superadminRepository;
 		this.userRepository = userRepository;
 		this.mailService = mailService;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@Override
@@ -76,7 +79,7 @@ public class SuperadminServiceImpl implements SuperadminService {
 
 			String noEncrypted_password=generateCommonLangPassword();
 			superadminDto.getUser().setIsUserActive(true);
-			superadminDto.getUser().setUserPassword(noEncrypted_password);
+			superadminDto.getUser().setUserPassword(passwordEncoder.encode(noEncrypted_password));
 			superadminDto.getUser().setUserRoleEnum(UserRoleEnum.SUPERADMIN);
 
 			UserDto savedUser = UserDto.fromEntity(
@@ -115,9 +118,12 @@ public class SuperadminServiceImpl implements SuperadminService {
 			}
 		}
 		String pswd="";
+		String newNoEncryptPassword="";
 		if (!superadminDto.getUser().getUserEmail().equals(userEmail(superadminDto.getUser().getId())) ){
+			
 			//change existing password and send new password to new user
-			pswd=generateCommonLangPassword();
+			newNoEncryptPassword=generateCommonLangPassword();
+			pswd=passwordEncoder.encode(newNoEncryptPassword);
 		}
 		else{
 			//get existing password

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.refugietransaction.dto.UserDto;
+import com.refugietransaction.dto.auth.AuthenticationRequest;
+import com.refugietransaction.dto.auth.AuthenticationResponse;
 
 public interface UserService {
 	
@@ -16,4 +18,6 @@ public interface UserService {
 	void enableUser(Long userId);
 
 	void desableUser(Long userId);
+	
+	AuthenticationResponse authenticate(AuthenticationRequest request);
 }

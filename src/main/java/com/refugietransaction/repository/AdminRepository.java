@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.refugietransaction.model.Admin;
+import com.refugietransaction.model.User;
 
 public interface AdminRepository extends JpaRepository<Admin, Long> {
 	
@@ -38,4 +39,6 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 	
 	@Query(value = "select a from Admin a order by a.id desc")
 	Page<Admin> findAllAdmins(Pageable pageable);
+	
+	Admin findByUser(User user);
 }

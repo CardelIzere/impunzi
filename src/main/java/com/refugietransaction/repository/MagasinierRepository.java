@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.refugietransaction.model.Magasinier;
+import com.refugietransaction.model.User;
 
 public interface MagasinierRepository extends JpaRepository<Magasinier, Long> {
 	
@@ -28,4 +29,6 @@ public interface MagasinierRepository extends JpaRepository<Magasinier, Long> {
 	
 	@Query(value = "select m from Magasinier m order by m.id desc")
 	Page<Magasinier> findAllMagasiniers(Pageable pageable);
+	
+	Magasinier findByUser(User user);
 }

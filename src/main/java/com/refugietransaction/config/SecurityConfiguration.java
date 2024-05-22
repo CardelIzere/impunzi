@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.SessionManagementFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -35,38 +36,39 @@ public class SecurityConfiguration {
 	@Autowired
     private JwtFilter jwtFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth->auth
-                        .requestMatchers(
-                        		 "/auth/login",
-                                 "//authenticate",
-                                 "//superadmins/create",
-                                 "//admins/create",
-                                 "//magasiniers/create",
-                                 "/api/access/",
-                                 "/h2-console/",
-                                 // resources for swagger to work properly
-                                 "/v2/api-docs",
-                                 "/v3/api-docs",
-                                 "/v3/api-docs/",
-                                 "/swagger-resources",
-                                 "/swagger-resources/",
-                                 "/configuration/ui",
-                                 "/configuration/security",
-                                 "/swagger-ui/",
-                                 "/webjars/",
-                                 "/swagger-ui.html"
-                        )
-                        .permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                //.authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsFilter(), SessionManagementFilter.class)
-                .build();
-    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+	    return httpSecurity.csrf(AbstractHttpConfigurer::disable)
+	            .authorizeHttpRequests(auth -> auth
+	                    .requestMatchers(
+	                            new AntPathRequestMatcher("/auth/login"),
+	                            new AntPathRequestMatcher("/**/authenticate"),
+	                            new AntPathRequestMatcher("/**/superadmins/create"),
+	                            new AntPathRequestMatcher("/**/admins/create"),
+	                            new AntPathRequestMatcher("/**/magasiniers/create"),
+	                            new AntPathRequestMatcher("/api/access/**"),
+	                            new AntPathRequestMatcher("/h2-console/**"),
+	                            // resources for swagger to work properly
+	                            new AntPathRequestMatcher("/v2/api-docs"),
+	                            new AntPathRequestMatcher("/v3/api-docs"),
+	                            new AntPathRequestMatcher("/v3/api-docs/**"),
+	                            new AntPathRequestMatcher("/swagger-resources"),
+	                            new AntPathRequestMatcher("/swagger-resources/**"),
+	                            new AntPathRequestMatcher("/configuration/ui"),
+	                            new AntPathRequestMatcher("/configuration/security"),
+	                            new AntPathRequestMatcher("/swagger-ui/**"),
+	                            new AntPathRequestMatcher("/webjars/**"),
+	                            new AntPathRequestMatcher("/swagger-ui.html")
+	                    )
+	                    .permitAll()
+	                    .anyRequest().authenticated())
+	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	            //.authenticationProvider(authenticationProvider())
+	            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+	            .addFilterBefore(corsFilter(), SessionManagementFilter.class)
+	            .build();
+	}
+
 
     @Bean
     public CorsFilter corsFilter() {

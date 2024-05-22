@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers(
                                 "/auth/login",
-                                "/**/authenticate",
+                                "/authenticate",
                                 "/**/superadmins/create",
                                 "/**/admins/create",
                                 "/**/magasiniers/create",

@@ -27,6 +27,7 @@ import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.Camp;
+import com.refugietransaction.model.MvtStkMenage;
 import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.model.Product;
 import com.refugietransaction.model.ProductType;
@@ -476,6 +477,17 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		}
 		
 		return mvtStkSuppliers.map(MvtStkSupplierDto::fromEntity);
+	}
+
+	@Override
+	public void delete(Long id) {
+		
+		if(id == null) {
+			log.error("Mvt Stk Supplier ID is null");
+		}
+		
+		mvtStkSupplierRepository.deleteById(id);
+		
 	}
 
 

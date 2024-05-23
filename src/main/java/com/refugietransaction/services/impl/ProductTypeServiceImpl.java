@@ -14,8 +14,10 @@ import com.refugietransaction.dto.ProductTypeDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
+import com.refugietransaction.model.MvtStkMenage;
 import com.refugietransaction.model.Product;
 import com.refugietransaction.model.ProductType;
+import com.refugietransaction.repository.MvtStkMenageRepository;
 import com.refugietransaction.repository.ProductRepository;
 import com.refugietransaction.repository.ProductTypeRepository;
 import com.refugietransaction.services.ProductTypeService;
@@ -29,11 +31,13 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 	
 	private final ProductTypeRepository productTypeRepository;
 	private final ProductRepository productRepository;
+	private final MvtStkMenageRepository mvtStkMenageRepository;
 	
 	@Autowired
-	public ProductTypeServiceImpl(ProductTypeRepository productTypeRepository, ProductRepository productRepository) {
+	public ProductTypeServiceImpl(ProductTypeRepository productTypeRepository, ProductRepository productRepository, MvtStkMenageRepository mvtStkMenageRepository) {
 		this.productTypeRepository = productTypeRepository;
 		this.productRepository = productRepository;
+		this.mvtStkMenageRepository = mvtStkMenageRepository;
 	}
 
 	@Override
@@ -120,6 +124,12 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		List<Product> product = productRepository.findAllByProductTypeId(id);
 		if(!product.isEmpty()) {
 			throw new InvalidEntityException("Impossible de supprimer ce type de produit deja utilisé", 
+					ErrorCodes.PRODUCTTYPE_ALREADY_IN_USE);
+		}
+		
+		List<MvtStkMenage> mvtStkMenage = mvtStkMenageRepository.findAllById(id);
+		if(!mvtStkMenage.isEmpty()) {
+			throw new InvalidEntityException("Impossible de supprimer ce type de produit deja utilise dans le mouvement de stock",
 					ErrorCodes.PRODUCTTYPE_ALREADY_IN_USE);
 		}
 		

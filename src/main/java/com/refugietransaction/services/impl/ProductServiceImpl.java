@@ -111,6 +111,7 @@ public class ProductServiceImpl implements ProductService {
 			throw new InvalidOperationException("Impossible de supprimer ce produit qui est deja utilisé",
 					ErrorCodes.PRODUCT_ALREADY_IN_USE);
 		}
+		
 		productRepository.deleteById(id);
 	}
 

@@ -18,8 +18,10 @@ import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.Menage;
+import com.refugietransaction.model.MvtStkMenage;
 import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.repository.MenageRepository;
+import com.refugietransaction.repository.MvtStkMenageRepository;
 import com.refugietransaction.repository.MvtStkSupplierRepository;
 import com.refugietransaction.services.MenageService;
 import com.refugietransaction.validator.CampValidator;
@@ -32,10 +34,10 @@ import lombok.extern.slf4j.Slf4j;
 public class MenageServiceImpl implements MenageService {
 	
 	private MenageRepository menageRepository;
-	private MvtStkSupplierRepository mouvementStockRepository;
+	private MvtStkMenageRepository mouvementStockRepository;
 	
 	@Autowired
-	public MenageServiceImpl(MenageRepository menageRepository, MvtStkSupplierRepository mouvementStockRepository) {
+	public MenageServiceImpl(MenageRepository menageRepository, MvtStkMenageRepository mouvementStockRepository) {
 		this.menageRepository = menageRepository;
 		this.mouvementStockRepository = mouvementStockRepository;
 	}
@@ -136,7 +138,7 @@ public class MenageServiceImpl implements MenageService {
 		if(id == null) {
 			log.error("Menage ID is null");
 		}
-		List<MvtStkSupplier> mouvementStocks = mouvementStockRepository.findAllById(id);
+		List<MvtStkMenage> mouvementStocks = mouvementStockRepository.findAllById(id);
 		if(!mouvementStocks.isEmpty()) {
 			throw new InvalidEntityException("Impossible de supprimer un menage ayant au moins un mouvement stock",
 					ErrorCodes.MENAGE_ALREADY_IN_USE);

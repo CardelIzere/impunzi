@@ -171,6 +171,13 @@ public class MvtStkSupplierController implements MvtStkSupplierApi {
 		return mvtStkSupplierService.getProductMvtStkBySupplierCamp(startDate, endDate, idProduct, idSupplier, idCamp, pageable);
 	}
 
+	@Override
+	public void delete(Long idMvtStkSupplier) {
+		
+		mvtStkSupplierService.delete(idMvtStkSupplier);
+		
+	}
+
 	
 
 }

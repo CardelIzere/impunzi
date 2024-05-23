@@ -261,8 +261,18 @@ public class AdminServiceImpl implements AdminService {
 			log.error("Admin ID is null");
 		}
 		
-		adminRepository.deleteById(id);
+		Optional<Admin> adminOptional = adminRepository.findById(id);
 		
+		if(!adminOptional.isPresent()) {
+			log.error("Admin with ID " +id+ " not found");
+		}
+		
+		Admin admin = adminOptional.get();
+		User user = admin.getUser();
+		
+		
+		adminRepository.delete(admin);
+		userRepository.delete(user);
 	}
 
 	@Override

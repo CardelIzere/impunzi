@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,5 +76,12 @@ public interface MvtStkMenageApi {
     })
     @GetMapping(value = Constants.APP_ROOT + "/mvtstkmenage/etat-stock/{idMenage}", produces = MediaType.APPLICATION_JSON_VALUE)
     List<MenageStockDto> getTotalQuantityByIdMenage(@PathVariable("idMenage") Long idMenage);
+    
+    @ApiOperation(value = "Supprimer un mouvement stock d'une menage par son ID", notes = "Cette methode permet de supprimer un mouvement stock d'une menage")
+    @ApiResponses(value = {
+    		@ApiResponse(code = 200, message = "Le mouvement stock a ete supprime")
+    })
+    @DeleteMapping(value = Constants.APP_ROOT+ "/mvtstkmenage/delete/{idMvtStkMenage}")
+    void delete(@PathVariable("idMvtStkMenage") Long idMvtStkMenage);
     
 }

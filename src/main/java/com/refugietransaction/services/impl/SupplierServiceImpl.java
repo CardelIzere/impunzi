@@ -17,6 +17,7 @@ import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.Admin;
+import com.refugietransaction.model.Magasinier;
 import com.refugietransaction.model.Supplier;
 import com.refugietransaction.repository.AdminRepository;
 import com.refugietransaction.repository.MagasinierRepository;
@@ -121,6 +122,12 @@ public class SupplierServiceImpl implements SupplierService {
 		
 		List<Admin> admin = adminRepository.findAllBySupplierId(id);
 		if(!admin.isEmpty()) {
+			throw new InvalidEntityException("Impossible de supprimer ce fournisseur qui est deja utilisé", 
+					ErrorCodes.SUPPLIER_ALREADY_IN_USE);
+		}
+		
+		List<Magasinier> magasinier = magasinierRepository.findAllBySupplierId(id);
+		if(!magasinier.isEmpty()) {
 			throw new InvalidEntityException("Impossible de supprimer ce fournisseur qui est deja utilisé", 
 					ErrorCodes.SUPPLIER_ALREADY_IN_USE);
 		}

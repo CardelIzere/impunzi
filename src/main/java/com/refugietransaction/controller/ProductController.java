@@ -34,8 +34,8 @@ public class ProductController implements ProductApi {
 	}
 
 	@Override
-	public void delete(Long id) {
-		productService.delete(id);
+	public void delete(Long idProduit) {
+		productService.delete(idProduit);
 		
 	}
 

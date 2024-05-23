@@ -235,8 +235,18 @@ public class MagasinierServiceImpl implements MagasinierService {
 		if(id == null) {
 			log.error("Agent ID is null");
 		}
-
-		magasinierRepository.deleteById(id);
+		
+		Optional<Magasinier> magasinierOptional = magasinierRepository.findById(id);
+		
+		if(!magasinierOptional.isPresent()) {
+			log.error("Magasinier with ID " +id+ " not found");
+		}
+		
+		Magasinier magasinier = magasinierOptional.get();
+		User user = magasinier.getUser();
+		
+		magasinierRepository.delete(magasinier);
+		userRepository.delete(user);
 		
 	}
 

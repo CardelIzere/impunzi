@@ -28,4 +28,6 @@ public interface MvtStkMenageService {
 	Page<MvtStkMenageDto> findAllByProductTypeMenageLike(String search, Pageable pageable);
 	
 	List<MenageStockDto> getTotalQuantityByIdMenage(Long idMenage);
+	
+	void delete(Long id);
 }

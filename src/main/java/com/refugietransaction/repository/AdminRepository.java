@@ -41,4 +41,7 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 	Page<Admin> findAllAdmins(Pageable pageable);
 	
 	Admin findByUser(User user);
+	
+	@Query("select a from Admin a where a.user.id = :idUser")
+	List<User> findAdminByIdUser(Long idUser);
 }

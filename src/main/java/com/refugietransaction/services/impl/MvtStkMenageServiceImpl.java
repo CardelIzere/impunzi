@@ -181,4 +181,16 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 		}).collect(Collectors.toList());
 	}
 
+	@Override
+	public void delete(Long id) {
+		
+		if(id == null) {
+			log.error("Mvt Stk Menage ID is null");
+		}
+		
+		mvtStkMenageRepository.deleteById(id);
+		
+	}
+
+
 }

@@ -244,7 +244,17 @@ public class SuperadminServiceImpl implements SuperadminService {
 			log.error("Superadmin ID is null");
 		}
 		
-		superadminRepository.deleteById(id);
+		Optional<Superadmin> superadminOptional = superadminRepository.findById(id);
+		
+		if(!superadminOptional.isPresent()) {
+			log.error("Superadmin with ID " +id+ " not found");
+		}
+		
+		Superadmin superadmin = superadminOptional.get();
+		User user = superadmin.getUser();
+		
+		superadminRepository.delete(superadmin);
+		userRepository.delete(user);
 		
 	}
 }

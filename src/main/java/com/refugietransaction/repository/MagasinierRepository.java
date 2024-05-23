@@ -31,4 +31,6 @@ public interface MagasinierRepository extends JpaRepository<Magasinier, Long> {
 	Page<Magasinier> findAllMagasiniers(Pageable pageable);
 	
 	Magasinier findByUser(User user);
+
+	List<Magasinier> findAllBySupplierId(Long id);
 }

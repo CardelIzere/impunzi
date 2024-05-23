@@ -18,11 +18,14 @@ import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.exceptions.InvalidOperationException;
+import com.refugietransaction.model.LigneVente;
 import com.refugietransaction.model.Menage;
 import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.model.Product;
+import com.refugietransaction.repository.LigneVenteRepository;
 import com.refugietransaction.repository.MvtStkSupplierRepository;
 import com.refugietransaction.repository.ProductRepository;
+import com.refugietransaction.repository.VentesRepository;
 import com.refugietransaction.services.ProductService;
 import com.refugietransaction.validator.MenageValidator;
 import com.refugietransaction.validator.MvtStkSupplierValidator;
@@ -34,13 +37,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProductServiceImpl implements ProductService {
 	
-	private ProductRepository productRepository;
-	private MvtStkSupplierRepository mouvementStockRepository;
+	private final ProductRepository productRepository;
+	private final MvtStkSupplierRepository mouvementStockRepository;
+	private final LigneVenteRepository ligneVenteRepository;
+	private final VentesRepository ventesRepository;
 	
 	@Autowired
-	public ProductServiceImpl(ProductRepository productRepository, MvtStkSupplierRepository mouvementStockRepository) {
+	public ProductServiceImpl(ProductRepository productRepository, MvtStkSupplierRepository mouvementStockRepository, LigneVenteRepository ligneVenteRepository, VentesRepository ventesRepository) {
 		this.productRepository = productRepository;
 		this.mouvementStockRepository = mouvementStockRepository;
+		this.ligneVenteRepository = ligneVenteRepository;
+		this.ventesRepository = ventesRepository;
 	}
 	
 	@Override
@@ -110,6 +117,12 @@ public class ProductServiceImpl implements ProductService {
 		if(!mouvementStocks.isEmpty()) {
 			throw new InvalidOperationException("Impossible de supprimer ce produit qui est deja utilisé",
 					ErrorCodes.PRODUCT_ALREADY_IN_USE);
+		}
+		
+		List<LigneVente> ligneVentes = ligneVenteRepository.findLigneVenteByIdProduit(id);
+		
+		for(LigneVente ligneVente : ligneVentes) {
+			ligneVenteRepository.delete(ligneVente);
 		}
 		
 		productRepository.deleteById(id);

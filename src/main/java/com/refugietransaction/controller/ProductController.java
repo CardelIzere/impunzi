@@ -34,12 +34,6 @@ public class ProductController implements ProductApi {
 	}
 
 	@Override
-	public void delete(Long idProduit) {
-		productService.delete(idProduit);
-		
-	}
-
-	@Override
 	public Page<ProductDto> findAllProduits(String search, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return productService.findByNameProduitLike(search, pageable);
@@ -69,6 +63,13 @@ public class ProductController implements ProductApi {
 	public List<ProductDto> findSoldProducts() {
 		
 		return productService.findSoldProducts();
+	}
+
+	@Override
+	public void delete(Long id) {
+		
+		productService.delete(id);
+		
 	}
 
 }

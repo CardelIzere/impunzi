@@ -129,6 +129,6 @@ public interface TransactionApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La transaction a ete supprime")
     })
-    @DeleteMapping(value = Constants.APP_ROOT + "/products/delete/{idTransaction}")
+    @DeleteMapping(value = Constants.APP_ROOT + "/transactions/delete/{idTransaction}")
     void delete(@PathVariable("idTransaction") Long idTransaction);
 }

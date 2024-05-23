@@ -92,7 +92,7 @@ public interface ProductApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Le produit a ete supprime")
     })
-    @DeleteMapping(value = Constants.APP_ROOT + "/products/delete/{idProduit}")
-    void delete(@PathVariable("idProduit") Long idProduit);
+    @DeleteMapping(value = Constants.APP_ROOT + "/products/delete/{id}")
+    void delete(@PathVariable("id") Long id);
     
 }

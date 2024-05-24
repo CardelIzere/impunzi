@@ -117,12 +117,6 @@ public class SalesUnitServiceImpl implements SalesUnitService {
 			log.error("Sales Unit ID is null");
 		}
 		
-		List<ProductType> productType = productTypeRepository.findAllBySalesUnitId(id);
-		if(!productType.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer cette unité de vente qui est deja utilisé", 
-					ErrorCodes.SALESUNIT_ALREADY_IN_USE);
-		}
-		
 		salesUnitRepository.deleteById(id);
 		
 	}

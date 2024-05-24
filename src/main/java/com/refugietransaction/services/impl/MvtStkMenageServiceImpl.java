@@ -24,6 +24,7 @@ import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.Menage;
 import com.refugietransaction.model.MvtStkMenage;
 import com.refugietransaction.model.ProductType;
+import com.refugietransaction.model.TypeDistributionEnum;
 import com.refugietransaction.model.TypeMvtStkMenageEnum;
 import com.refugietransaction.repository.CampRepository;
 import com.refugietransaction.repository.MenageRepository;
@@ -74,6 +75,31 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
                 mvtStkMenage.setProductType(ProductTypeDto.toEntity(productTypeDistributionDto.getProductTypeDto()));
                 mvtStkMenage.setTypeMvtStkMenageEnum(TypeMvtStkMenageEnum.RECEPTION);
                 mvtStkMenage.setMenage(menage);
+                
+                //Set dateNextDistribution based on typeDistribution
+                switch(productTypeDistributionDto.getTypeDistributionEnum()) {
+	                case DAILY:
+	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusDays(1));
+	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.DAILY);
+	                	break;
+	                case WEEKLY:
+	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusDays(7));
+	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.WEEKLY);
+	                	break;
+	                case MONTHLY:
+	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(1));
+	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.MONTHLY);
+	                	break;
+	                case QUARTERLY:
+	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(3));
+	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.QUARTERLY);
+	                	break;
+	                case SEMI_ANNUALY:
+	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(6));
+	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.SEMI_ANNUALY);
+	                	break;
+                }
+                
                 mvtStkMenageRepository.save(mvtStkMenage);
 
 

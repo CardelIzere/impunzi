@@ -29,6 +29,10 @@ public class MvtStkMenage extends AbstractEntity{
     @Column(name = "datemvt")
     @Temporal(TemporalType.DATE)
     private LocalDate dateMvt;
+    
+    @Column(name = "datenextdistribution")
+    @Temporal(TemporalType.DATE)
+    private LocalDate dateNextDistribution;
 
     @Column(name = "quantite")
     private BigDecimal quantite;
@@ -36,6 +40,10 @@ public class MvtStkMenage extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "product_type_id")
     private ProductType productType;
+    
+    @Column(name = "typedistribution")
+    @Enumerated(EnumType.STRING)
+    private TypeDistributionEnum typeDistributionEnum;
 
     @Column(name = "typemvt")
     @Enumerated(EnumType.STRING)

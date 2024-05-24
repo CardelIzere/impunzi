@@ -103,7 +103,7 @@ public class CampServiceImpl implements CampService {
 		}
 		List<Menage> menages = menageRepository.findAllById(id);
 		if(!menages.isEmpty()) {
-			throw new InvalidOperationException("Impossible de supprimer un camp ayant au moins une menage",
+			throw new InvalidEntityException("Impossible de supprimer un camp ayant au moins une menage",
 					ErrorCodes.CAMP_ALREADY_IN_USE);
 		}
 		

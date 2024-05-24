@@ -22,9 +22,11 @@ import com.refugietransaction.model.LigneVente;
 import com.refugietransaction.model.Menage;
 import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.model.Product;
+import com.refugietransaction.model.ProductType;
 import com.refugietransaction.repository.LigneVenteRepository;
 import com.refugietransaction.repository.MvtStkSupplierRepository;
 import com.refugietransaction.repository.ProductRepository;
+import com.refugietransaction.repository.ProductTypeRepository;
 import com.refugietransaction.repository.VentesRepository;
 import com.refugietransaction.services.ProductService;
 import com.refugietransaction.validator.MenageValidator;
@@ -41,13 +43,15 @@ public class ProductServiceImpl implements ProductService {
 	private final MvtStkSupplierRepository mouvementStockRepository;
 	private final LigneVenteRepository ligneVenteRepository;
 	private final VentesRepository ventesRepository;
+	private final ProductTypeRepository productTypeRepository;
 	
 	@Autowired
-	public ProductServiceImpl(ProductRepository productRepository, MvtStkSupplierRepository mouvementStockRepository, LigneVenteRepository ligneVenteRepository, VentesRepository ventesRepository) {
+	public ProductServiceImpl(ProductRepository productRepository, MvtStkSupplierRepository mouvementStockRepository, LigneVenteRepository ligneVenteRepository, VentesRepository ventesRepository, ProductTypeRepository productTypeRepository) {
 		this.productRepository = productRepository;
 		this.mouvementStockRepository = mouvementStockRepository;
 		this.ligneVenteRepository = ligneVenteRepository;
 		this.ventesRepository = ventesRepository;
+		this.productTypeRepository = productTypeRepository;
 	}
 	
 	@Override
@@ -113,16 +117,17 @@ public class ProductServiceImpl implements ProductService {
 		if(id == null) {
 			log.error("Produit ID is null");
 		}
-		List<MvtStkSupplier> mouvementStocks = mouvementStockRepository.findAllById(id);
-		if(!mouvementStocks.isEmpty()) {
-			throw new InvalidOperationException("Impossible de supprimer ce produit qui est deja utilisé",
+		
+		List<ProductType> productTypes = productTypeRepository.findAllById(id);
+		if(!productTypes.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer ce produit qui est deja utilisé", 
 					ErrorCodes.PRODUCT_ALREADY_IN_USE);
 		}
 		
-		List<LigneVente> ligneVentes = ligneVenteRepository.findLigneVenteByIdProduit(id);
-		
-		for(LigneVente ligneVente : ligneVentes) {
-			ligneVenteRepository.delete(ligneVente);
+		List<MvtStkSupplier> mouvementStocks = mouvementStockRepository.findAllById(id);
+		if(!mouvementStocks.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer ce produit ayant au moins un mouvement de stock",
+					ErrorCodes.PRODUCT_ALREADY_IN_USE);
 		}
 		
 		productRepository.deleteById(id);

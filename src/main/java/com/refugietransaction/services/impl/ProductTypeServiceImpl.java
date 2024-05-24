@@ -17,9 +17,11 @@ import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.MvtStkMenage;
 import com.refugietransaction.model.Product;
 import com.refugietransaction.model.ProductType;
+import com.refugietransaction.model.SalesUnit;
 import com.refugietransaction.repository.MvtStkMenageRepository;
 import com.refugietransaction.repository.ProductRepository;
 import com.refugietransaction.repository.ProductTypeRepository;
+import com.refugietransaction.repository.SalesUnitRepository;
 import com.refugietransaction.services.ProductTypeService;
 import com.refugietransaction.validator.ProductTypeValidator;
 
@@ -32,12 +34,14 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 	private final ProductTypeRepository productTypeRepository;
 	private final ProductRepository productRepository;
 	private final MvtStkMenageRepository mvtStkMenageRepository;
+	private final SalesUnitRepository salesUnitRepository;
 	
 	@Autowired
-	public ProductTypeServiceImpl(ProductTypeRepository productTypeRepository, ProductRepository productRepository, MvtStkMenageRepository mvtStkMenageRepository) {
+	public ProductTypeServiceImpl(ProductTypeRepository productTypeRepository, ProductRepository productRepository, MvtStkMenageRepository mvtStkMenageRepository, SalesUnitRepository salesUnitRepository) {
 		this.productTypeRepository = productTypeRepository;
 		this.productRepository = productRepository;
 		this.mvtStkMenageRepository = mvtStkMenageRepository;
+		this.salesUnitRepository = salesUnitRepository;
 	}
 
 	@Override
@@ -121,15 +125,15 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 			log.error("Product Type ID is null");
 		}
 		
-		List<Product> product = productRepository.findAllByProductTypeId(id);
-		if(!product.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer ce type de produit deja utilisé", 
+		List<SalesUnit> salesUnits = salesUnitRepository.findAllById(id);
+		if(!salesUnits.isEmpty()) {
+			throw new InvalidEntityException("Impossible de supprimer ce type de produit deja utilisé dans une autre table",
 					ErrorCodes.PRODUCTTYPE_ALREADY_IN_USE);
 		}
 		
 		List<MvtStkMenage> mvtStkMenage = mvtStkMenageRepository.findAllById(id);
-		if(!mvtStkMenage.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer ce type de produit deja utilise dans le mouvement de stock",
+		if(!mvtStkMenage.isEmpty() || !salesUnits.isEmpty() ) {
+			throw new InvalidEntityException("Impossible de supprimer ce type de produit ayant au moins un mouvement de stock",
 					ErrorCodes.PRODUCTTYPE_ALREADY_IN_USE);
 		}
 		

@@ -68,39 +68,49 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
                 Integer nbPersonnes=menage.getNombrePersonnes();
                 BigDecimal consParPersonne=productTypeDistributionDto.getCons_moyenne_personne();
                 BigDecimal quantity=BigDecimal.valueOf(nbPersonnes).multiply(consParPersonne);
-
-                MvtStkMenage mvtStkMenage=new MvtStkMenage();
-                mvtStkMenage.setDateMvt(LocalDate.now());
-                mvtStkMenage.setQuantite(quantity);
-                mvtStkMenage.setProductType(ProductTypeDto.toEntity(productTypeDistributionDto.getProductTypeDto()));
-                mvtStkMenage.setTypeMvtStkMenageEnum(TypeMvtStkMenageEnum.RECEPTION);
-                mvtStkMenage.setMenage(menage);
                 
-                //Set dateNextDistribution based on typeDistribution
-                switch(productTypeDistributionDto.getTypeDistributionEnum()) {
-	                case DAILY:
-	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusDays(1));
-	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.DAILY);
-	                	break;
-	                case WEEKLY:
-	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusDays(7));
-	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.WEEKLY);
-	                	break;
-	                case MONTHLY:
-	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(1));
-	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.MONTHLY);
-	                	break;
-	                case QUARTERLY:
-	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(3));
-	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.QUARTERLY);
-	                	break;
-	                case SEMI_ANNUALY:
-	                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(6));
-	                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.SEMI_ANNUALY);
-	                	break;
+                Optional<MvtStkMenage> lastMvtStkMenage = mvtStkMenageRepository.findMenageLastDistribution(menage.getId());
+                
+                if(!lastMvtStkMenage.isPresent() || lastMvtStkMenage.get().getDateNextDistribution().isBefore(LocalDate.now())) {
+                	
+                	MvtStkMenage mvtStkMenage=new MvtStkMenage();
+	                mvtStkMenage.setDateMvt(LocalDate.now());
+	                mvtStkMenage.setQuantite(quantity);
+	                mvtStkMenage.setProductType(ProductTypeDto.toEntity(productTypeDistributionDto.getProductTypeDto()));
+	                mvtStkMenage.setTypeMvtStkMenageEnum(TypeMvtStkMenageEnum.RECEPTION);
+	                mvtStkMenage.setMenage(menage);
+	                
+	                //Set dateNextDistribution based on typeDistribution
+	                switch(productTypeDistributionDto.getTypeDistributionEnum()) {
+		                case DAILY:
+		                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusDays(1));
+		                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.DAILY);
+		                	break;
+		                case WEEKLY:
+		                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusDays(7));
+		                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.WEEKLY);
+		                	break;
+		                case MONTHLY:
+		                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(1));
+		                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.MONTHLY);
+		                	break;
+		                case QUARTERLY:
+		                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(3));
+		                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.QUARTERLY);
+		                	break;
+		                case SEMI_ANNUALY:
+		                	mvtStkMenage.setDateNextDistribution(LocalDate.now().plusMonths(6));
+		                	mvtStkMenage.setTypeDistributionEnum(TypeDistributionEnum.SEMI_ANNUALY);
+		                	break;
+	                }
+	                
+	                mvtStkMenageRepository.save(mvtStkMenage);
+                } else {
+//                	
+                	throw new EntityNotFoundException("La distribution est impossible car la date suivante de distribution n'est pas encore atteinte");
                 }
                 
-                mvtStkMenageRepository.save(mvtStkMenage);
+               
 
 
             });

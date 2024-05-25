@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.refugietransaction.controller.api.UserApi;
+import com.refugietransaction.dto.ChangerMotDePasseUtilisateurDto;
 import com.refugietransaction.dto.UserDto;
 import com.refugietransaction.services.UserService;
 
@@ -43,5 +44,11 @@ public class UserController implements UserApi {
 	public List<UserDto> findAll() {
 		
 		return userService.findAll();
+	}
+
+	@Override
+	public UserDto changerMotDePasse(ChangerMotDePasseUtilisateurDto dto) {
+		
+		return userService.changerMotDePasse(dto);
 	}
 }

@@ -6,9 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.refugietransaction.dto.ChangerMotDePasseUtilisateurDto;
 import com.refugietransaction.dto.UserDto;
 import com.refugietransaction.utils.Constants;
 
@@ -48,4 +51,7 @@ public interface UserApi {
     })
     @PutMapping(value = Constants.APP_ROOT + "/users/desable/{id}")
     void desableUser(@PathVariable("id") Long id);
+    
+    @PostMapping(value = Constants.APP_ROOT + "users/update/password")
+    UserDto changerMotDePasse(@RequestBody ChangerMotDePasseUtilisateurDto dto);
 }

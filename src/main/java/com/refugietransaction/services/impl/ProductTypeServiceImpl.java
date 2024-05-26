@@ -128,7 +128,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		
 		List<SalesUnit> salesUnits = salesUnitRepository.findAllById(id);
 		if(!salesUnits.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer une type de produit ayant au moins une unité de vente",
+			throw new InvalidEntityException("Impossible de supprimer un type de produit ayant au moins une unité de vente",
 					ErrorCodes.PRODUCTTYPE_ALREADY_EXISTS);
 		}
 		

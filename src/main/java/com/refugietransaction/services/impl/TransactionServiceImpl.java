@@ -127,12 +127,6 @@ public class TransactionServiceImpl implements TransactionService {
 			log.error("Transaction ID is null");
 		}
 		
-		List<Ventes> ventes = ventesRepository.findAllById(idTransaction);
-		if(!ventes.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer une transaction ayant au moins une vente",
-					ErrorCodes.TRANSACTION_ALREADY_IN_USE);
-		}
-		
 		transactionRepository.deleteById(idTransaction);
 		
 	}

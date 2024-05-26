@@ -175,10 +175,10 @@ public class VentesServiceImpl implements VentesService {
 			
 			Ventes ventes = ventesRepository.findVentesById(id);
 			
-			if(ventes.getVenteStatusEnum() == VenteStatusEnum.PAID) {
-				throw new InvalidOperationException("Impossible de supprimer une vente car il est deja payé", 
-						ErrorCodes.VENTE_ALREADY_PAID);
-			}
+//			if(ventes.getVenteStatusEnum() == VenteStatusEnum.PAID) {
+//				throw new InvalidOperationException("Impossible de supprimer une vente car il est deja payé", 
+//						ErrorCodes.VENTE_ALREADY_PAID);
+//			}
 			
 			List<LigneVente> ligneVentes = ligneVenteRepository.findLigneVenteByIdVente(id);
 			

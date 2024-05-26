@@ -494,24 +494,6 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 			log.error("Mvt Stk Supplier ID is null");
 		}
 		
-		List<Supplier> suppliers = supplierRepository.findAllById(id);
-		if(!suppliers.isEmpty()) {
-			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
-					ErrorCodes.MVTSTK_SUPPLIER_ALREADY_IN_USE);
-		}
-		
-		List<Product> products = productRepository.findAllById(id);
-		if(!products.isEmpty()) {
-			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
-					ErrorCodes.MVTSTK_SUPPLIER_ALREADY_IN_USE);
-		}
-		
-		List<Camp> camps = campRepository.findAllById(id);
-		if(!camps.isEmpty()) {
-			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
-					ErrorCodes.MVTSTK_SUPPLIER_ALREADY_IN_USE);
-		}
-		
 		mvtStkSupplierRepository.deleteById(id);
 		
 	}

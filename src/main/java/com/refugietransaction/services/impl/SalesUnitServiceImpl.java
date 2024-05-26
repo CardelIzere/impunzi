@@ -14,6 +14,7 @@ import com.refugietransaction.dto.SalesUnitDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
+import com.refugietransaction.exceptions.InvalidOperationException;
 import com.refugietransaction.model.ProductType;
 import com.refugietransaction.model.SalesUnit;
 import com.refugietransaction.repository.ProductTypeRepository;
@@ -115,6 +116,12 @@ public class SalesUnitServiceImpl implements SalesUnitService {
 		
 		if(id == null) {
 			log.error("Sales Unit ID is null");
+		}
+		
+		List<ProductType> productTypes = productTypeRepository.findAllById(id);
+		if(!productTypes.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer cette unite de vente qui est deja utilisé", 
+					ErrorCodes.SALESUNIT_ALREADY_IN_USE);
 		}
 		
 		salesUnitRepository.deleteById(id);

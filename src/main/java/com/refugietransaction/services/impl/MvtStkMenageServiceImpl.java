@@ -228,18 +228,6 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 			log.error("Mvt Stk Menage ID is null");
 		}
 		
-		List<ProductType> productTypes = productTypeRepository.findAllById(id);
-		if(!productTypes.isEmpty()) {
-			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
-					ErrorCodes.MVTSTK_MENAGE_ALREADY_IN_USE);
-		}
-		
-		List<Menage> menages = menageRepository.findAllById(id);
-		if(!menages.isEmpty()) {
-			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
-					ErrorCodes.MVTSTK_MENAGE_ALREADY_IN_USE);
-		}
-		
 		mvtStkMenageRepository.deleteById(id);
 		
 	}

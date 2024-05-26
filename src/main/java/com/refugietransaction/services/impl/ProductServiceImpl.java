@@ -118,12 +118,6 @@ public class ProductServiceImpl implements ProductService {
 			log.error("Produit ID is null");
 		}
 		
-		List<ProductType> productTypes = productTypeRepository.findAllById(id);
-		if(!productTypes.isEmpty()) {
-			throw new InvalidOperationException("Impossible de supprimer ce produit qui est deja utilisé", 
-					ErrorCodes.PRODUCT_ALREADY_IN_USE);
-		}
-		
 		List<MvtStkSupplier> mouvementStocks = mouvementStockRepository.findAllById(id);
 		if(!mouvementStocks.isEmpty()) {
 			throw new InvalidOperationException("Impossible de supprimer ce produit ayant au moins un mouvement de stock",

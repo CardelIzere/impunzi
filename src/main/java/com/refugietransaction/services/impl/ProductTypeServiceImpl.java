@@ -131,14 +131,8 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 					ErrorCodes.PRODUCTTYPE_ALREADY_EXISTS);
 		}
 		
-		List<SalesUnit> salesUnits = salesUnitRepository.findAllById(id);
-		if(!salesUnits.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer ce type de produit deja utilisé dans une autre table",
-					ErrorCodes.PRODUCTTYPE_ALREADY_IN_USE);
-		}
-		
 		List<MvtStkMenage> mvtStkMenage = mvtStkMenageRepository.findAllById(id);
-		if(!mvtStkMenage.isEmpty() || !salesUnits.isEmpty() ) {
+		if(!mvtStkMenage.isEmpty()) {
 			throw new InvalidEntityException("Impossible de supprimer ce type de produit ayant au moins un mouvement de stock",
 					ErrorCodes.PRODUCTTYPE_ALREADY_IN_USE);
 		}

@@ -143,7 +143,6 @@ public class MenageServiceImpl implements MenageService {
 			log.error("Menage ID is null");
 		}
 		
-		
 		List<MvtStkMenage> mouvementStocks = mouvementStockRepository.findAllById(id);
 		if(!mouvementStocks.isEmpty()) {
 			throw new InvalidEntityException("Impossible de supprimer un menage ayant au moins un mouvement stock",

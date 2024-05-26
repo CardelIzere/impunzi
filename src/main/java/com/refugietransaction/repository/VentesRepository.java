@@ -76,4 +76,6 @@ public interface VentesRepository extends JpaRepository<Ventes, Long> {
 	
 	@Query("SELECT SUM(lv.prixUnitaire * lv.quantite) FROM Ventes v join Menage m on v.menage.id = m.id LEFT JOIN v.ligneVentes lv where v.dateVente BETWEEN :startDate AND :endDate AND v.supplier.id = :idSupplier AND v.camp.id = :idCamp AND v.venteStatusEnum = 'PAID' And UPPER(m.personneContact) like CONCAT('%',UPPER(:search),'%')")
 	BigDecimal sumByStartDateAndEndDateAndSearchAndSupplierIdAndCampId( LocalDate startDate , LocalDate endDate, Long idSupplier, Long idCamp, String search);
+
+	List<Ventes> findAllById(Long idTransaction);
 }

@@ -120,18 +120,6 @@ public class SupplierServiceImpl implements SupplierService {
 			log.error("Supplier ID is null");
 		}
 		
-		List<Admin> admin = adminRepository.findAllBySupplierId(id);
-		if(!admin.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer ce fournisseur qui est deja utilisé", 
-					ErrorCodes.SUPPLIER_ALREADY_IN_USE);
-		}
-		
-		List<Magasinier> magasinier = magasinierRepository.findAllBySupplierId(id);
-		if(!magasinier.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer ce fournisseur qui est deja utilisé", 
-					ErrorCodes.SUPPLIER_ALREADY_IN_USE);
-		}
-		
 		supplierRepository.deleteById(id);
 		
 	}

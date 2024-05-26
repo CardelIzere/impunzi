@@ -36,4 +36,6 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long> {
 			" WHERE adm.adminTypeEnum = 'MAIN_ADMIN' " +
 			")")
 	List<Supplier> findSuppliersWithNoMainAdmin();
+
+	List<Supplier> findAllById(Long id);
 }

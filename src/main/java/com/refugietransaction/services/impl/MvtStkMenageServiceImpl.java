@@ -20,6 +20,7 @@ import com.refugietransaction.dto.SalesUnitDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
+import com.refugietransaction.exceptions.InvalidOperationException;
 import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.Menage;
 import com.refugietransaction.model.MvtStkMenage;
@@ -29,6 +30,7 @@ import com.refugietransaction.model.TypeMvtStkMenageEnum;
 import com.refugietransaction.repository.CampRepository;
 import com.refugietransaction.repository.MenageRepository;
 import com.refugietransaction.repository.MvtStkMenageRepository;
+import com.refugietransaction.repository.ProductTypeRepository;
 import com.refugietransaction.services.MvtStkMenageService;
 import com.refugietransaction.validator.MvtStkMenageValidator;
 import com.refugietransaction.validator.ProductTypeDistributionValidator;
@@ -43,12 +45,14 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 	private final MvtStkMenageRepository mvtStkMenageRepository;
 	private final MenageRepository menageRepository;
 	private final CampRepository campRepository;
+	private final ProductTypeRepository productTypeRepository;
 	
 	@Autowired
-	public MvtStkMenageServiceImpl(MvtStkMenageRepository mvtStkMenageRepository, MenageRepository menageRepository, CampRepository campRepository) {
+	public MvtStkMenageServiceImpl(MvtStkMenageRepository mvtStkMenageRepository, MenageRepository menageRepository, CampRepository campRepository, ProductTypeRepository productTypeRepository) {
 		this.mvtStkMenageRepository = mvtStkMenageRepository;
 		this.menageRepository = menageRepository;
 		this.campRepository = campRepository;
+		this.productTypeRepository = productTypeRepository;
 	}
 	
 	@Override
@@ -222,6 +226,18 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 		
 		if(id == null) {
 			log.error("Mvt Stk Menage ID is null");
+		}
+		
+		List<ProductType> productTypes = productTypeRepository.findAllById(id);
+		if(!productTypes.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
+					ErrorCodes.MVTSTK_MENAGE_ALREADY_IN_USE);
+		}
+		
+		List<Menage> menages = menageRepository.findAllById(id);
+		if(!menages.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
+					ErrorCodes.MVTSTK_MENAGE_ALREADY_IN_USE);
 		}
 		
 		mvtStkMenageRepository.deleteById(id);

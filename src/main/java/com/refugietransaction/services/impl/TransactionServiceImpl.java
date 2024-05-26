@@ -18,6 +18,7 @@ import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.LigneVente;
+import com.refugietransaction.model.SalesUnit;
 import com.refugietransaction.model.Transaction;
 import com.refugietransaction.model.VenteStatusEnum;
 import com.refugietransaction.model.Ventes;
@@ -124,6 +125,12 @@ public class TransactionServiceImpl implements TransactionService {
 	public void delete(Long idTransaction) {
 		if(idTransaction == null) {
 			log.error("Transaction ID is null");
+		}
+		
+		List<Ventes> ventes = ventesRepository.findAllById(idTransaction);
+		if(!ventes.isEmpty()) {
+			throw new InvalidEntityException("Impossible de supprimer une transaction ayant au moins une vente",
+					ErrorCodes.TRANSACTION_ALREADY_IN_USE);
 		}
 		
 		transactionRepository.deleteById(idTransaction);

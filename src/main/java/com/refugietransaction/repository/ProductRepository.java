@@ -38,4 +38,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	  
 	  @Query("select p from Product p join p.ligneVente lv where lv.quantite > 0")
 	  List<Product> findSoldProducts();
+
+	List<Product> findAllById(Long id);
 }

@@ -26,16 +26,20 @@ import com.refugietransaction.dto.StockQuantityDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
+import com.refugietransaction.exceptions.InvalidOperationException;
 import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.MvtStkMenage;
 import com.refugietransaction.model.MvtStkSupplier;
 import com.refugietransaction.model.Product;
 import com.refugietransaction.model.ProductType;
 import com.refugietransaction.model.SalesUnit;
+import com.refugietransaction.model.Supplier;
 import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.projections.ByCampStockProjection;
 import com.refugietransaction.repository.CampRepository;
 import com.refugietransaction.repository.MvtStkSupplierRepository;
+import com.refugietransaction.repository.ProductRepository;
+import com.refugietransaction.repository.SupplierRepository;
 import com.refugietransaction.services.MvtStkSupplierService;
 import com.refugietransaction.validator.MvtStkSupplierValidator;
 
@@ -47,11 +51,15 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 	
 	private final MvtStkSupplierRepository mvtStkSupplierRepository;
 	private final CampRepository campRepository;
+	private final SupplierRepository supplierRepository;
+	private final ProductRepository productRepository;
 	
 	@Autowired
-	public MvtStkSupplierServiceImpl(MvtStkSupplierRepository mvtStkSupplierRepository, CampRepository campRepository) {
+	public MvtStkSupplierServiceImpl(MvtStkSupplierRepository mvtStkSupplierRepository, CampRepository campRepository, SupplierRepository supplierRepository, ProductRepository productRepository) {
 		this.mvtStkSupplierRepository = mvtStkSupplierRepository;
 		this.campRepository = campRepository;
+		this.supplierRepository = supplierRepository;
+		this.productRepository = productRepository;
 	}
 
 	@Override
@@ -484,6 +492,24 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		
 		if(id == null) {
 			log.error("Mvt Stk Supplier ID is null");
+		}
+		
+		List<Supplier> suppliers = supplierRepository.findAllById(id);
+		if(!suppliers.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
+					ErrorCodes.MVTSTK_SUPPLIER_ALREADY_IN_USE);
+		}
+		
+		List<Product> products = productRepository.findAllById(id);
+		if(!products.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
+					ErrorCodes.MVTSTK_SUPPLIER_ALREADY_IN_USE);
+		}
+		
+		List<Camp> camps = campRepository.findAllById(id);
+		if(!camps.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer ce mouvement stock qui est deja utilisé", 
+					ErrorCodes.MVTSTK_SUPPLIER_ALREADY_IN_USE);
 		}
 		
 		mvtStkSupplierRepository.deleteById(id);

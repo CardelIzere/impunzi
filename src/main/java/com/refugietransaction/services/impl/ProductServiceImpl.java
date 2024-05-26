@@ -124,6 +124,12 @@ public class ProductServiceImpl implements ProductService {
 					ErrorCodes.PRODUCT_ALREADY_IN_USE);
 		}
 		
+		List<MvtStkSupplier> mouvementStocks = mouvementStockRepository.findAllById(id);
+		if(!mouvementStocks.isEmpty()) {
+			throw new InvalidOperationException("Impossible de supprimer ce produit ayant au moins un mouvement de stock",
+					ErrorCodes.PRODUCT_ALREADY_IN_USE);
+		}
+		
 		productRepository.deleteById(id);
 	}
 

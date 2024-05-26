@@ -14,7 +14,6 @@ import com.refugietransaction.dto.ProductTypeDto;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
-import com.refugietransaction.model.Camp;
 import com.refugietransaction.model.MvtStkMenage;
 import com.refugietransaction.model.Product;
 import com.refugietransaction.model.ProductType;
@@ -126,10 +125,22 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 			log.error("Product Type ID is null");
 		}
 		
+		List<Product> products = productRepository.findAllById(id);
+		if(!products.isEmpty()) {
+			throw new InvalidEntityException("Impossible de supprimer un type de produit deja utilise dans une autre table",
+					ErrorCodes.PRODUCTTYPE_ALREADY_EXISTS);
+		}
+		
 		List<SalesUnit> salesUnits = salesUnitRepository.findAllById(id);
 		if(!salesUnits.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer un type de produit ayant au moins une unité de vente",
-					ErrorCodes.PRODUCTTYPE_ALREADY_EXISTS);
+			throw new InvalidEntityException("Impossible de supprimer ce type de produit deja utilisé dans une autre table",
+					ErrorCodes.PRODUCTTYPE_ALREADY_IN_USE);
+		}
+		
+		List<MvtStkMenage> mvtStkMenage = mvtStkMenageRepository.findAllById(id);
+		if(!mvtStkMenage.isEmpty() || !salesUnits.isEmpty() ) {
+			throw new InvalidEntityException("Impossible de supprimer ce type de produit ayant au moins un mouvement de stock",
+					ErrorCodes.PRODUCTTYPE_ALREADY_IN_USE);
 		}
 		
 		productTypeRepository.deleteById(id);

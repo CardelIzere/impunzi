@@ -143,11 +143,6 @@ public class MenageServiceImpl implements MenageService {
 			log.error("Menage ID is null");
 		}
 		
-		List<Camp> camps = campRepository.findAllById(id);
-		if(!camps.isEmpty()) {
-			throw new InvalidEntityException("Impossible de supprimer une menage ayant au moins un camp",
-					ErrorCodes.MENAGE_ALREADY_IN_USE);
-		}
 		
 		List<MvtStkMenage> mouvementStocks = mouvementStockRepository.findAllById(id);
 		if(!mouvementStocks.isEmpty()) {

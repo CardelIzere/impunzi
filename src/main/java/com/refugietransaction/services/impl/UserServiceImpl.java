@@ -119,6 +119,11 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		User user = userOptional.get();
+		
+		if(!passwordEncoder.matches(dto.getCurrentPassword(), user.getUserPassword())) {
+			throw new InvalidEntityException("Mot de passe actuel invalide",  ErrorCodes.USER_CHANGE_PASSWORD_OBJECT_NOT_VALID);
+		}
+		
 		user.setUserPassword(passwordEncoder.encode(dto.getMotDePasse()));
 		
 		return UserDto.fromEntity(

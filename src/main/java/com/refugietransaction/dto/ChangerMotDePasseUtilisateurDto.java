@@ -8,6 +8,7 @@ import lombok.Data;
 public class ChangerMotDePasseUtilisateurDto {
 	
 	private Integer id;
+	private String currentPassword;
 	private String motDePasse;
 	private String confirmMotDePasse;
 }

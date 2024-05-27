@@ -78,7 +78,7 @@ public class JwtUtils {
         else if (userDetails.getMagasinier() != null) {
             claims.put("magasinierId", userDetails.getMagasinier().getId());
             claims.put("supplier_id", userDetails.getMagasinier().getSupplier().getId());
-            claims.put("camp_id ", userDetails.getMagasinier().getCamp().getId());
+            claims.put("camp_id", userDetails.getMagasinier().getCamp().getId());
         }
         return createToken(claims, userDetails);
     }

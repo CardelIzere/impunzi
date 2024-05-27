@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	  @Query(value = "select p from Product p order by p.id desc")
 	  Page<Product> findAllProduits(Pageable pageable);
 	  
-	  @Query(value = "select p from Product p where UPPER(p.nomProduit) like CONCAT('%',UPPER(?1),'%') order by p.id desc ")
+	  @Query(value = "select p from Product p join ProductType pt on p.productType.id = pt.id where UPPER(p.nomProduit) like CONCAT('%',UPPER(?1),'%') OR UPPER(pt.name) like CONCAT('%', UPPER(?1), '%') order by p.id desc ")
 	  Page<Product> findByNameProduitLike(String search, Pageable pageable);
 	  
 	  List<Product> findAllByProductTypeId(Long product_type_id);

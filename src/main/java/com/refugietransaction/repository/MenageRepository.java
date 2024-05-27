@@ -27,7 +27,7 @@ public interface MenageRepository extends JpaRepository<Menage, Long> {
 	@Query(value = "select m from Menage m order by m.id desc")
 	Page<Menage> findAllMenages(Pageable pageable);
 	
-	@Query(value = "select m from Menage m where UPPER(m.personneContact) like CONCAT('%',UPPER(?1),'%') OR UPPER(m.numTelephone) like CONCAT('%',UPPER(?1),'%') order by m.id desc ")
+	@Query(value = "select m from Menage m join Camp c on m.camp.id = c.id where CAST(m.idNumber AS string) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(m.personneContact) like LOWER(CONCAT('%', :search, '%')) OR LOWER(m.numTelephone) like LOWER(CONCAT('%', :search, '%')) OR LOWER(m.langueParlee) like LOWER(CONCAT('%', :search, '%')) OR LOWER(c.nomCamp) like LOWER(CONCAT('%', :search, '%')) order by m.id desc ")
 	Page<Menage> findByPersonneContactNumTeleLike(String search, Pageable pageable);
 	
 	List<Menage> findAllByCamp_Id(Long camp_id);

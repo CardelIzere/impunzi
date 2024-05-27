@@ -73,7 +73,7 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
                 BigDecimal consParPersonne=productTypeDistributionDto.getCons_moyenne_personne();
                 BigDecimal quantity=BigDecimal.valueOf(nbPersonnes).multiply(consParPersonne);
                 
-                Optional<MvtStkMenage> lastMvtStkMenage = mvtStkMenageRepository.findMenageLastDistribution(menage.getId());
+                Optional<MvtStkMenage> lastMvtStkMenage = mvtStkMenageRepository.findMenageLastDistribution(menage.getId(), productTypeDistributionDto.getProductTypeDto().getId());
                 
                 if(!lastMvtStkMenage.isPresent() || lastMvtStkMenage.get().getDateNextDistribution().isBefore(LocalDate.now())) {
                 	
@@ -110,8 +110,8 @@ public class MvtStkMenageServiceImpl implements MvtStkMenageService {
 	                
 	                mvtStkMenageRepository.save(mvtStkMenage);
                 } else {
-//                	
-                	throw new EntityNotFoundException("La distribution est impossible car la date suivante de distribution n'est pas encore atteinte");
+                	
+                	throw new EntityNotFoundException("La distribution est impossible car la date suivante de distribution est : " +lastMvtStkMenage.get().getDateNextDistribution()+ " et n'est pas encore atteinte");
                 }
                 
                

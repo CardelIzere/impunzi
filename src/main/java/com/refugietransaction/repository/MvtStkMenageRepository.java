@@ -54,7 +54,7 @@ public interface MvtStkMenageRepository extends JpaRepository<MvtStkMenage, Long
 	Optional<MvtStkMenage> findFirstByMenage_IdAndTypeMvtStkMenageEnumOrderByDateMvtDesc(Long id,
 			TypeMvtStkMenageEnum typeMvtStkMenageEnum);
 	
-	@Query("select m from MvtStkMenage m where m.menage.id = :idMenage And m.typeMvtStkMenageEnum = 'RECEPTION' order by m.id desc ")
-	Optional<MvtStkMenage> findMenageLastDistribution(Long idMenage);
+	@Query("select m from MvtStkMenage m where m.menage.id = :idMenage And m.productType.id = :idProductType And m.typeMvtStkMenageEnum = 'RECEPTION' order by m.id desc ")
+	Optional<MvtStkMenage> findMenageLastDistribution(Long idMenage, Long idProductType);
 	
 }

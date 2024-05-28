@@ -155,7 +155,7 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 		List<CampStockDto> campStockDTOS=new ArrayList<>();
 		for (Camp camp : camps) {
 			//System.out.println("Camp: " + camp.getName());
-			List<Object[]> results = mvtStkSupplierRepository.findStockQuantityByCamp(supplierId,camp);
+			List<Object[]> results = mvtStkSupplierRepository.findStockQuantityByCamp(supplierId,camp.getId());
 			List<StockQuantityDto> stockQuantities=new ArrayList<>();
 			for (Object[] result : results) {
 				Product product = (Product) result[0];

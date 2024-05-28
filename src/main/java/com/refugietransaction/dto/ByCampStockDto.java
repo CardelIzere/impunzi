@@ -13,7 +13,8 @@ public class ByCampStockDto {
 	
 	private Long productId;
 	private String nomProduct;
-	private String nomProductType;
+	private ProductTypeDto productTypeDto;
+	private SupplierDto supplierDto;
 	private BigDecimal price;
 	private BigDecimal inStockQuantity;
 	private String salesName;
@@ -26,7 +27,8 @@ public class ByCampStockDto {
 		return ByCampStockDto.builder()
 				.productId(byCampStockProjection.getProductId())
 				.nomProduct(byCampStockProjection.getNomProduit())
-				.nomProductType(byCampStockProjection.getNomProductType())
+				.productTypeDto(ProductTypeDto.fromEntity(byCampStockProjection.getProductTypeDto()))
+				.supplierDto(SupplierDto.fromEntity(byCampStockProjection.getSupplierDto()))
 				.price(byCampStockProjection.getPrice())
 				.inStockQuantity(byCampStockProjection.getInStockQuantity())
 				.salesName(byCampStockProjection.getSalesName())

@@ -155,10 +155,10 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	
 	@Query("SELECT ms.produit, SUM(ms.quantite) " +
 			"FROM MvtStkSupplier ms " +
-			"WHERE ms.camp = :camp " +
+			"WHERE ms.camp.id = :campId " +
 			"AND ms.supplier.id = :supplierId " +
 			"GROUP BY ms.produit")
-	List<Object[]> findStockQuantityByCamp(Long supplierId,Camp camp);
+	List<Object[]> findStockQuantityByCamp(@Param("supplierId") Long supplierId,Long campId);
 
 	@Query("SELECT DISTINCT m.camp FROM MvtStkSupplier m WHERE m.supplier.id = :supplierId")
 	List<Camp> findDistinctCampsBySupplierId(@Param("supplierId") Long supplierId);
@@ -174,19 +174,19 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("SELECT DISTINCT m.camp FROM MvtStkSupplier m WHERE m.produit.id = :productId")
 	List<Camp> findDistinctCampsByProductId(@Param("productId") Long productId);
 	
-	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, p.price AS price, COALESCE(SUM(m.quantite), 0) AS inStockQuantity " +
+	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, p.productType AS productTypeDto, p.supplier AS supplierDto, p.price AS price, COALESCE(SUM(m.quantite), 0) AS inStockQuantity " +
 			"FROM Product p " +
 			"LEFT JOIN MvtStkSupplier m ON p.id = m.produit.id AND m.camp.id = :idCamp AND m.supplier.id = :idSupplier " +
 			"WHERE UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') " +
-			"GROUP BY p.id, p.nomProduit, p.price")
+			"GROUP BY p.id, p.nomProduit, p.productType, p.supplier, p.price")
 	Page<ByCampStockProjection> findTotalQuantityByIdCampIdSupplierAndNameProductLike(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier, String search, Pageable pageable);
 	
-	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, pt.name AS nomProductType, p.price AS price, COALESCE(SUM(m.quantite), 0) AS inStockQuantity, s.name AS salesName " +
+	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, p.productType AS productTypeDto, p.supplier AS supplierDto, p.price AS price, COALESCE(SUM(m.quantite), 0) AS inStockQuantity, s.name AS salesName " +
 			"FROM Product p " +
 			"LEFT JOIN MvtStkSupplier m ON p.id = m.produit.id AND m.camp.id = :idCamp AND m.supplier.id = :idSupplier " +
 			"JOIN ProductType pt ON p.productType.id = pt.id " +
 			"JOIN SalesUnit s ON pt.salesUnit.id = s.id " +
-			"GROUP BY p.id, p.nomProduit, pt.name, p.price, s.name")
+			"GROUP BY p.id, p.nomProduit, p.productType, p.supplier, p.price, s.name")
 	Page<ByCampStockProjection> findTotalQuantityByIdCampIdSupplier(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier, Pageable pageable);
 	
 	@Query("SELECT ms " +

@@ -38,6 +38,7 @@ import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.model.VenteStatusEnum;
 import com.refugietransaction.model.Ventes;
 import com.refugietransaction.repository.LigneVenteRepository;
+import com.refugietransaction.repository.MvtStkSupplierRepository;
 import com.refugietransaction.repository.ProductRepository;
 import com.refugietransaction.repository.VentesRepository;
 import com.refugietransaction.services.MvtStkMenageService;
@@ -56,14 +57,16 @@ public class VentesServiceImpl implements VentesService {
 	private final LigneVenteRepository ligneVenteRepository;
 	private final MvtStkSupplierService mvtStkSupplierService;
 	private final MvtStkMenageService mvtStkMenageService;
+	private final MvtStkSupplierRepository mvtStkSupplierRepository;
 	
 	@Autowired
-	public VentesServiceImpl(ProductRepository productRepository, VentesRepository ventesRepository, LigneVenteRepository ligneVenteRepository, MvtStkSupplierService mvtStkSupplierService, MvtStkMenageService mvtStkMenageService) {
+	public VentesServiceImpl(ProductRepository productRepository, VentesRepository ventesRepository, LigneVenteRepository ligneVenteRepository, MvtStkSupplierService mvtStkSupplierService, MvtStkMenageService mvtStkMenageService, MvtStkSupplierRepository mvtStkSupplierRepository) {
 		this.productRepository = productRepository;
 		this.ventesRepository = ventesRepository;
 		this.ligneVenteRepository = ligneVenteRepository;
 		this.mvtStkSupplierService = mvtStkSupplierService;
 		this.mvtStkMenageService = mvtStkMenageService;
+		this.mvtStkSupplierRepository = mvtStkSupplierRepository;
 	}
 	
 	@Override
@@ -77,9 +80,15 @@ public class VentesServiceImpl implements VentesService {
 	    List<String> productErrors = new ArrayList<>();
 	    
 	    dto.getLigneVentes().forEach(ligneVenteDto->{
-	    	Optional<Product> product = productRepository.findById(ligneVenteDto.getProduct().getId());
-	    	if(product.isEmpty()) {
+	    	Optional<Product> productOpt = productRepository.findById(ligneVenteDto.getProduct().getId());
+	    	if(productOpt.isEmpty()) {
 	    		productErrors.add("Aucun produit avec l'ID" +ligneVenteDto.getProduct().getId()+ " n'a ete trouve dans la BDD");
+	    	} else {
+	    		Product product = productOpt.get();
+	    		BigDecimal inStockQuantity = getInStockQuantity(product.getId());
+	    		if(ligneVenteDto.getQuantite().compareTo(inStockQuantity) > 0) {
+	    			productErrors.add("La quantite demandée pour le produit " + product.getNomProduit() + " est supérieure à la quantité en stock.");
+	    		}
 	    	}
 	    });
 	    
@@ -105,6 +114,13 @@ public class VentesServiceImpl implements VentesService {
 		return VentesDto.fromEntity(savedVentes);
 	}
 	
+	
+	
+	private BigDecimal getInStockQuantity(Long productId) {
+		BigDecimal inStockQuantity = mvtStkSupplierRepository.findTotalQuantityByProductId(productId);
+		return inStockQuantity != null ? inStockQuantity : BigDecimal.ZERO;
+	}
+
 	public static String generateTransactionCode(int length) {
 		Random random = new Random();
 		StringBuilder accountNumber = new StringBuilder();

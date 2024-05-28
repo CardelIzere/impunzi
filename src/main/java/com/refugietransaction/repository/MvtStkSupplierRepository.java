@@ -206,23 +206,10 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 			"order by ms.id desc")
 	Page<MvtStkSupplier> findProductMvtStkBySupplierCamp(@Param("idProduct") Long idProduct, @Param("idSupplier") Long idSupplier, @Param("idCamp") Long idCamp, Pageable pageable);
 	
+	@Query("SELECT COALESCE(SUM(m.quantite), 0) FROM MvtStkSupplier m WHERE m.produit.id = :productId")
+	BigDecimal findTotalQuantityByProductId(@Param("productId") Long productId);
 	
 	
-	//Liste des entrees de stock d'un produit donné dans un camp donné
-//	@Query("select m from MouvementStock m join User u on m.user.id = u.id join UserAssignment ua on u.id = ua.utilisateur.id join Camp c on ua.camp.id = c.id where m.produit.id = :idProduit AND c.id = :idCamp AND m.typeMouvement = 'ENTREE' ")
-//	List<MouvementStock> findEntreeByIdProduitIdCamp(@Param("idProduit") Long idProduit, @Param("idCamp") Long idCamp);
-	
-	//Liste des sorties de stock d'un produit donné dans un camp donné
-//	@Query("select m from MouvementStock m join Utilisateur u on m.utilisateur.id = u.id join UserAssignment ua on u.id = ua.utilisateur.id join Camp c on ua.camp.id = c.id where m.produit.id = :idProduit AND c.id = :idCamp AND m.typeMouvement = 'SORTIE' ")
-//	List<MouvementStock> findSortieByIdProduitIdCamp(@Param("idProduit") Long idProduit, @Param("idCamp") Long idCamp);
-	
-	//Liste des entrees de stock d'un produit donné dans un camp donné pour une periode donnée
-//	@Query("select m from MouvementStock m join Utilisateur u on m.utilisateur.id = u.id join UserAssignment ua on u.id = ua.utilisateur.id join Camp c on ua.camp.id = c.id where m.produit.id = :idProduit AND c.id = :idCamp AND m.typeMouvement = 'ENTREE' AND m.dateMouvement BETWEEN :startDate AND :endDate ")
-//	List<MouvementStock> findEntreeByIdProduitIdCampPeriode(@Param("idProduit") Long idProduit, @Param("idCamp") Long idCamp, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
-	
-	//Liste des sorties de stock d'un produit donné dans un camp donné pour une periode donné
-//	@Query("select m from MouvementStock m join Utilisateur u on m.utilisateur.id = u.id join UserAssignment ua on u.id = ua.utilisateur.id join Camp c on ua.camp.id = c.id where m.produit.id = :idProduit AND c.id = :idCamp AND m.typeMouvement = 'SORTIE' AND m.dateMouvement BETWEEN :startDate AND :endDate ")
-//	List<MouvementStock> findSortieByIdProduitIdCampPeriode(@Param("idProduit") Long idProduit, @Param("idCamp") Long idCamp, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 	
 	//Liste des entrees de stock d'un produit donné pour des fournisseurs
 	@Query("select m from MvtStkSupplier m where m.produit.id = :idProduit AND m.supplier.id = :idSupplier AND m.typeMouvement = 'ENTREE' ")
@@ -240,23 +227,6 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("select m from MvtStkSupplier m where m.produit.id = :idProduit AND m.supplier.id = :idSupplier AND m.typeMouvement = 'SORTIE' AND m.dateMouvement BETWEEN :startDate AND :endDate ")
 	List<MvtStkSupplier> findSortieByIdProduitIdSupplierPeriode(@Param("idProduit") Long idProduit, @Param("idSupplier") Long idMenage, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 	
-//	
-//	//Liste des entrees de stock d'un produit donné effectuées par un utilisateur donné
-//	@Query("select m from MouvementStockSupplier m where m.produit.id = :idProduit AND m.user.id = :idUser AND m.typeMouvement = 'ENTREE' ")
-//	List<MvtStkSupplier> findEntreeByIdProduitIdAgent(@Param("idProduit") Long idProduit, @Param("idUser") Long idUser);
-//		
-//	//Liste des sorties de stock d'un produit donné effectuées par un agent donné
-//	@Query("select m from MouvementStock m where m.produit.id = :idProduit AND m.user.id =:idUser AND m.typeMouvement = 'SORTIE' ")
-//	List<MvtStkSupplier> findSortieByIdProduitIdAgent(@Param("idProduit") Long idProduit, @Param("idUser") Long idUser);
-//		
-//	//Liste des entrees de stock d'un produit donné effectuées par un agent donné pour une poriode donnée
-//	@Query("select m from MouvementStock m where m.produit.id = :idProduit AND m.user.id = :idUser AND m.typeMouvement = 'ENTREE' AND m.dateMouvement BETWEEN :startDate AND :endDate ")
-//	List<MvtStkSupplier> findEntreeByIdProduitIdAgentPeriode(@Param("idProduit") Long idProduit, @Param("idUser") Long idUser, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
-//		
-//	//Liste des sorties de stock d'un produit donné effectuées par un agent donné pour une periode donnée
-//	@Query("select m from MouvementStock m where m.produit.id = :idProduit AND m.user.id = :idUser AND m.typeMouvement = 'SORTIE' AND m.dateMouvement BETWEEN :startDate AND :endDate ")
-//	List<MvtStkSupplier> findSortieByIdProduitIdAgentPeriode(@Param("idProduit") Long idProduit, @Param("idUser") Long idUser, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
-//	
-//	
+
 	
 }

@@ -93,7 +93,7 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 	public MvtStkSupplierDto sortie(MvtStkSupplierDto dto) {
 		List<String> errors = MvtStkSupplierValidator.validate(dto);
 		if(!errors.isEmpty()) {
-			log.error("Entries is not valid {}", dto);
+			log.error("Sorties is not valid {}", dto);
 			throw new InvalidEntityException("Le mouvement stock du fournisseur n'est pas valide", ErrorCodes.MVTSTK_SUPPLIER_NOT_VALID, errors);
 		}
 		

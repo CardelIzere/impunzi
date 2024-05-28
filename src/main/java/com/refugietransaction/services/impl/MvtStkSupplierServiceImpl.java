@@ -442,7 +442,7 @@ public class MvtStkSupplierServiceImpl implements MvtStkSupplierService {
 	@Override
 	public List<ProductStockQuantityDto> findProductStockQuantityByCamp(Long productId) {
 		
-			List<Object[]> results = mvtStkSupplierRepository.findProductStockQuantityByCamp(productId);
+		List<Object[]> results = mvtStkSupplierRepository.findProductStockQuantityByCamp(productId);
 			
 			
 		return results.stream().map(result->{

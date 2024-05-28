@@ -174,12 +174,10 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 	@Query("SELECT DISTINCT m.camp FROM MvtStkSupplier m WHERE m.produit.id = :productId")
 	List<Camp> findDistinctCampsByProductId(@Param("productId") Long productId);
 	
-	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, p.price AS price, SUM(m.quantite) AS inStockQuantity " +
-			"FROM MvtStkSupplier m " +
-			"JOIN Product p ON m.produit.id = p.id " +
-			"WHERE m.camp.id = :idCamp " +
-			"AND m.supplier.id = :idSupplier " +
-			"AND UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') " +
+	@Query("SELECT p.id AS productId, p.nomProduit AS nomProduit, p.price AS price, COALESCE(SUM(m.quantite), 0) AS inStockQuantity " +
+			"FROM Product p " +
+			"LEFT JOIN MvtStkSupplier m ON p.id = m.produit.id AND m.camp.id = :idCamp AND m.supplier.id = :idSupplier " +
+			"WHERE UPPER(p.nomProduit) like CONCAT('%',UPPER(:search),'%') " +
 			"GROUP BY p.id, p.nomProduit, p.price")
 	Page<ByCampStockProjection> findTotalQuantityByIdCampIdSupplierAndNameProductLike(@Param("idCamp") Long idCamp, @Param("idSupplier") Long idSupplier, String search, Pageable pageable);
 	

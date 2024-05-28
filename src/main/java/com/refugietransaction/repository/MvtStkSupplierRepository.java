@@ -158,7 +158,7 @@ public interface MvtStkSupplierRepository extends JpaRepository<MvtStkSupplier, 
 			"WHERE ms.camp = :camp " +
 			"AND ms.supplier.id = :supplierId " +
 			"GROUP BY ms.produit")
-	List<Object[]> findStockQuantityByCamp(@Param("supplierId") Long supplierId,Camp camp);
+	List<Object[]> findStockQuantityByCamp(Long supplierId,Camp camp);
 
 	@Query("SELECT DISTINCT m.camp FROM MvtStkSupplier m WHERE m.supplier.id = :supplierId")
 	List<Camp> findDistinctCampsBySupplierId(@Param("supplierId") Long supplierId);

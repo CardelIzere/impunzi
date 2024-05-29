@@ -57,4 +57,7 @@ public interface MvtStkMenageRepository extends JpaRepository<MvtStkMenage, Long
 	@Query("select m from MvtStkMenage m where m.menage.id = :idMenage And m.productType.id = :idProductType And m.typeMvtStkMenageEnum = 'RECEPTION' order by m.id desc ")
 	Optional<MvtStkMenage> findMenageLastDistribution(Long idMenage, Long idProductType);
 	
+	@Query("SELECT COALESCE(SUM(m.quantite), 0) FROM MvtStkMenage m WHERE m.menage.id = :menageId AND m.productType.id = :productTypeId")
+	BigDecimal findTotalQuantityByMenageIdAndProductTypeId(@Param("menageId") Long menageId, @Param("productTypeId") Long productTypeId);
+	
 }

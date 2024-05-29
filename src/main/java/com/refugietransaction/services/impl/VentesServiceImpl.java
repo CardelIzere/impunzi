@@ -38,6 +38,7 @@ import com.refugietransaction.model.TypeMvtStkSupplier;
 import com.refugietransaction.model.VenteStatusEnum;
 import com.refugietransaction.model.Ventes;
 import com.refugietransaction.repository.LigneVenteRepository;
+import com.refugietransaction.repository.MvtStkMenageRepository;
 import com.refugietransaction.repository.MvtStkSupplierRepository;
 import com.refugietransaction.repository.ProductRepository;
 import com.refugietransaction.repository.VentesRepository;
@@ -58,15 +59,17 @@ public class VentesServiceImpl implements VentesService {
 	private final MvtStkSupplierService mvtStkSupplierService;
 	private final MvtStkMenageService mvtStkMenageService;
 	private final MvtStkSupplierRepository mvtStkSupplierRepository;
+	private final MvtStkMenageRepository mvtStkMenageRepository;
 	
 	@Autowired
-	public VentesServiceImpl(ProductRepository productRepository, VentesRepository ventesRepository, LigneVenteRepository ligneVenteRepository, MvtStkSupplierService mvtStkSupplierService, MvtStkMenageService mvtStkMenageService, MvtStkSupplierRepository mvtStkSupplierRepository) {
+	public VentesServiceImpl(ProductRepository productRepository, VentesRepository ventesRepository, LigneVenteRepository ligneVenteRepository, MvtStkSupplierService mvtStkSupplierService, MvtStkMenageService mvtStkMenageService, MvtStkSupplierRepository mvtStkSupplierRepository, MvtStkMenageRepository mvtStkMenageRepository) {
 		this.productRepository = productRepository;
 		this.ventesRepository = ventesRepository;
 		this.ligneVenteRepository = ligneVenteRepository;
 		this.mvtStkSupplierService = mvtStkSupplierService;
 		this.mvtStkMenageService = mvtStkMenageService;
 		this.mvtStkSupplierRepository = mvtStkSupplierRepository;
+		this.mvtStkMenageRepository = mvtStkMenageRepository;
 	}
 	
 	@Override
@@ -86,8 +89,11 @@ public class VentesServiceImpl implements VentesService {
 	    	} else {
 	    		Product product = productOpt.get();
 	    		BigDecimal inStockQuantity = getInStockQuantity(product.getId());
+	    		BigDecimal inStockProductTypeQuantity = getInStockProductTypeQuantity(dto.getMenage().getId(), product.getProductType().getId());
 	    		if(ligneVenteDto.getQuantite().compareTo(inStockQuantity) > 0) {
-	    			productErrors.add("La quantite demandée pour le produit " + product.getNomProduit() + " est supérieure à la quantité en stock.");
+	    			productErrors.add("La quantite demandée pour le produit " + product.getNomProduit() + " est supérieure à la quantité en stock chez le fournisseur.");
+	    		} else if(ligneVenteDto.getQuantite().compareTo(inStockProductTypeQuantity) > 0) {
+	    			productErrors.add("La quantite demandée pour le type produit " + product.getProductType().getName() + " est supérieur à la quantité en stock chez le ménage.");
 	    		}
 	    	}
 	    });
@@ -116,6 +122,11 @@ public class VentesServiceImpl implements VentesService {
 	
 	
 	
+	private BigDecimal getInStockProductTypeQuantity(Long menageId, Long productTypeId) {
+		BigDecimal inStockProductTypeQuantity = mvtStkMenageRepository.findTotalQuantityByMenageIdAndProductTypeId(menageId, productTypeId);
+		return inStockProductTypeQuantity != null ? inStockProductTypeQuantity : BigDecimal.ZERO;
+	}
+
 	private BigDecimal getInStockQuantity(Long productId) {
 		BigDecimal inStockQuantity = mvtStkSupplierRepository.findTotalQuantityByProductId(productId);
 		return inStockQuantity != null ? inStockQuantity : BigDecimal.ZERO;

@@ -1,4 +1,4 @@
-package com.refugietransaction.utils;
+	package com.refugietransaction.utils;
 
 import com.refugietransaction.dto.auth.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
@@ -23,6 +23,9 @@ public class JwtUtils {
 
     @Value("${jwt.expiration}")
     private int jwtExpirationMs;
+    
+    @Value("${refreshjwt.expiration}")
+    private int refreshExpiration;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -80,7 +83,11 @@ public class JwtUtils {
             claims.put("supplier_id", userDetails.getMagasinier().getSupplier().getId());
             claims.put("camp_id", userDetails.getMagasinier().getCamp().getId());
         }
-        return createToken(claims, userDetails);
+        return createToken(claims, userDetails.getUsername(), jwtExpirationMs);
+    }
+    
+    public String generateRefreshToken(String username) {
+    	return createToken(new HashMap<>(), username, refreshExpiration);
     }
 
     private Key getSignKey() {
@@ -88,11 +95,11 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private String createToken(Map<String, Object> claims, UserDetails userDetails) {
+    private String createToken(Map<String, Object> claims, String subject, int expiration) {
         return Jwts.builder().setClaims(claims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
@@ -100,4 +107,14 @@ public class JwtUtils {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+    
+    public Boolean isRefreshTokenValid(String token) {
+    	try {
+    		Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
+    		return true;
+    	} catch (Exception e){
+    		return false;
+    	}
+    }
+    
 }

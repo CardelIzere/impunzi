@@ -43,6 +43,7 @@ public class SecurityConfiguration {
 	                    .requestMatchers(
 	                            new AntPathRequestMatcher("/auth/login"),
 	                            new AntPathRequestMatcher("/**/authenticate"),
+	                            new AntPathRequestMatcher("/**/refresh-token"),
 	                            new AntPathRequestMatcher("/**/superadmins/create"),
 	                            new AntPathRequestMatcher("/**/admins/create"),
 	                            new AntPathRequestMatcher("/**/magasiniers/create"),

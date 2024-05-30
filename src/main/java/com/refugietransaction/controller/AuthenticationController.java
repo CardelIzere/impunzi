@@ -25,4 +25,10 @@ public class AuthenticationController implements AuthenticationApi {
 		return ResponseEntity.ok(userService.authenticate(request));
 	}
 
+	@Override
+	public ResponseEntity<AuthenticationResponse> refreshToken(String refreshToken) {
+		
+		return ResponseEntity.ok(userService.refreshToken(refreshToken));
+	}
+
 }

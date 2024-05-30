@@ -23,6 +23,4 @@ public interface UserService {
 	AuthenticationResponse authenticate(AuthenticationRequest request);
 	
 	UserDto changerMotDePasse(ChangerMotDePasseUtilisateurDto dto);
-
-	AuthenticationResponse refreshToken(String refreshToken);
 }

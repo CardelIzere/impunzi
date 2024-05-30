@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,6 @@ import com.refugietransaction.dto.ChangerMotDePasseUtilisateurDto;
 import com.refugietransaction.dto.UserDto;
 import com.refugietransaction.dto.auth.AuthenticationRequest;
 import com.refugietransaction.dto.auth.AuthenticationResponse;
-import com.refugietransaction.dto.auth.UserDetailsImpl;
 import com.refugietransaction.exceptions.EntityNotFoundException;
 import com.refugietransaction.exceptions.ErrorCodes;
 import com.refugietransaction.exceptions.InvalidEntityException;
@@ -105,33 +103,9 @@ public class UserServiceImpl implements UserService {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 		final String token = jwtUtils.generateToken(authentication);
-		final String refreshToken = jwtUtils.generateRefreshToken(request.getEmail());
-		
 		return AuthenticationResponse.builder()
-				.accessToken(token)
-				.refreshToken(refreshToken)
+				.token(token)
 				.build();
-	}
-	
-	@Override
-	public AuthenticationResponse refreshToken(String refreshToken) {
-			
-			String username = jwtUtils.extractUsername(refreshToken);
-			User user = userRepository.findUserByEmail(username)
-					.orElseThrow(() -> new EntityNotFoundException("User not found with email: " + username));
-			
-			UserDetailsImpl userDetails = new UserDetailsImpl(user);
-			Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities());
-			final String newAccessToken = jwtUtils.generateToken(authentication);
-			final String newRefreshToken = jwtUtils.generateRefreshToken(username);
-			
-			
-			return AuthenticationResponse.builder()
-					.accessToken(newAccessToken)
-					.refreshToken(newRefreshToken)
-					.build();
-			
-		
 	}
 
 	@Override

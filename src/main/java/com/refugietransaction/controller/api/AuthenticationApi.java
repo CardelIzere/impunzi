@@ -14,6 +14,5 @@ public interface AuthenticationApi {
     @PostMapping(AUTHENTICATION_ENDPOINT + "/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request);
     
-    @PostMapping(AUTHENTICATION_ENDPOINT + "/refresh-token")
-    public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody String refreshToken);
+    
 }

@@ -23,6 +23,8 @@ import com.refugietransaction.exceptions.InvalidEntityException;
 import com.refugietransaction.model.User;
 import com.refugietransaction.repository.UserRepository;
 import com.refugietransaction.services.UserService;
+import com.refugietransaction.tokenRefresh.TokenRefreshRequest;
+import com.refugietransaction.tokenRefresh.TokenRefreshResponse;
 import com.refugietransaction.utils.JwtUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -152,6 +154,15 @@ public class UserServiceImpl implements UserService {
 			throw new InvalidEntityException("Mots de passe utilisateur non conformes:: Impossible de modifier le mot de passe",
 					ErrorCodes.USER_CHANGE_PASSWORD_OBJECT_NOT_VALID);
 		}
+	}
+
+	@Override
+	public TokenRefreshResponse refreshToken(TokenRefreshRequest request) {
+		
+		final String newToken = jwtUtils.refreshToken(request.getToken());
+		return TokenRefreshResponse.builder()
+				.newToken(newToken)
+				.build();
 	}
 
 }

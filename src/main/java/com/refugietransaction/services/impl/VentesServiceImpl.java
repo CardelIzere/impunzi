@@ -90,10 +90,13 @@ public class VentesServiceImpl implements VentesService {
 	    		Product product = productOpt.get();
 	    		BigDecimal inStockQuantity = getInStockQuantity(product.getId());
 	    		BigDecimal inStockProductTypeQuantity = getInStockProductTypeQuantity(dto.getMenage().getId(), product.getProductType().getId());
+	    		
 	    		if(ligneVenteDto.getQuantite().compareTo(inStockQuantity) > 0) {
-	    			productErrors.add("La quantite demandée pour le produit " + product.getNomProduit() + " est supérieure à la quantité en stock chez le fournisseur.");
+	    			throw new InvalidEntityException("La quantite demandée pour le produit " + product.getNomProduit() + " est supérieure à la quantité en stock chez le fournisseur.", ErrorCodes.VENTE_NOT_VALID);
+
 	    		} else if(ligneVenteDto.getQuantite().compareTo(inStockProductTypeQuantity) > 0) {
-	    			productErrors.add("La quantite demandée pour le type produit " + product.getProductType().getName() + " est supérieur à la quantité en stock chez le ménage.");
+	    			throw new InvalidEntityException("La quantite demandée pour le type produit " + product.getProductType().getName() + " est supérieur à la quantité en stock chez le ménage.", ErrorCodes.VENTE_NOT_VALID);
+
 	    		}
 	    	}
 	    });

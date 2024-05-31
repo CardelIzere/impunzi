@@ -2,6 +2,7 @@ package com.refugietransaction.utils;
 
 import com.refugietransaction.dto.auth.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -81,6 +82,37 @@ public class JwtUtils {
             claims.put("camp_id", userDetails.getMagasinier().getCamp().getId());
         }
         return createToken(claims, userDetails);
+    }
+    
+    public String refreshToken(String token) {
+    	
+    	Claims claims = null;
+    	
+    	 // Extract claims from the old token
+        try{
+        	claims = Jwts.parserBuilder()
+        			.setSigningKey(getSignKey())
+            		.build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+        	claims = e.getClaims();
+        }
+        
+        if(claims == null) {
+        	throw new IllegalArgumentException("Invalid token");
+        }
+        		
+        // Validate claims if necessary
+        // Add any additional validation logic here if needed
+
+        // Create a new token with the same claims but updated expiration
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(claims.getSubject())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
     private Key getSignKey() {

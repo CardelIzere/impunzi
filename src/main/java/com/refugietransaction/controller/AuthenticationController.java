@@ -8,6 +8,8 @@ import com.refugietransaction.controller.api.AuthenticationApi;
 import com.refugietransaction.dto.auth.AuthenticationRequest;
 import com.refugietransaction.dto.auth.AuthenticationResponse;
 import com.refugietransaction.services.UserService;
+import com.refugietransaction.tokenRefresh.TokenRefreshRequest;
+import com.refugietransaction.tokenRefresh.TokenRefreshResponse;
 
 @RestController
 public class AuthenticationController implements AuthenticationApi {
@@ -25,6 +27,12 @@ public class AuthenticationController implements AuthenticationApi {
 		return ResponseEntity.ok(userService.authenticate(request));
 	}
 
-	
+	@Override
+	public ResponseEntity<TokenRefreshResponse> refreshToken(String token) {
+		
+		TokenRefreshRequest request = new TokenRefreshRequest();
+		request.setToken(token);
+		return ResponseEntity.ok(userService.refreshToken(request));
+	}
 
 }

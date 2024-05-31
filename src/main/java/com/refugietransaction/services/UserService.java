@@ -9,6 +9,8 @@ import com.refugietransaction.dto.ChangerMotDePasseUtilisateurDto;
 import com.refugietransaction.dto.UserDto;
 import com.refugietransaction.dto.auth.AuthenticationRequest;
 import com.refugietransaction.dto.auth.AuthenticationResponse;
+import com.refugietransaction.tokenRefresh.TokenRefreshRequest;
+import com.refugietransaction.tokenRefresh.TokenRefreshResponse;
 
 public interface UserService {
 	
@@ -21,6 +23,8 @@ public interface UserService {
 	void desableUser(Long userId);
 	
 	AuthenticationResponse authenticate(AuthenticationRequest request);
+	
+	TokenRefreshResponse refreshToken(TokenRefreshRequest request);
 	
 	UserDto changerMotDePasse(ChangerMotDePasseUtilisateurDto dto);
 }

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Admin extends AbstractEntity {
-	
+	//Admin model
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
